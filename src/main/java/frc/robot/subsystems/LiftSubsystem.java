@@ -4,11 +4,18 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LiftSubsystem extends SubsystemBase {
+  private final CANSparkMax liftMotor = new CANSparkMax(0, MotorType.kBrushless);
+
   /** Creates a new LiftSubsystem. */
-  public LiftSubsystem() {}
+  public LiftSubsystem() {
+    
+  }
 
   @Override
   public void periodic() {

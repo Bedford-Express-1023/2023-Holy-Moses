@@ -14,7 +14,30 @@ public class LiftSubsystem extends SubsystemBase {
 
   /** Creates a new LiftSubsystem. */
   public LiftSubsystem() {
-    
+  }
+
+  public void liftUp() {
+    liftMotor.set(0);
+  }
+
+  public void liftDown() {
+    liftMotor.set(0);
+  }
+
+  public void liftScoreHigh() {
+    liftMotor.set(0);
+  }
+
+  public void liftScoreMedium() {
+    liftMotor.set(0);
+  }
+
+  public void liftScoreLow() {
+    liftMotor.set(0);
+  }
+
+  public void liftStop() {
+    liftMotor.set(0);
   }
 
   @Override

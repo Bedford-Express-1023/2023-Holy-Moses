@@ -9,35 +9,29 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class LiftSubsystem extends SubsystemBase {
-  private final CANSparkMax liftMotor = new CANSparkMax(0, MotorType.kBrushless);
+public class ArmSubsystem extends SubsystemBase {
+  private final CANSparkMax armMotor = new CANSparkMax(0, MotorType.kBrushless);
 
-  /** Creates a new LiftSubsystem. */
-  public LiftSubsystem() {
+  /** Creates a new ArmSubsystem. */
+  public ArmSubsystem() {
   }
 
-  public void liftUp() {
-    liftMotor.set(0);
+  public void armUp() {
   }
 
-  public void liftDown() {
-    liftMotor.set(0);
+  public void armDown() {
   }
 
-  public void liftScoreHigh() {
-    liftMotor.set(0);
+  public void armScoreHigh() {
   }
 
-  public void liftScoreMedium() {
-    liftMotor.set(0);
+  public void armScoreMedium() {
   }
 
-  public void liftScoreLow() {
-    liftMotor.set(0);
+  public void armScoreLow() {
   }
 
-  public void liftStop() {
-    liftMotor.set(0);
+  public void armStop() {
   }
 
   @Override

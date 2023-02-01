@@ -14,7 +14,7 @@ public final class Constants {
     public static final double stickDeadband = 0.1;
 
     public static final class Swerve {
-        public static final int pigeonID = 0;
+        public static final int pigeonID = 1;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
         public static final COTSFalconSwerveConstants chosenModule =   //TODO: This must be tuned to specific robot Done!
@@ -103,7 +103,7 @@ public final class Constants {
         public static final class Mod1 { //TODO: This must be tuned to specific robot Done!
             public static final int driveMotorID = 7;
             public static final int angleMotorID = 2;
-            public static final int canCoderID = 4;
+            public static final int canCoderID = 12;
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(139);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset); //add 180 to reverse module
@@ -111,9 +111,9 @@ public final class Constants {
         
         /* Back Right Module - Module 2 */
         public static final class Mod2 { //TODO: This must be tuned to specific robot Done!
-            public static final int driveMotorID = 3;
-            public static final int angleMotorID = 9;
-            public static final int canCoderID = 9;
+            public static final int driveMotorID = 4;
+            public static final int angleMotorID = 5;
+            public static final int canCoderID = 11;
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(235);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -121,10 +121,10 @@ public final class Constants {
 
         /* Back Left Module - Module 3 */
         public static final class Mod3 { //TODO: This must be tuned to specific robot Done!
-            public static final int driveMotorID = 4;
-            public static final int angleMotorID = 5;
+            public static final int driveMotorID = 3;
+            public static final int angleMotorID = 9;
             public static final int canCoderID = 10;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(154);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(158);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }

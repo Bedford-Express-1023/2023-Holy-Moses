@@ -22,10 +22,11 @@ import frc.robot.subsystems.*;
     
 public class RobotContainer {
     /* Controllers */
-    private final Joystick driver = new Joystick(0);
+    private final Joystick willController = new Joystick(0);
+    private final XboxController oliviaController = new XboxController(1);
 
     private double slewDouble = 3.0; //3.0
-    private final SlewRateLimiter WillSlew = new SlewRateLimiter(slewDouble);
+    private final SlewRateLimiter willSlew = new SlewRateLimiter(slewDouble);
 
 
     /* Drive Controls */
@@ -34,8 +35,8 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
+    private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -46,9 +47,9 @@ public class RobotContainer {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> -driver.getRawAxis(translationAxis), 
-                () -> -driver.getRawAxis(strafeAxis), 
-                () -> -driver.getRawAxis(rotationAxis), 
+                () -> -willSlew.calculate(willController.getRawAxis(translationAxis)), 
+                () -> -willSlew.calculate(willController.getRawAxis(strafeAxis)), 
+                () -> -willSlew.calculate(willController.getRawAxis(rotationAxis)), 
                 () -> robotCentric.getAsBoolean()
             )
         );

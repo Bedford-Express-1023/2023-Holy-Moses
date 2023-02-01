@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -17,9 +18,15 @@ import frc.robot.subsystems.*;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
+
+    
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
+
+    private double slewDouble = 3.0; //3.0
+    private final SlewRateLimiter WillSlew = new SlewRateLimiter(slewDouble);
+
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -39,9 +46,9 @@ public class RobotContainer {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> -driver.getRawAxis(translationAxis), 
-                () -> -driver.getRawAxis(strafeAxis), 
-                () -> -driver.getRawAxis(rotationAxis), 
+                () -> -WillSlew.calculate(driver.getRawAxis(translationAxis)), 
+                () -> -WillSlew.calculate(driver.getRawAxis(strafeAxis)), 
+                () -> -WillSlew.calculate(driver.getRawAxis(rotationAxis)), 
                 () -> robotCentric.getAsBoolean()
             )
         );

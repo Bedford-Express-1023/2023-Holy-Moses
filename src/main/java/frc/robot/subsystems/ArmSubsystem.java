@@ -61,15 +61,15 @@ public class ArmSubsystem extends SubsystemBase {
 
     ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
     ShuffleboardLayout rotationLayout = armTab.getLayout("Rotation");
-    rotationLayout.addDouble("RotationSpeed", () -> ticksToDegrees(leftCANCoder.getVelocity() * 10));
-    rotationLayout.addDouble("RotationPosition", () -> ticksToDegrees(leftCANCoder.getAbsolutePosition()));
+    rotationLayout.addDouble("RotationSpeed", () -> TicksToDegrees(leftCANCoder.getVelocity() * 10));
+    rotationLayout.addDouble("RotationPosition", () -> TicksToDegrees(leftCANCoder.getAbsolutePosition()));
     
     ShuffleboardLayout extensionLayout = armTab.getLayout("Extension");
     extensionLayout.addDouble("ExtensionSpeed", () -> armCANCoder.getVelocity()*10);
     extensionLayout.addDouble("ExtensionPosition", () -> armCANCoder.getAbsolutePosition());
   }
 
-  public void shoulderPosition() {
+  public void ShoulderPosition() {
     double vSetpoint = shoulderPID.calculate(2048*shoulderPosition/360) / 360;
     rightShoulderMotor.set(ControlMode.PercentOutput, 
       MathUtil.clamp(
@@ -83,7 +83,7 @@ public class ArmSubsystem extends SubsystemBase {
         feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))); //calculates max power output so as not to go above max velocity and max accel
   }
 
-  public void armPosition() {
+  public void ArmPosition() {
     double vSetpoint = armPID.calculate(2048*shoulderPosition/360) / 360;
     armMotor.set(ControlMode.PercentOutput, 
       MathUtil.clamp(
@@ -92,26 +92,26 @@ public class ArmSubsystem extends SubsystemBase {
         feedForward.calculate(MathUtil.clamp(vSetpoint, -maxArmVelocity, maxArmVelocity), maxArmAcceleration))); //calculates max power output so as not to go above max velocity and max accel
   }
 
-  public void shoulderPosition(double angle) {
+  public void ShoulderPosition(double angle) {
     shoulderPosition = angle;
   }
 
-  public void armHighScore() {
+  public void ArmHighScore() {
     shoulderPosition = shoulderTargetAngleHigh;
   }
 
-  public void armMiddleScore() {
+  public void ArmMiddleScore() {
     shoulderPosition = shoulderTargetAngleMedium;
   }
 
-  public void armLowScore() {
+  public void ArmLowScore() {
     shoulderPosition = shoulderTargetAngleLow;
   }
 /**
  * @param ticks the encoder value (in ticks, 2048/rotation)
  * @return the angle, in degrees, off of absolute 0
  */
-  public double ticksToDegrees(double ticks) {
+  public double TicksToDegrees(double ticks) {
     return (360 / 2048)/*ungeared ticks to degrees */ / (2048 / 18); /*gear ratio */
   }
 
@@ -119,12 +119,12 @@ public class ArmSubsystem extends SubsystemBase {
  * @param ticks the encoder value (in ticks, 2048/rotation)
  * @return the distance, in meters, travelled by the arm
  */
-  public double ticksToMeters(double ticks) {
+  public double TicksToMeters(double ticks) {
     return (1/2048)/*ticks to rotations*/ * (8/60) * (18/35)/*gear ratios*/ * 0.0508*Math.PI/*roller rotations to meters of cord*/ * 2/*final pulley magic ratio*/;
   }
 
   @Override
   public void periodic() {
-    shoulderPosition(shoulderPosition);
+    ShoulderPosition(shoulderPosition);
   }
 }

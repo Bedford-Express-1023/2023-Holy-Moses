@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+/*package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -32,10 +32,10 @@ public class ArmSubsystem extends SubsystemBase {
   double targetAngleMedium = 0;
   double targetAngleLow = 0;
 
-/** How much smoothing [0,8] to use during MotionMagic */
+//How much smoothing [0,8] to use during MotionMagic 
 int smoothing;
 
-  /** Creates a new ArmSubsystem. */
+  // Creates a new ArmSubsystem. 
   public ArmSubsystem() {
 		leftArmMotor.setNeutralMode(NeutralMode.Brake);
 		rightArmMotor.setNeutralMode(NeutralMode.Brake);
@@ -49,7 +49,7 @@ int smoothing;
 		rightArmMotor.configPeakOutputReverse(-1.0);
 
     
-		/* Set Motion Magic gains in slot0 - see documentation */
+		// Set Motion Magic gains in slot0 - see documentation 
 		leftArmMotor.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
 		leftArmMotor.config_kF(Constants.kSlotIdx, Constants.kGains.kF, Constants.kTimeoutMs);
 		leftArmMotor.config_kP(Constants.kSlotIdx, Constants.kGains.kP, Constants.kTimeoutMs);
@@ -77,14 +77,14 @@ int smoothing;
 
   @Override
   public void periodic() {
-    double leftYstick = -1.0 * oliviaController.getY(); /* left-side Y for Xbox360Gamepad */
-		double rghtYstick = -1.0 * oliviaController.getRawAxis(?); /* right-side Y for Xbox360Gamepad */
-		if (Math.abs(leftYstick) < 0.10) { 
-      leftYstick = 0; /* deadband 10% */
+    double leftYstick = -1.0 * oliviaController.getY(); // left-side Y for Xbox360Gamepad 
+		double rghtYstick = -1.0 * oliviaController.getRawAxis(?); // right-side Y for Xbox360Gamepad 
+		if (Math.abs(leftYstick) < 0.10) {
+      leftYstick = 0; // deadband 10% 
     } 
 		if (Math.abs(rghtYstick) < 0.10) { 
-      rghtYstick = 0; /* deadband 10% */
+      rghtYstick = 0; // deadband 10% 
     } 
     // This method will be called once per scheduler run
   }
-}
+} */

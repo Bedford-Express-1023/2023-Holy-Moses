@@ -15,6 +15,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -27,10 +28,14 @@ public class ArmSubsystem extends SubsystemBase {
   //arm is extension (in/out)
   public final TalonFX leftShoulderMotor = new TalonFX(?);
   public final TalonFX rightShoulderMotor = new TalonFX(?);
+  public final TalonFX armMotor = new TalonFX(?);
+
   public final CANCoder leftCANCoder = new CANCoder(?);
   public final CANCoder rightCANCoder = new CANCoder(?);
+  public final CANCoder armCANCoder = new CANCoder(?);
 
   public final PigeonIMU pidgeonGyro = new PigeonIMU(0);
+
   public double shoulderPosition = 0;
   public final double maxShoulderVelocity = 15;
   public final double maxShoulderAcceleration = 15;
@@ -59,13 +64,12 @@ public class ArmSubsystem extends SubsystemBase {
     rotationLayout.addDouble("RotationSpeed", () -> ticksToDegrees(leftCANCoder.getVelocity() * 10));
     rotationLayout.addDouble("RotationPosition", () -> ticksToDegrees(leftCANCoder.getAbsolutePosition()));
     
-    ShuffleboardLayout armLayout = armTab.getLayout("Extension");
-    rotationLayout.addDouble("ExtensionSpeed", () -> leftCANCoder.getVelocity()*10);
-    rotationLayout.addDouble("ExtensionPosition", () -> leftCANCoder.getAbsolutePosition());
-
+    ShuffleboardLayout extensionLayout = armTab.getLayout("Extension");
+    extensionLayout.addDouble("ExtensionSpeed", () -> armCANCoder.getVelocity()*10);
+    extensionLayout.addDouble("ExtensionPosition", () -> armCANCoder.getAbsolutePosition());
   }
 
-  public void armRotationPosition() {
+  public void shoulderPosition() {
     double vSetpoint = shoulderPID.calculate(2048*shoulderPosition/360) / 360;
     rightShoulderMotor.set(ControlMode.PercentOutput, 
       MathUtil.clamp(
@@ -79,14 +83,9 @@ public class ArmSubsystem extends SubsystemBase {
         feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))); //calculates max power output so as not to go above max velocity and max accel
   }
 
-  public void armExtensionPosition() {
+  public void armPosition() {
     double vSetpoint = armPID.calculate(2048*shoulderPosition/360) / 360;
-    rightShoulderMotor.set(ControlMode.PercentOutput, 
-      MathUtil.clamp(
-        vSetpoint,
-        -feedForward.calculate(MathUtil.clamp(vSetpoint, -maxArmVelocity, maxShoulderVelocity), maxShoulderAcceleration),
-        feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))); //calculates max power output so as not to go above max velocity and max accel
-    leftShoulderMotor.set(ControlMode.PercentOutput, 
+    armMotor.set(ControlMode.PercentOutput, 
       MathUtil.clamp(
         vSetpoint,
         -feedForward.calculate(MathUtil.clamp(vSetpoint, -maxArmVelocity, maxArmVelocity), maxArmAcceleration),
@@ -123,7 +122,6 @@ public class ArmSubsystem extends SubsystemBase {
   public double ticksToMeters(double ticks) {
     return (1/2048)/*ticks to rotations*/ * (8/60) * (18/35)/*gear ratios*/ * 0.0508*Math.PI/*roller rotations to meters of cord*/ * 2/*final pulley magic ratio*/;
   }
-
 
   @Override
   public void periodic() {

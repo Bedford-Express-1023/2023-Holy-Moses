@@ -25,7 +25,7 @@ public class RobotContainer {
     private final Joystick willController = new Joystick(0);
     private final XboxController oliviaController = new XboxController(1);
 
-    private double slewDouble = 3.0; //3.0
+    private double slewDouble = 1000.0; //3.0
     private final SlewRateLimiter willSlew = new SlewRateLimiter(slewDouble);
 
 

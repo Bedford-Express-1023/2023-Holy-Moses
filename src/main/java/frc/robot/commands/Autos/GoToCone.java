@@ -25,11 +25,10 @@ import frc.robot.subsystems.Swerve;
 
 public class GoToCone extends PPSwerveControllerCommand {
  Swerve s_Swerve;
-  private final static PathPlannerTrajectory driveTrajectory = PathPlanner.loadPath("Go to Cone", 1, 1);
+  private final static PathPlannerTrajectory driveTrajectory = PathPlanner.loadPath("Go to Cone", 100, 8);
   private double timer = 0;
 
-  public GoToCone(
-    Swerve s_Swerve) {
+public GoToCone(Swerve s_Swerve) {
       super(
         driveTrajectory, 
         s_Swerve::getPose, 
@@ -46,13 +45,12 @@ public class GoToCone extends PPSwerveControllerCommand {
   ChassisSpeeds speed = s_Swerve.driveController.calculate(s_Swerve.odometry.getPoseMeters(), driveTrajectory.sample(timer), driveTrajectory.sample(timer).poseMeters.getRotation());
 s_Swerve.drive(new Translation2d(speed.vxMetersPerSecond, speed.vyMetersPerSecond), speed.omegaRadiansPerSecond, false, false);
   timer += 0.02;
-  }*/
-
-  /*@Override
-  public boolean isFinished() {
-      return driveTrajectory.getTotalTimeSeconds() <= timer - 0.2;
   }
 
+  @Override
+  public boolean isFinished() {
+      return false;//driveTrajectory.getTotalTimeSeconds() <= timer - 0.2;
+  }
   @Override
   public void end(boolean interrupted) {
       // Stop the drivetrain

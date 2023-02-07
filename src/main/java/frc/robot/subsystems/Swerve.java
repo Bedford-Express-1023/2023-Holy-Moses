@@ -31,8 +31,9 @@ public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public WPI_Pigeon2 gyro = new WPI_Pigeon2(Constants.Swerve.pigeonID);
-    public final PIDController xController = new PIDController(0.1, 0.0, 0.0);
-    public final PIDController yController = new PIDController(0.1, 0.0, 0.0);
+    public final Constraints translationConstraints = new Constraints(10, 10);
+    public final ProfiledPIDController xController = new ProfiledPIDController(0.1, 0.0, 0.0, translationConstraints);
+    public final ProfiledPIDController yController = new ProfiledPIDController(0.1, 0.0, 0.0, translationConstraints);
     public final ProfiledPIDController rotaController = new ProfiledPIDController(0.5, 0, 0, new Constraints(15, 15));
     public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
         new Translation2d(Constants.Swerve.trackWidth/ 2.0, Constants.Swerve.wheelBase / 2.0),

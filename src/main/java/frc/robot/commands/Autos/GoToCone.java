@@ -26,8 +26,8 @@ public double timer = 0;
 public GoToCone(Swerve s_Swerve) {
       addRequirements(s_Swerve);
         this.s_Swerve = s_Swerve;
-        s_Swerve.xController.setConstraints(new Constraints(3, 10));
-        s_Swerve.yController.setConstraints(new Constraints(3, 10));
+        s_Swerve.xController.setConstraints(new Constraints(10, 10));
+        s_Swerve.yController.setConstraints(new Constraints(10, 10));
         //driveController = new HolonomicDriveController(s_Swerve.xController, s_Swerve.yController, s_Swerve.rotaController);
   }
 

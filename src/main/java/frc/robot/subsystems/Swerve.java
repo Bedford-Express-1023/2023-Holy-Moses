@@ -34,7 +34,7 @@ public class Swerve extends SubsystemBase {
     public final Constraints translationConstraints = new Constraints(10, 10);
     public final ProfiledPIDController xController = new ProfiledPIDController(3, 0.0, 0.0, translationConstraints);
     public final ProfiledPIDController yController = new ProfiledPIDController(3, 0.0, 0.0, translationConstraints);
-    public final ProfiledPIDController rotaController = new ProfiledPIDController(3, 0, 0, new Constraints(1000, 1000));
+    public final ProfiledPIDController rotaController = new ProfiledPIDController(0.5, 0, 0, new Constraints(1000, 1000));
     public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
         new Translation2d(Constants.Swerve.trackWidth/ 2.0, Constants.Swerve.wheelBase / 2.0),
         new Translation2d(Constants.Swerve.trackWidth / 2.0, -Constants.Swerve.wheelBase / 2.0),
@@ -85,11 +85,8 @@ public class Swerve extends SubsystemBase {
                                     translation.getY(), 
                                     rotation)
                                 );
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
-
-        for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
-        }
+        setModuleStates(swerveModuleStates);
+        
     }    
 
     public void autoDrive(){
@@ -103,6 +100,11 @@ public class Swerve extends SubsystemBase {
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(desiredStates[mod.moduleNumber], true);
         }
+        /*
+        ChassisSpeeds chassisSpeeds = kinematics.toChassisSpeeds(desiredStates);
+        SmartDashboard.putNumber("SpeedX", chassisSpeeds.vxMetersPerSecond);
+        SmartDashboard.putNumber("SpeedY", chassisSpeeds.vyMetersPerSecond);
+        SmartDashboard.putNumber("SpeedR", chassisSpeeds.omegaRadiansPerSecond);*/
     }    
 
     public Pose2d getPose() {

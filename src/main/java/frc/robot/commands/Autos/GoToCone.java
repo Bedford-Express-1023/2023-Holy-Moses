@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
@@ -35,6 +36,7 @@ public GoToCone(Swerve s_Swerve) {
 
   @Override
   public void execute() {
+    
     ChassisSpeeds speed = new ChassisSpeeds(
       s_Swerve.xController.calculate(
         s_Swerve.swerveOdometry.getPoseMeters().getX(), 
@@ -42,10 +44,14 @@ public GoToCone(Swerve s_Swerve) {
       s_Swerve.yController.calculate(
         s_Swerve.swerveOdometry.getPoseMeters().getY(), 
         driveTrajectory.sample(timer).poseMeters.getY()), 
-      s_Swerve.rotaController.calculate(
-        driveTrajectory.sample(timer).poseMeters.getRotation().getRadians())
+      //s_Swerve.rotaController.calculate(
+        driveTrajectory.sample(timer).poseMeters.getRotation().getRadians()//)
     );
+    SmartDashboard.putNumber("SpeedX", speed.vxMetersPerSecond);
+    SmartDashboard.putNumber("SpeedY", speed.vyMetersPerSecond);
+    SmartDashboard.putNumber("SpeedR", speed.omegaRadiansPerSecond);
 
+    speed = ChassisSpeeds.fromFieldRelativeSpeeds(speed, s_Swerve.getYaw());
     SwerveModuleState[] states = s_Swerve.kinematics.toSwerveModuleStates(speed);
     s_Swerve.setModuleStates(states);
     //s_Swerve.drive(new Translation2d(speed.vxMetersPerSecond, speed.vyMetersPerSecond).times(Constants.Swerve.maxSpeed), speed.omegaRadiansPerSecond * Constants.Swerve.maxAngularVelocity, false, false);

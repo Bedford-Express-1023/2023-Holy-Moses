@@ -6,30 +6,44 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.schedulers.ConcurrentScheduler;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.playingwithfusion.TimeOfFlight;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
   public final VictorSPX intakeMotor = new VictorSPX(?);
-  public final CANSparkMax wristMotor;
+  public final CANSparkMax wristMotor = new CANSparkMax(?, MotorType.kBrushless);
   public final CANCoder wristCANCoder = new CANCoder(?);
+  public final TimeOfFlight TOFSensor = new TimeOfFlight(1);
 
-  public double wristPosition = 0;
+  public double wristPosition;
+  public final double intakeSpeed = 0.9;
   public final double maxWristVelocity = 15;
   public final double maxWristAcceleration = 15;
+  public final double TOFRange;
 
   public final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(?, ?);
   final ProfiledPIDController wristPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(15, 100));
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-
+    ShuffleboardTab subsystemTab = Shuffleboard.getTab("Subsystems");
+    ShuffleboardLayout intakeLayout = subsystemTab.getLayout("Intake", BuiltInLayouts.kList)
+                    .withSize(1, 4)
+                    .withPosition(0, 0);
+    intakeLayout.addNumber("TOF Range", () -> TOFRange);
+    intakeLayout.addNumber("Wrist Position", () -> wristPosition);
   }
 
   public void WristPosition() {
@@ -37,18 +51,30 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void IntakeIn() {
-    wristMotor.set(0.9);
+    wristMotor.set(intakeSpeed);
   }
 
   public void IntakeOut() {
-    wristMotor.set(-0.9);
+    wristMotor.set(-intakeSpeed);
   }
 
   public void IntakeStop() {
     wristMotor.set(0);
   }
+
+  public void TOFIntake() {
+    if (TOFRange <= 2) {
+      wristMotor.set(intakeSpeed);
+    }
+    else {
+      wristMotor.set(0);
+    }
+  }
+
   @Override
   public void periodic() {
+    TOFRange = TOFSensor.getRange();
+    wristPosition = wristCANCoder.getAbsolutePosition();
     // This method will be called once per scheduler run
   }
 }

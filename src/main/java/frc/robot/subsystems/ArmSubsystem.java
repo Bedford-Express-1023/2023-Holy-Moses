@@ -59,13 +59,17 @@ public class ArmSubsystem extends SubsystemBase {
 		rightShoulderMotor.setNeutralMode(NeutralMode.Brake);
     rightShoulderMotor.follow(leftShoulderMotor);
 
-    ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
-    ShuffleboardLayout rotationLayout = armTab.getLayout("Rotation");
+    ShuffleboardTab subsystemTab = Shuffleboard.getTab("Subsystems");
+    ShuffleboardLayout rotationLayout = subsystemTab.getLayout("Arm Rotation")
+    .withSize(1, 4)
+    .withPosition(0, 2);
     rotationLayout.addDouble("RotationSpeed", () -> TicksToDegrees(leftCANCoder.getVelocity() * 10));
     rotationLayout.addDouble("RotationPosition", () -> TicksToDegrees(leftCANCoder.getAbsolutePosition()));
     
-    ShuffleboardLayout extensionLayout = armTab.getLayout("Extension");
-    extensionLayout.addDouble("ExtensionSpeed", () -> armCANCoder.getVelocity()*10);
+    ShuffleboardLayout extensionLayout = subsystemTab.getLayout("Arm Extension")
+    .withSize(1, 4)
+    .withPosition(0, 4);
+    extensionLayout.addDouble("ExtensionSpeed", () -> armCANCoder.getVelocity() * 10);
     extensionLayout.addDouble("ExtensionPosition", () -> armCANCoder.getAbsolutePosition());
   }
 

@@ -20,14 +20,16 @@ import frc.robot.subsystems.Swerve;
 
 public class GoToCone extends CommandBase {
 Swerve s_Swerve;
-public final static PathPlannerTrajectory driveTrajectory = PathPlanner.loadPath("Go to Cone", 10, 10);
+public final double maxSpeed = 1;
+public final static PathPlannerTrajectory driveTrajectory = PathPlanner.loadPath("Go to Cone", 1, 10);
 public double timer = 0;
 
 public GoToCone(Swerve s_Swerve) {
       addRequirements(s_Swerve);
         this.s_Swerve = s_Swerve;
-        s_Swerve.xController.setConstraints(new Constraints(10, 10));
-        s_Swerve.yController.setConstraints(new Constraints(10, 10));
+        s_Swerve.xController.setConstraints(new Constraints(maxSpeed, 10));
+        s_Swerve.yController.setConstraints(new Constraints(maxSpeed, 10));
+        s_Swerve.rotaController.setConstraints(new Constraints(1000, 100));
         //driveController = new HolonomicDriveController(s_Swerve.xController, s_Swerve.yController, s_Swerve.rotaController);
   }
 
@@ -40,7 +42,8 @@ public GoToCone(Swerve s_Swerve) {
       s_Swerve.yController.calculate(
         s_Swerve.swerveOdometry.getPoseMeters().getY(), 
         driveTrajectory.sample(timer).poseMeters.getY()), 
-      driveTrajectory.sample(timer).poseMeters.getRotation().getRadians()
+      s_Swerve.rotaController.calculate(
+        driveTrajectory.sample(timer).poseMeters.getRotation().getRadians())
     );
 
     SwerveModuleState[] states = s_Swerve.kinematics.toSwerveModuleStates(speed);

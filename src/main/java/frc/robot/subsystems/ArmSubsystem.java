@@ -53,6 +53,8 @@ public class ArmSubsystem extends SubsystemBase {
   final double armTargetPositionMedium = 0;
   final double armTargetPositionLow = 0;
 
+  public String currentShoulderCommand;  
+  public String currentArmCommand;
   /** Creates a new ArmSubsystem. */
   public ArmSubsystem() {
 		leftShoulderMotor.setNeutralMode(NeutralMode.Brake);
@@ -60,17 +62,19 @@ public class ArmSubsystem extends SubsystemBase {
     rightShoulderMotor.follow(leftShoulderMotor);
 
     ShuffleboardTab subsystemTab = Shuffleboard.getTab("Subsystems");
-    ShuffleboardLayout rotationLayout = subsystemTab.getLayout("Arm Rotation")
+    ShuffleboardLayout rotationLayout = subsystemTab.getLayout("Shoulder Rotation")
     .withSize(1, 4)
     .withPosition(0, 2);
     rotationLayout.addDouble("RotationSpeed", () -> TicksToDegrees(leftCANCoder.getVelocity() * 10));
     rotationLayout.addDouble("RotationPosition", () -> TicksToDegrees(leftCANCoder.getAbsolutePosition()));
-    
+    rotationLayout.add("Current Shoulder Command", currentShoulderCommand, "none");
+
     ShuffleboardLayout extensionLayout = subsystemTab.getLayout("Arm Extension")
     .withSize(1, 4)
     .withPosition(0, 4);
     extensionLayout.addDouble("ExtensionSpeed", () -> armCANCoder.getVelocity() * 10);
     extensionLayout.addDouble("ExtensionPosition", () -> armCANCoder.getAbsolutePosition());
+    rotationLayout.add("Current Arm Command", currentArmCommand, "none");
   }
 
   public void ShoulderPosition() {
@@ -102,14 +106,17 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void ArmHighScore() {
     shoulderPosition = shoulderTargetAngleHigh;
+    currentArmCommand = "High Score";
   }
 
   public void ArmMiddleScore() {
     shoulderPosition = shoulderTargetAngleMedium;
+    currentArmCommand = "Middle Score";
   }
 
   public void ArmLowScore() {
     shoulderPosition = shoulderTargetAngleLow;
+    currentArmCommand = "Low Score";
   }
 /**
  * @param ticks the encoder value (in ticks, 2048/rotation)

@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.Supplier;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.schedulers.ConcurrentScheduler;
@@ -28,7 +30,8 @@ public class IntakeSubsystem extends SubsystemBase {
   public final CANCoder wristCANCoder = new CANCoder(?);
   public final TimeOfFlight TOFSensor = new TimeOfFlight(1);
 
-  public double wristPosition;
+  public double wristCurrentPosition;
+  public String currentIntakeCommand;
   public final double intakeSpeed = 0.9;
   public final double maxWristVelocity = 15;
   public final double maxWristAcceleration = 15;
@@ -43,23 +46,27 @@ public class IntakeSubsystem extends SubsystemBase {
                     .withSize(1, 4)
                     .withPosition(0, 0);
     intakeLayout.addNumber("TOF Range", () -> TOFRange);
-    intakeLayout.addNumber("Wrist Position", () -> wristPosition);
+    intakeLayout.addNumber("Wrist Position", () -> wristCurrentPosition);
+
+    subsystemTab.add("Current Intake Command", currentIntakeCommand, "none");
   }
 
   public void WristPosition() {
-
   }
 
   public void IntakeIn() {
     wristMotor.set(intakeSpeed);
+    currentIntakeCommand = "IntakeIn";
   }
 
   public void IntakeOut() {
     wristMotor.set(-intakeSpeed);
+    currentIntakeCommand = "IntakeOut";
   }
 
   public void IntakeStop() {
     wristMotor.set(0);
+    currentIntakeCommand = "IntakeStop";
   }
 
   public void TOFIntake() {
@@ -74,7 +81,7 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     TOFRange = TOFSensor.getRange();
-    wristPosition = wristCANCoder.getAbsolutePosition();
+    wristCurrentPosition = wristCANCoder.getAbsolutePosition();
     // This method will be called once per scheduler run
   }
 }

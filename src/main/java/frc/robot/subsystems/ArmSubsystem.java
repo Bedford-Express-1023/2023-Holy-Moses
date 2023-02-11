@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-/*package frc.robot.subsystems;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -17,6 +17,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -35,6 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
   public final CANCoder armCANCoder = new CANCoder(?);
 
   public final PigeonIMU pidgeonGyro = new PigeonIMU(0);
+  private final XboxController oliviaController = new XboxController(1);
 
   public double shoulderPosition = 0;
   public final double maxShoulderVelocity = 15;
@@ -45,12 +47,6 @@ public class ArmSubsystem extends SubsystemBase {
   final ProfiledPIDController armPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(15, 100));
   final ProfiledPIDController shoulderPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(15, 100));
 
-<<<<<<< HEAD
-//How much smoothing [0,8] to use during MotionMagic 
-int smoothing;
-
-  // Creates a new ArmSubsystem. 
-=======
 	final double shoulderTargetAngleHigh = 0;
   final double shoulderTargetAngleMedium = 0;
   final double shoulderTargetAngleLow = 0;
@@ -62,7 +58,6 @@ int smoothing;
   public String currentShoulderCommand;  
   public String currentArmCommand;
   /** Creates a new ArmSubsystem. */
->>>>>>> Arm
   public ArmSubsystem() {
 		leftShoulderMotor.setNeutralMode(NeutralMode.Brake);
 		rightShoulderMotor.setNeutralMode(NeutralMode.Brake);
@@ -76,27 +71,26 @@ int smoothing;
     rotationLayout.addDouble("RotationPosition", () -> TicksToDegrees(leftCANCoder.getAbsolutePosition()));
     rotationLayout.add("Current Shoulder Command", currentShoulderCommand, "none");
 
-<<<<<<< HEAD
-		leftArmMotor.configPeakOutputForward(+1.0);
-		leftArmMotor.configPeakOutputReverse(-1.0);
-		rightArmMotor.configPeakOutputForward(+1.0);
-		rightArmMotor.configPeakOutputReverse(-1.0);
+		leftShoulderMotor.configPeakOutputForward(+1.0);
+		leftShoulderMotor.configPeakOutputReverse(-1.0);
+		rightShoulderMotor.configPeakOutputForward(+1.0);
+		rightShoulderMotor.configPeakOutputReverse(-1.0);
 
     
 		// Set Motion Magic gains in slot0 - see documentation 
-		leftArmMotor.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
-		leftArmMotor.config_kF(Constants.kSlotIdx, Constants.kGains.kF, Constants.kTimeoutMs);
-		leftArmMotor.config_kP(Constants.kSlotIdx, Constants.kGains.kP, Constants.kTimeoutMs);
-		leftArmMotor.config_kI(Constants.kSlotIdx, Constants.kGains.kI, Constants.kTimeoutMs);
-		leftArmMotor.config_kD(Constants.kSlotIdx, Constants.kGains.kD, Constants.kTimeoutMs);
-=======
+    /*
+		leftShoulderMotor.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
+		leftShoulderMotor.config_kF(Constants.kSlotIdx, Constants.kGains.kF, Constants.kTimeoutMs);
+		leftShoulderMotor.config_kP(Constants.kSlotIdx, Constants.kGains.kP, Constants.kTimeoutMs);
+		leftShoulderMotor.config_kI(Constants.kSlotIdx, Constants.kGains.kI, Constants.kTimeoutMs);
+		leftShoulderMotor.config_kD(Constants.kSlotIdx, Constants.kGains.kD, Constants.kTimeoutMs);
+    */
     ShuffleboardLayout extensionLayout = subsystemTab.getLayout("Arm Extension")
     .withSize(1, 4)
     .withPosition(0, 4);
     extensionLayout.addDouble("ExtensionSpeed", () -> armCANCoder.getVelocity() * 10);
     extensionLayout.addDouble("ExtensionPosition", () -> armCANCoder.getAbsolutePosition());
     rotationLayout.add("Current Arm Command", currentArmCommand, "none");
->>>>>>> Arm
   }
 
   public void ShoulderPosition() {
@@ -158,7 +152,6 @@ int smoothing;
 
   @Override
   public void periodic() {
-<<<<<<< HEAD
     double leftYstick = -1.0 * oliviaController.getY(); // left-side Y for Xbox360Gamepad 
 		double rghtYstick = -1.0 * oliviaController.getRawAxis(?); // right-side Y for Xbox360Gamepad 
 		if (Math.abs(leftYstick) < 0.10) {
@@ -168,10 +161,6 @@ int smoothing;
       rghtYstick = 0; // deadband 10% 
     } 
     // This method will be called once per scheduler run
-  }
-} */
-=======
     ShoulderPosition(shoulderPosition);
   }
 }
->>>>>>> Arm

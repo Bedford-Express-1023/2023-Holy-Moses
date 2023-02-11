@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.function.Supplier;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.schedulers.ConcurrentScheduler;
@@ -36,6 +34,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public final double maxWristVelocity = 15;
   public final double maxWristAcceleration = 15;
   public final double TOFRange;
+  public final boolean FullIntakeCheck;
 
   public final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(?, ?);
   final ProfiledPIDController wristPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(15, 100));
@@ -69,8 +68,17 @@ public class IntakeSubsystem extends SubsystemBase {
     currentIntakeCommand = "IntakeStop";
   }
 
-  public void TOFIntake() {
+  public boolean FullIntakeCheck() {
     if (TOFRange <= 2) {
+      FullIntakeCheck = true;
+    }
+    else {
+      FullIntakeCheck = false;
+    }
+  }
+
+  public void TOFIntake() {
+    if (FullIntakeCheck = true) {
       wristMotor.set(intakeSpeed);
     }
     else {

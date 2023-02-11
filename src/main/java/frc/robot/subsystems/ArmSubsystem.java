@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
@@ -16,6 +17,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -57,6 +59,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   public String currentShoulderCommand;  
   public String currentArmCommand;
+  public final DigitalInput limitSwitch = new DigitalInput(1);
+  public final Counter counter = new Counter(limitSwitch);
   /** Creates a new ArmSubsystem. */
   public ArmSubsystem() {
 		leftShoulderMotor.setNeutralMode(NeutralMode.Brake);
@@ -150,6 +154,14 @@ public class ArmSubsystem extends SubsystemBase {
     return (1/2048)/*ticks to rotations*/ * (8/60) * (18/35)/*gear ratios*/ * 0.0508*Math.PI/*roller rotations to meters of cord*/ * 2/*final pulley magic ratio*/;
   }
 
+  public void setMotorSpeed(double speed) {
+    if (counter.get() > 0) {
+      armMotor.set(TalonFXControlMode.PercentOutput, 0);
+    } else {
+      armMotor.set(TalonFXControlMode.PercentOutput, speed);
+    }
+  }
+  
   @Override
   public void periodic() {
     double leftYstick = -1.0 * oliviaController.getY(); // left-side Y for Xbox360Gamepad 

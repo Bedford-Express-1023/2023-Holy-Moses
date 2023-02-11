@@ -47,9 +47,10 @@ public class Swerve extends SubsystemBase {
    
    
     public Swerve() {
+
         gyro.configFactoryDefault();
         zeroGyro();
-
+        rotaController.enableContinuousInput(0, 2*Math.PI);
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
             new SwerveModule(1, Constants.Swerve.Mod1.constants),

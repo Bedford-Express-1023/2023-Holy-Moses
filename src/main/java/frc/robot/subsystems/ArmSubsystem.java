@@ -25,27 +25,33 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import static frc.robot.Constants.Arm.leftShoulder_TALON_CAN;
+import static frc.robot.Constants.Arm.rightShoulder_TALON_CAN;
+import static frc.robot.Constants.Arm.arm_TALON_CAN;
+import static frc.robot.Constants.Arm.leftShoulder_CANCODER;
+import static frc.robot.Constants.Arm.rightShoulder_CANCODER;
+import static frc.robot.Constants.Arm.arm_CANCODER;
+import static frc.robot.Constants.Arm.maxShoulderVelocity;
+import static frc.robot.Constants.Arm.maxShoulderAcceleration;
+import static frc.robot.Constants.Arm.maxArmVelocity;
+import static frc.robot.Constants.Arm.maxArmAcceleration;
 
 public class ArmSubsystem extends SubsystemBase { 
   //shoulder is rotation (up/down)
   //arm is extension (in/out)
-  public final TalonFX leftShoulderMotor = new TalonFX(?);
-  public final TalonFX rightShoulderMotor = new TalonFX(?);
-  public final TalonFX armMotor = new TalonFX(?);
+  public final TalonFX leftShoulderMotor = new TalonFX(leftShoulder_TALON_CAN);
+  public final TalonFX rightShoulderMotor = new TalonFX(rightShoulder_TALON_CAN);
+  public final TalonFX armMotor = new TalonFX(arm_TALON_CAN);
 
-  public final CANCoder leftCANCoder = new CANCoder(?);
-  public final CANCoder rightCANCoder = new CANCoder(?);
-  public final CANCoder armCANCoder = new CANCoder(?);
+  public final CANCoder leftCANCoder = new CANCoder(leftShoulder_CANCODER);
+  public final CANCoder rightCANCoder = new CANCoder(rightShoulder_CANCODER);
+  public final CANCoder armCANCoder = new CANCoder(arm_CANCODER);
 
   public final PigeonIMU pidgeonGyro = new PigeonIMU(0);
   private final XboxController oliviaController = new XboxController(1);
 
   public double shoulderPosition = 0;
-  public final double maxShoulderVelocity = 15;
-  public final double maxShoulderAcceleration = 15;
-  public final double maxArmVelocity = 15;
-  public final double maxArmAcceleration = 15;
-  public final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(?, ?);
+  public final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0,0,0);
   final ProfiledPIDController armPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(15, 100));
   final ProfiledPIDController shoulderPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(15, 100));
 
@@ -164,8 +170,8 @@ public class ArmSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
-    double leftYstick = -1.0 * oliviaController.getY(); // left-side Y for Xbox360Gamepad 
-		double rghtYstick = -1.0 * oliviaController.getRawAxis(?); // right-side Y for Xbox360Gamepad 
+    double leftYstick = -oliviaController.getRawAxis(0); // left-side Y for Xbox360Gamepad 
+		double rghtYstick = -oliviaController.getRawAxis(1); // right-side Y for Xbox360Gamepad 
 		if (Math.abs(leftYstick) < 0.10) {
       leftYstick = 0; // deadband 10% 
     } 

@@ -21,22 +21,27 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import static frc.robot.Constants.Intake.intake_VICTOR_CAN;
+import static frc.robot.Constants.Intake.wrist_SPARK_CAN;
+import static frc.robot.Constants.Intake.wrist_CANCODER;
+import static frc.robot.Constants.Intake.TOF_sensor_CAN;
+import static frc.robot.Constants.Intake.maxWristAcceleration;
+import static frc.robot.Constants.Intake.maxWristVelocity;;
 
 public class IntakeSubsystem extends SubsystemBase {
-  public final VictorSPX intakeMotor = new VictorSPX(?);
-  public final CANSparkMax wristMotor = new CANSparkMax(?, MotorType.kBrushless);
-  public final CANCoder wristCANCoder = new CANCoder(?);
-  public final TimeOfFlight TOFSensor = new TimeOfFlight(1);
+  public final VictorSPX intakeMotor = new VictorSPX(intake_VICTOR_CAN);
+  public final CANSparkMax wristMotor = new CANSparkMax(wrist_SPARK_CAN, MotorType.kBrushless);
+  public final CANCoder wristCANCoder = new CANCoder(wrist_CANCODER);
+  public final TimeOfFlight TOFSensor = new TimeOfFlight(TOF_sensor_CAN);
 
   public double wristCurrentPosition;
   public String currentIntakeCommand;
   public final double intakeSpeed = 0.9;
-  public final double maxWristVelocity = 15;
-  public final double maxWristAcceleration = 15;
-  public final double TOFRange;
-  public final boolean FullIntakeCheck;
+  public double TOFRange;
+  public boolean FullIntakeCheck;
 
-  public final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(?, ?);
+  public final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0,0,0);
   final ProfiledPIDController wristPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(15, 100));
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
@@ -68,7 +73,7 @@ public class IntakeSubsystem extends SubsystemBase {
     currentIntakeCommand = "IntakeStop";
   }
 
-  public boolean FullIntakeCheck() {
+  public void FullIntakeCheck() {
     if (TOFRange <= 2) {
       FullIntakeCheck = true;
     }
@@ -90,6 +95,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     TOFRange = TOFSensor.getRange();
     wristCurrentPosition = wristCANCoder.getAbsolutePosition();
+    FullIntakeCheck();
     // This method will be called once per scheduler run
   }
 }

@@ -14,6 +14,31 @@ public final class Constants {
     public static final double stickDeadband = 0.1;
     public static final int BLINKIN = 0;
 
+    public static final class Arm{
+        public static int leftShoulder_TALON_CAN = 30;
+        public static int rightShoulder_TALON_CAN = 31;
+        public static int arm_TALON_CAN = 32;
+        public static int leftShoulder_CANCODER = 33;
+        public static int rightShoulder_CANCODER = 34;
+        public static int arm_CANCODER = 35;
+        public static int gyro_PIDGEON_ID = 36;
+
+        public static double maxShoulderVelocity = 15;
+        public static double maxShoulderAcceleration = 15;
+        public static double maxArmVelocity = 15;
+        public static double maxArmAcceleration = 15;
+    }
+
+    public static final class Intake{
+        public static int intake_VICTOR_CAN = 20;
+        public static int wrist_SPARK_CAN = 21;
+        public static int wrist_CANCODER = 22;
+        public static int TOF_sensor_CAN = 23;
+
+        public static double maxWristVelocity = 15;
+        public static double maxWristAcceleration = 15;
+    }
+
     public static final class Swerve {
         public static final int pigeonID = 1;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-

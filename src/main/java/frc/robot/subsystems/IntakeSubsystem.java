@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.schedulers.ConcurrentScheduler;
 import com.ctre.phoenix.sensors.CANCoder;
-import com.playingwithfusion.TimeOfFlight;
+//import com.playingwithfusion.TimeOfFlight;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -33,7 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public final VictorSPX intakeMotor = new VictorSPX(intake_VICTOR_CAN);
   public final CANSparkMax wristMotor = new CANSparkMax(wrist_SPARK_CAN, MotorType.kBrushless);
   public final CANCoder wristCANCoder = new CANCoder(wrist_CANCODER);
-  public final TimeOfFlight TOFSensor = new TimeOfFlight(TOF_sensor_CAN);
+  //public final TimeOfFlight TOFSensor = new TimeOfFlight(TOF_sensor_CAN);
 
   public double wristCurrentPosition;
   public String currentIntakeCommand;
@@ -93,7 +93,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    TOFRange = TOFSensor.getRange();
+    //TOFRange = TOFSensor.getRange();
     wristCurrentPosition = wristCANCoder.getAbsolutePosition();
     FullIntakeCheck();
     // This method will be called once per scheduler run

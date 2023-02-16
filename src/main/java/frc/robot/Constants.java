@@ -15,18 +15,17 @@ public final class Constants {
     public static final int BLINKIN = 0;
 
     public static final class Arm{
-        public static int leftShoulder_TALON_CAN = 30;
-        public static int rightShoulder_TALON_CAN = 31;
-        public static int arm_TALON_CAN = 32;
-        public static int leftShoulder_CANCODER = 33;
-        public static int rightShoulder_CANCODER = 34;
-        public static int arm_CANCODER = 35;
-        public static int gyro_PIDGEON_ID = 36;
+        public static final int REAR_SHOULDER_CAN = 31;
+        public static final int FRONT_SHOULDER_CAN = 32;
+        public static final int ARM_EXTEND_CAN = 34;
+        public static final int SHOULDER_CANCODER = 33;
+        public static final int WRIST_CANCODER = 35;
+        public static final int WRIST_SPARK = 42;
 
-        public static double maxShoulderVelocity = 15;
-        public static double maxShoulderAcceleration = 15;
-        public static double maxArmVelocity = 15;
-        public static double maxArmAcceleration = 15;
+        public static double maxShoulderVelocity = 1;
+        public static double maxShoulderAcceleration = 1;
+        public static double maxArmVelocity = 1;
+        public static double maxArmAcceleration = 1;
     }
 
     public static final class Intake{

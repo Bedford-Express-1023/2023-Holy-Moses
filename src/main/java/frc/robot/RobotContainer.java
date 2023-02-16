@@ -24,6 +24,7 @@ public class RobotContainer {
     /* Controllers */
     private final Joystick willController = new Joystick(0);
     private final XboxController oliviaController = new XboxController(1);
+    private final XboxController testController = new XboxController(4);
 
     private double slewDouble = 1000.0; //3.0
     private final SlewRateLimiter willSlew = new SlewRateLimiter(slewDouble);
@@ -37,9 +38,13 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton ArmDown = new JoystickButton(testController, XboxController.Button.kX.value);
+    private final JoystickButton ArmUp = new JoystickButton(testController, XboxController.Button.kY.value);
+
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final ArmSubsystem s_Arm = new ArmSubsystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -67,6 +72,8 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+        ArmDown.onTrue(new InstantCommand(s_Arm::ArmHighScore));
+        ArmUp.onTrue(new InstantCommand(s_Arm::ArmLowScore));
     }
 
     /**

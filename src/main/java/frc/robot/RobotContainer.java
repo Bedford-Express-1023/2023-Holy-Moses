@@ -72,8 +72,8 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        ArmDown.onTrue(new InstantCommand(s_Arm::ArmHighScore));
-        ArmUp.onTrue(new InstantCommand(s_Arm::ArmLowScore));
+        ArmUp.onTrue(new InstantCommand(s_Arm::ArmHighScore));
+        ArmDown.onTrue(new InstantCommand(s_Arm::ArmLowScore));
     }
 
     /**

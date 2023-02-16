@@ -47,8 +47,8 @@ public class ArmSubsystem extends SubsystemBase {
   public double shoulderPosition = 45;
   public double armPosition = 0;
   public final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0,1,0);
-  final ProfiledPIDController armPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(1, 10));
-  final ProfiledPIDController shoulderPID = new ProfiledPIDController(1, 0.0, 0.0, new Constraints(1, 10));
+  final ProfiledPIDController armPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(maxShoulderVelocity, maxShoulderAcceleration));
+  final ProfiledPIDController shoulderPID = new ProfiledPIDController(0.1, 0.0, 0.1, new Constraints(maxShoulderVelocity, maxShoulderAcceleration));
 
 	final double shoulderTargetAngleHigh = 45;
   final double shoulderTargetAngleMedium = 30;

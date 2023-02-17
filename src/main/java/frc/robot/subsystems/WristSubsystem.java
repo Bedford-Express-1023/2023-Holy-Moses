@@ -37,15 +37,16 @@ public class WristSubsystem extends SubsystemBase {
     wristSpark.setSoftLimit(kReverse, -265); //sets reverse limit to 0 on internal encoder
     wristSpark.setSmartCurrentLimit(20); //sets current limit to 20 amps
     neoEncoder.setPosition(0.0);
-
+    wristSpark.setControlFramePeriodMs(20);
 
     wristPidController = wristSpark.getPIDController();
-    wristPidController.setP(0.1);
+    wristPidController.setP(0.5);
     wristPidController.setI(0.0);
     wristPidController.setD(0.0);
     wristPidController.setIZone(0.0);
-    wristPidController.setFF(0.1);
-    wristPidController.setOutputRange(-265, 0.0);
+    wristPidController.setFF(1);
+    wristPidController.setOutputRange(-.5, .5);
+
 
 
   }
@@ -58,6 +59,7 @@ public class WristSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Cancoder position", wristCancoder.getAbsolutePosition());
     SmartDashboard.putNumber("Neo position", neoEncoder.getPosition());
+    SmartDashboard.putNumber("Wrist output", wristSpark.getOutputCurrent());
     // This method will be called once per scheduler run
   }
 }

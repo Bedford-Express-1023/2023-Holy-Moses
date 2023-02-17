@@ -22,8 +22,8 @@ public final class Constants {
         public static final int WRIST_CANCODER = 35;
         public static final int WRIST_SPARK = 42;
 
-        public static double maxShoulderVelocity = 1;
-        public static double maxShoulderAcceleration = 1;
+        public static double maxShoulderVelocity = 50;
+        public static double maxShoulderAcceleration = 10;
         public static double maxArmVelocity = 1;
         public static double maxArmAcceleration = 1;
     }

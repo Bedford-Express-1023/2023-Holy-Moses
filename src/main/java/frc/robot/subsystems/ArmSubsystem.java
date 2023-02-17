@@ -12,11 +12,9 @@ import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -44,15 +42,15 @@ public class ArmSubsystem extends SubsystemBase {
   public final PigeonIMU pidgeonGyro = new PigeonIMU(0);
   private final XboxController oliviaController = new XboxController(1);
 
-  public double shoulderPosition = 45;
+  public double shoulderPosition = 0;
   public double armPosition = 0;
   public final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0,1,0);
-  final ProfiledPIDController armPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(maxShoulderVelocity, maxShoulderAcceleration));
-  final ProfiledPIDController shoulderPID = new ProfiledPIDController(0.1, 0.0, 0.1, new Constraints(maxShoulderVelocity, maxShoulderAcceleration));
+  final PIDController armPID = new PIDController(0.1, 0.0, 0.0);
+  final PIDController shoulderPID = new PIDController(1, 0.0, 0.1);
 
 	final double shoulderTargetAngleHigh = 45;
-  final double shoulderTargetAngleMedium = 30;
-  final double shoulderTargetAngleLow = 15;
+  final double shoulderTargetAngleMedium = 60;
+  final double shoulderTargetAngleLow = 75;
 
   final double armTargetPositionHigh = 0;
   final double armTargetPositionMedium = 0;
@@ -68,13 +66,15 @@ public class ArmSubsystem extends SubsystemBase {
 		rearShoulderMotor.setNeutralMode(NeutralMode.Brake);
 		frontShoulderMotor.setNeutralMode(NeutralMode.Brake);
     frontShoulderMotor.follow(rearShoulderMotor);
+    //shoulderPID.enableContinuousInput(-180, 180);
 
     ShuffleboardTab subsystemTab = Shuffleboard.getTab("Subsystems");
     ShuffleboardLayout rotationLayout = subsystemTab.getLayout("Shoulder Rotation", BuiltInLayouts.kList)
     .withSize(1, 4)
     .withPosition(0, 2);
-    rotationLayout.addDouble("RotationSpeed", () -> TicksToDegrees(shoulderCANCoder.getVelocity() * 10));
-    rotationLayout.addDouble("RotationPosition", () -> TicksToDegrees(shoulderCANCoder.getPosition()));
+    rotationLayout.addDouble("RotationSpeed", () -> shoulderCANCoder.getVelocity());
+    rotationLayout.addDouble("RotationPosition", () -> shoulderCANCoder.getPosition());
+    SmartDashboard.putNumber("rotation setpoint", shoulderPosition);
     rotationLayout.add("Current Shoulder Command", currentShoulderCommand, "none");
 
 		rearShoulderMotor.configPeakOutputForward(+1.0);
@@ -94,7 +94,7 @@ public class ArmSubsystem extends SubsystemBase {
     ShuffleboardLayout extensionLayout = subsystemTab.getLayout("Arm Extension", BuiltInLayouts.kList)
     .withSize(1, 4)
     .withPosition(0, 4);
-    extensionLayout.addDouble("ExtensionSpeed", () -> armCANCoder.getVelocity() * 10);
+    extensionLayout.addDouble("ExtensionSpeed", () -> armCANCoder.getVelocity()*10);
     extensionLayout.addDouble("ExtensionPosition", () -> armCANCoder.getAbsolutePosition());
     rotationLayout.add("Current Arm Command", currentArmCommand, "none");
   }
@@ -109,12 +109,12 @@ public class ArmSubsystem extends SubsystemBase {
       MathUtil.clamp(
         vSetpoint,
         -feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration),
-        feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))); //calculates max power output so as not to go above max velocity and max accel
+        feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))/180); //calculates max power output so as not to go above max velocity and max accel
     rearShoulderMotor.set(ControlMode.PercentOutput, 
       MathUtil.clamp(
         vSetpoint,
         -feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration),
-        feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))); //calculates max power output so as not to go above max velocity and max accel
+        feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))/180); //calculates max power output so as not to go above max velocity and max accel
   }
 
   /**
@@ -122,7 +122,7 @@ public class ArmSubsystem extends SubsystemBase {
    * probably use the other overload though
    */
   public void ArmPosition() {
-    double vSetpoint = armPID.calculate(armCANCoder.getAbsolutePosition(), 2048*armPosition/360) / 360;
+    double vSetpoint = armPID.calculate(armCANCoder.getAbsolutePosition(), armPosition);
     armMotor.set(ControlMode.PercentOutput, 
       MathUtil.clamp(
         vSetpoint,

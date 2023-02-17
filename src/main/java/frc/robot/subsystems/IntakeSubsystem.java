@@ -48,6 +48,11 @@ public class IntakeSubsystem extends SubsystemBase {
   public void WristPosition() {
   }
 
+  /**boolean to set solenoid position, double to set intake speed, string
+   * 
+   * @
+   */
+
   public void Intake(boolean solenoidPosition, double intakeSpeed, String intakeState) {
     intakeSolenoid.set(solenoidPosition);
     intakeMotor.set(PercentOutput, -intakeSpeed);

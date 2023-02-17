@@ -4,6 +4,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -39,14 +40,16 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton ArmDown = new JoystickButton(testController, XboxController.Button.kX.value);
-    private final JoystickButton ArmUp = new JoystickButton(testController, XboxController.Button.kY.value);
+    //private final JoystickButton ArmUp = new JoystickButton(testController, XboxController.Button.kY.value);
     private final JoystickButton WristTest = new JoystickButton(testController, XboxController.Button.kA.value);
+    private final JoystickButton WristTest2 = new JoystickButton(testController, XboxController.Button.kB.value);
 
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     //private final ArmSubsystem s_Arm = new ArmSubsystem();
     private final WristSubsystem s_Wrist = new WristSubsystem();
+    private final IntakeSubsystem s_Intake = new IntakeSubsystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -76,7 +79,12 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         //ArmUp.onTrue(new InstantCommand(s_Arm::ArmHighScore));
         //ArmDown.onTrue(new InstantCommand(s_Arm::ArmLowScore));
-        WristTest.whileTrue(new InstantCommand(() -> s_Wrist.setWrist(-50)));
+        WristTest.whileTrue(new InstantCommand(() -> s_Wrist.setWrist(-50))/* .alongWith(new InstantCommand(()
+        -> s_Intake.Intake(Value.kReverse, -0.5)))*/);
+        /*WristTest.whileFalse(new InstantCommand(() -> s_Wrist.setWrist(0))/*.alongWith(
+            new InstantCommand(() -> s_Intake.stopIntakeCube())));*/
+        WristTest2.whileTrue(new InstantCommand(() -> s_Wrist.setWrist(0)));
+        //WristTest2.whileFalse(new InstantCommand(() -> s_Wrist.setWrist(0)));
     }
 
     /**

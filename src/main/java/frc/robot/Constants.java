@@ -30,7 +30,8 @@ public final class Constants {
         public static int intake_TALON_CAN = 20;
         public static final int WRIST_CANCODER = 35;
         public static final int WRIST_SPARK = 42;
-        public static int intake_SOLENOID_CHANNEL = 0;
+        public static int intake_SOLENOID_F_CHANNEL = 4;
+        public static int intake_SOLENOID_R_CHANNEL = 5;
 
         public static double maxWristVelocity = 15;
         public static double maxWristAcceleration = 15;

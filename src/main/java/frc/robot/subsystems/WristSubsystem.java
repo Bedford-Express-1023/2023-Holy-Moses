@@ -33,27 +33,40 @@ public class WristSubsystem extends SubsystemBase {
   private PIDController wristPID = new PIDController(0.1, 0.0, 0.0);
 
   public WristSubsystem() {
-    wristSpark.setSoftLimit(kForward, 0); //sets forward limit to 238 on internal encoder
-    wristSpark.setSoftLimit(kReverse, -265); //sets reverse limit to 0 on internal encoder
-    wristSpark.setSmartCurrentLimit(20); //sets current limit to 20 amps
+    wristSpark.setSoftLimit(kForward, 0); 
+    wristSpark.setSoftLimit(kReverse, -265);
+    wristSpark.setSmartCurrentLimit(30); //sets current limit to 20 amps
     neoEncoder.setPosition(0.0);
     wristSpark.setControlFramePeriodMs(20);
 
     wristPidController = wristSpark.getPIDController();
-    wristPidController.setP(0.5);
+    wristPidController.setP(2);
     wristPidController.setI(0.0);
     wristPidController.setD(0.0);
     wristPidController.setIZone(0.0);
-    wristPidController.setFF(1);
-    wristPidController.setOutputRange(-.5, .5);
+    wristPidController.setFF(0.5);
+    wristPidController.setOutputRange(-.6, .6);
 
 
 
   }
 
   public void setWrist(double position){
-      wristPidController.setReference(10, ControlType.kPosition);
+      wristPidController.setReference(position, ControlType.kPosition);
+      if (neoEncoder.getPosition() >= position + 2 && neoEncoder.getPosition() <= position -2){
+        stopWrist();
+      }
+      else {
+        return;
+      }
+  
   }
+
+
+  public void stopWrist(){
+    wristSpark.stopMotor();
+  }
+
 
   @Override
   public void periodic() {

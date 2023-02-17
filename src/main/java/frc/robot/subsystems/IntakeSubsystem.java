@@ -17,7 +17,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -29,13 +31,14 @@ public class IntakeSubsystem extends SubsystemBase {
   private final TalonSRX intakeMotor = new TalonSRX(intake_TALON_CAN);
   //private final CANSparkMax wristMotor = new CANSparkMax(wrist_SPARK_CAN, MotorType.kBrushless);
   //private final CANCoder wristCANCoder = new CANCoder(wrist_CANCODER);
-  private final Solenoid intakeSolenoid = new Solenoid(CTREPCM, intake_SOLENOID_CHANNEL);
+  private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(CTREPCM, intake_SOLENOID_F_CHANNEL, intake_SOLENOID_R_CHANNEL);
   //public final TimeOfFlight TOFSensor = new TimeOfFlight(TOF_sensor_CAN);
 
   private double wristCurrentPosition;
-  private String currentIntakeCommand;
+  private String currentIntakeCommand = "";
   private final double intakeSpeed = 0.9;
   private double TOFRange;
+
   //private boolean FullIntakeCheck;
   //private boolean wristOk;
 
@@ -53,10 +56,16 @@ public class IntakeSubsystem extends SubsystemBase {
    * @
    */
 
-  public void Intake(boolean solenoidPosition, double intakeSpeed, String intakeState) {
+  public void Intake(Value solenoidPosition, double intakeSpeed) {
     intakeSolenoid.set(solenoidPosition);
     intakeMotor.set(PercentOutput, -intakeSpeed);
-    currentIntakeCommand = intakeState;
+    currentIntakeCommand = "Intake running at solenoid " + solenoidPosition + " and speed " + intakeSpeed;
+  }
+
+  public void stopIntakeCube(){
+    intakeSolenoid.set(Value.kReverse);
+    intakeMotor.set(PercentOutput, 0.0);
+    currentIntakeCommand = "Intake Stopped";
   }
 
 

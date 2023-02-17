@@ -8,6 +8,8 @@ import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 
 import static com.revrobotics.CANSparkMax.SoftLimitDirection.*;
 
@@ -25,18 +27,31 @@ public class WristSubsystem extends SubsystemBase {
   private CANCoder wristCancoder = new CANCoder(WRIST_CANCODER);
   private RelativeEncoder neoEncoder = wristSpark.getEncoder();
 
+  private SparkMaxPIDController wristPidController;
+
   private ArmFeedforward wristFeedforward = new ArmFeedforward(0.1, 0.1, 0.1);
   private PIDController wristPID = new PIDController(0.1, 0.0, 0.0);
 
   public WristSubsystem() {
-    wristSpark.setSoftLimit(kForward, 240); //sets forward limit to 238 on internal encoder
-    wristSpark.setSoftLimit(kReverse, 0); //sets reverse limit to 0 on internal encoder
+    wristSpark.setSoftLimit(kForward, 0); //sets forward limit to 238 on internal encoder
+    wristSpark.setSoftLimit(kReverse, -265); //sets reverse limit to 0 on internal encoder
     wristSpark.setSmartCurrentLimit(20); //sets current limit to 20 amps
     neoEncoder.setPosition(0.0);
+
+
+    wristPidController = wristSpark.getPIDController();
+    wristPidController.setP(0.1);
+    wristPidController.setI(0.0);
+    wristPidController.setD(0.0);
+    wristPidController.setIZone(0.0);
+    wristPidController.setFF(0.1);
+    wristPidController.setOutputRange(-265, 0.0);
+
+
   }
 
   public void setWrist(double position){
-    
+      wristPidController.setReference(10, ControlType.kPosition);
   }
 
   @Override

@@ -40,6 +40,7 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton ArmDown = new JoystickButton(testController, XboxController.Button.kX.value);
     private final JoystickButton ArmUp = new JoystickButton(testController, XboxController.Button.kY.value);
+    private final JoystickButton WristTest = new JoystickButton(testController, XboxController.Button.kA.value);
 
 
     /* Subsystems */
@@ -75,6 +76,7 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         //ArmUp.onTrue(new InstantCommand(s_Arm::ArmHighScore));
         //ArmDown.onTrue(new InstantCommand(s_Arm::ArmLowScore));
+        WristTest.whileTrue(new InstantCommand(() -> s_Wrist.setWrist(-50)));
     }
 
     /**

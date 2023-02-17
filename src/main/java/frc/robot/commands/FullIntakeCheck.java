@@ -26,10 +26,10 @@ public class FullIntakeCheck extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_IntakeSubsystem.FullIntakeCheck();
-    if(m_IntakeSubsystem.FullIntakeCheck = true) {
+    //m_IntakeSubsystem.FullIntakeCheck();
+    //if(m_IntakeSubsystem.FullIntakeCheck = true) {
       
-    }
+   // }
   }
 
   // Called once the command ends or is interrupted.

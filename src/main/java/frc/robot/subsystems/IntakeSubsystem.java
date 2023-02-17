@@ -4,15 +4,13 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix.schedulers.ConcurrentScheduler;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.CANCoder;
 //import com.playingwithfusion.TimeOfFlight;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -21,16 +19,10 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import static frc.robot.Constants.Intake.intake_VICTOR_CAN;
-import static frc.robot.Constants.Intake.wrist_SPARK_CAN;
-import static frc.robot.Constants.Intake.wrist_CANCODER;
-import static frc.robot.Constants.Intake.TOF_sensor_CAN;
-import static frc.robot.Constants.Intake.maxWristAcceleration;
-import static frc.robot.Constants.Intake.maxWristVelocity;;
+import static frc.robot.Constants.Intake.*;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final VictorSPX intakeMotor = new VictorSPX(intake_VICTOR_CAN);
+  private final TalonSRX intakeMotor = new TalonSRX(intake_TALON_CAN);
   private final CANSparkMax wristMotor = new CANSparkMax(wrist_SPARK_CAN, MotorType.kBrushless);
   private final CANCoder wristCANCoder = new CANCoder(wrist_CANCODER);
   //public final TimeOfFlight TOFSensor = new TimeOfFlight(TOF_sensor_CAN);
@@ -42,7 +34,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private boolean FullIntakeCheck;
   private boolean wristOk;
 
-  private final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0,0,0);
+  private final SimpleMotorFeedforward wristFeedForward = new SimpleMotorFeedforward(0,0,0);
   private final ProfiledPIDController wristPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(15, 100));
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
@@ -59,12 +51,12 @@ public class IntakeSubsystem extends SubsystemBase {
   public void WristPosition() {
   }
 
-  public void IntakeIn() {
-    wristMotor.set(intakeSpeed);
+  public void IntakeInCube() {
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, intakeSpeed);
     currentIntakeCommand = "IntakeIn";
   }
 
-  public void IntakeOut() {
+  public void IntakeOutCube() {
     wristMotor.set(-intakeSpeed);
     currentIntakeCommand = "IntakeOut";
   }
@@ -72,6 +64,14 @@ public class IntakeSubsystem extends SubsystemBase {
   public void IntakeStop() {
     wristMotor.set(0);
     currentIntakeCommand = "IntakeStop";
+  }
+
+  public void IntakeInCone(){
+
+  }
+
+  public void IntakeOutCone(){
+
   }
 
   /*public void FullIntakeCheck() {

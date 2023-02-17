@@ -30,19 +30,20 @@ import static frc.robot.Constants.Intake.maxWristAcceleration;
 import static frc.robot.Constants.Intake.maxWristVelocity;;
 
 public class IntakeSubsystem extends SubsystemBase {
-  public final VictorSPX intakeMotor = new VictorSPX(intake_VICTOR_CAN);
-  public final CANSparkMax wristMotor = new CANSparkMax(wrist_SPARK_CAN, MotorType.kBrushless);
-  public final CANCoder wristCANCoder = new CANCoder(wrist_CANCODER);
+  private final VictorSPX intakeMotor = new VictorSPX(intake_VICTOR_CAN);
+  private final CANSparkMax wristMotor = new CANSparkMax(wrist_SPARK_CAN, MotorType.kBrushless);
+  private final CANCoder wristCANCoder = new CANCoder(wrist_CANCODER);
   //public final TimeOfFlight TOFSensor = new TimeOfFlight(TOF_sensor_CAN);
 
-  public double wristCurrentPosition;
-  public String currentIntakeCommand;
-  public final double intakeSpeed = 0.9;
-  public double TOFRange;
-  public boolean FullIntakeCheck;
+  private double wristCurrentPosition;
+  private String currentIntakeCommand;
+  private final double intakeSpeed = 0.9;
+  private double TOFRange;
+  private boolean FullIntakeCheck;
+  private boolean wristOk;
 
-  public final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0,0,0);
-  final ProfiledPIDController wristPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(15, 100));
+  private final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0,0,0);
+  private final ProfiledPIDController wristPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(15, 100));
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     ShuffleboardTab subsystemTab = Shuffleboard.getTab("Subsystems");
@@ -73,29 +74,29 @@ public class IntakeSubsystem extends SubsystemBase {
     currentIntakeCommand = "IntakeStop";
   }
 
-  public void FullIntakeCheck() {
+  /*public void FullIntakeCheck() {
     if (TOFRange <= 2) {
       FullIntakeCheck = true;
     }
     else {
       FullIntakeCheck = false;
     }
-  }
+  }*/
 
-  public void TOFIntake() {
+  /*public void TOFIntake() {
     if (FullIntakeCheck = true) {
       wristMotor.set(intakeSpeed);
     }
     else {
       wristMotor.set(0);
     }
-  }
+  }*/
 
   @Override
   public void periodic() {
     //TOFRange = TOFSensor.getRange();
     wristCurrentPosition = wristCANCoder.getAbsolutePosition();
-    FullIntakeCheck();
+    //FullIntakeCheck();
     // This method will be called once per scheduler run
   }
 }

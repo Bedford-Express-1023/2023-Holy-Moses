@@ -33,6 +33,7 @@ public final class Constants {
         public static int wrist_SPARK_CAN = 21;
         public static int wrist_CANCODER = 22;
         public static int TOF_sensor_CAN = 23;
+        public static int intake_SOLENOID_CHANNEL = 0;
 
         public static double maxWristVelocity = 15;
         public static double maxWristAcceleration = 15;

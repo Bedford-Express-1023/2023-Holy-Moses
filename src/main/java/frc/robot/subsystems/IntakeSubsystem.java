@@ -14,6 +14,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import static edu.wpi.first.wpilibj.PneumaticsModuleType.*;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -25,6 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private final TalonSRX intakeMotor = new TalonSRX(intake_TALON_CAN);
   private final CANSparkMax wristMotor = new CANSparkMax(wrist_SPARK_CAN, MotorType.kBrushless);
   private final CANCoder wristCANCoder = new CANCoder(wrist_CANCODER);
+  private final Solenoid intakeSolenoid = new Solenoid(CTREPCM, intake_SOLENOID_CHANNEL);
   //public final TimeOfFlight TOFSensor = new TimeOfFlight(TOF_sensor_CAN);
 
   private double wristCurrentPosition;

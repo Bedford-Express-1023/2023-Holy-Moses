@@ -8,23 +8,50 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
-import com.ctre.phoenix.sensors.Pigeon2;
+//import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Swerve extends SubsystemBase {
+
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
-    public Pigeon2 gyro;
+    public WPI_Pigeon2 gyro = new WPI_Pigeon2(Constants.Swerve.pigeonID);
+    public final Constraints translationConstraints = new Constraints(10, 10);
+    public final ProfiledPIDController xController = new ProfiledPIDController(0.1, 0.0, 0.0, translationConstraints);
+    public final ProfiledPIDController yController = new ProfiledPIDController(0.1, 0.0, 0.0, translationConstraints);
+    public final ProfiledPIDController rotaController = new ProfiledPIDController(0.5, 0, 0, new Constraints(15, 15));
+    public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
+        new Translation2d(Constants.Swerve.trackWidth/ 2.0, Constants.Swerve.wheelBase / 2.0),
+        new Translation2d(Constants.Swerve.trackWidth / 2.0, -Constants.Swerve.wheelBase / 2.0),
+        new Translation2d(-Constants.Swerve.trackWidth / 2.0, Constants.Swerve.wheelBase / 2.0),
+        new Translation2d(-Constants.Swerve.trackWidth / 2.0, -Constants.Swerve.wheelBase / 2.0)
+    );
 
+    public final SwerveModulePosition[] modulepositions = {
+        new SwerveModulePosition(),
+        new SwerveModulePosition(),
+        new SwerveModulePosition(),
+        new SwerveModulePosition()
+    };
+
+   
+   
     public Swerve() {
-        gyro = new Pigeon2(Constants.Swerve.pigeonID);
         gyro.configFactoryDefault();
         zeroGyro();
 
@@ -41,7 +68,7 @@ public class Swerve extends SubsystemBase {
         Timer.delay(1.0);
         resetModulesToAbsolute();
 
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions());
+        swerveOdometry = new SwerveDriveOdometry(kinematics, getYaw(), modulepositions);
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -65,12 +92,16 @@ public class Swerve extends SubsystemBase {
         }
     }    
 
+    public void autoDrive(){
+
+    }
+
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
         
         for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(desiredStates[mod.moduleNumber], false);
+            mod.setDesiredState(desiredStates[mod.moduleNumber], true);
         }
     }    
 
@@ -116,8 +147,12 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic(){
-        swerveOdometry.update(getYaw(), getModulePositions());  
-        SmartDashboard.putNumber("Yaw",gyro.getYaw());
+        swerveOdometry.update(getYaw(), getModulePositions());
+          
+
+        SmartDashboard.putNumber("X Position", getPose().getX());
+        SmartDashboard.putNumber("Y position", getPose().getY());
+        SmartDashboard.putNumber("Yaw", gyro.getYaw());
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());

@@ -43,48 +43,17 @@ public class IntakeSubsystem extends SubsystemBase {
   //private final ProfiledPIDController wristPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(15, 100));
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-    ShuffleboardTab subsystemTab = Shuffleboard.getTab("Subsystems");
-    ShuffleboardLayout intakeLayout = subsystemTab.getLayout("Intake", BuiltInLayouts.kList)
-                    .withSize(1, 4)
-                    .withPosition(0, 0);
-    intakeLayout.addNumber("TOF Range", () -> TOFRange);
-    intakeLayout.addNumber("Wrist Position", () -> wristCurrentPosition);
-
-    subsystemTab.add("Current Intake Command", currentIntakeCommand, "none");
   }
 
   public void WristPosition() {
   }
 
-  public void IntakeInCube() {
-    intakeSolenoid.set(true);
-    intakeMotor.set(PercentOutput, intakeSpeed);
-    currentIntakeCommand = "Intake In Cube";
-  }
-
-  public void IntakeOutCube() {
-    intakeSolenoid.set(true);
+  public void Intake(boolean solenoidPosition, double intakeSpeed, String intakeState) {
+    intakeSolenoid.set(solenoidPosition);
     intakeMotor.set(PercentOutput, -intakeSpeed);
-    currentIntakeCommand = "Intake Out Cube";
+    currentIntakeCommand = intakeState;
   }
 
-  public void IntakeIdle() {
-    intakeSolenoid.set(false);
-    intakeMotor.set(PercentOutput, 0);
-    currentIntakeCommand = "Intake Idle";
-  }
-
-  public void IntakeInCone(){
-    intakeSolenoid.set(false);
-    intakeMotor.set(PercentOutput, intakeSpeed);
-    currentIntakeCommand = "Intake In Cone";
-  }
-
-  public void IntakeOutCone(){
-    intakeSolenoid.set(false);
-    intakeMotor.set(PercentOutput, -intakeSpeed);
-    currentIntakeCommand = "Intake Out Cone";
-  }
 
   /*public void FullIntakeCheck() {
     if (TOFRange <= 2) {

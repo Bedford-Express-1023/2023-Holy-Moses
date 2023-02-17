@@ -44,7 +44,8 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final ArmSubsystem s_Arm = new ArmSubsystem();
+    //private final ArmSubsystem s_Arm = new ArmSubsystem();
+    private final WristSubsystem s_Wrist = new WristSubsystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -72,8 +73,8 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        ArmUp.onTrue(new InstantCommand(s_Arm::ArmHighScore));
-        ArmDown.onTrue(new InstantCommand(s_Arm::ArmLowScore));
+        //ArmUp.onTrue(new InstantCommand(s_Arm::ArmHighScore));
+        //ArmDown.onTrue(new InstantCommand(s_Arm::ArmLowScore));
     }
 
     /**

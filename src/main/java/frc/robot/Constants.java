@@ -19,8 +19,6 @@ public final class Constants {
         public static final int FRONT_SHOULDER_CAN = 32;
         public static final int ARM_EXTEND_CAN = 34;
         public static final int SHOULDER_CANCODER = 33;
-        public static final int WRIST_CANCODER = 35;
-        public static final int WRIST_SPARK = 42;
 
         public static double maxShoulderVelocity = 1;
         public static double maxShoulderAcceleration = 1;
@@ -30,9 +28,8 @@ public final class Constants {
 
     public static final class Intake{
         public static int intake_TALON_CAN = 20;
-        public static int wrist_SPARK_CAN = 21;
-        public static int wrist_CANCODER = 22;
-        public static int TOF_sensor_CAN = 23;
+        public static final int WRIST_CANCODER = 35;
+        public static final int WRIST_SPARK = 42;
         public static int intake_SOLENOID_CHANNEL = 0;
 
         public static double maxWristVelocity = 15;

@@ -77,10 +77,10 @@ public class ArmSubsystem extends SubsystemBase {
     rotationLayout.addDouble("RotationPosition", () -> TicksToDegrees(shoulderCANCoder.getPosition()));
     rotationLayout.add("Current Shoulder Command", currentShoulderCommand, "none");
 
-		rearShoulderMotor.configPeakOutputForward(+1.0);
-		rearShoulderMotor.configPeakOutputReverse(-1.0);
-		frontShoulderMotor.configPeakOutputForward(+1.0);
-		frontShoulderMotor.configPeakOutputReverse(-1.0);
+		rearShoulderMotor.configPeakOutputForward(.5);
+		rearShoulderMotor.configPeakOutputReverse(-.5);
+		frontShoulderMotor.configPeakOutputForward(+.5);
+		frontShoulderMotor.configPeakOutputReverse(-.5);
 
     
 		// Set Motion Magic gains in slot0 - see documentation 

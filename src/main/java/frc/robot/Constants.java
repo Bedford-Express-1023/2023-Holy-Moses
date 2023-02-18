@@ -30,8 +30,6 @@ public final class Constants {
 
     public static final class Intake{
         public static int intake_TALON_CAN = 20;
-        public static int wrist_SPARK_CAN = 21;
-        public static int wrist_CANCODER = 22;
         public static final int intake_SOLENOID_F_CHANNEL = 4;
         public static final int intake_SOLENOID_R_CHANNEL = 5;
 

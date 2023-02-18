@@ -8,26 +8,22 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Swerve;
 
-public class GoToCone extends CommandBase {
+public class ChargingStation extends CommandBase {
 Swerve s_Swerve;
-public final static double maxSpeed = 2;
-public static PathPlannerTrajectory HolonomicdriveTrajectory = PathPlanner.loadPath("New Path", maxSpeed, 10);
-public Trajectory driveTrajectory;
+public final double maxSpeed = 3;
+public final static PathPlannerTrajectory driveTrajectory = PathPlanner.loadPath("Charging station", 3, 10);
 Timer timer = new Timer();
 
-public GoToCone(Swerve s_Swerve) {
+public ChargingStation(Swerve s_Swerve) {
       addRequirements(s_Swerve);
         this.s_Swerve = s_Swerve;
         s_Swerve.xController.setConstraints(new Constraints(maxSpeed, 10));
@@ -40,18 +36,16 @@ public GoToCone(Swerve s_Swerve) {
   public void initialize() {
       //s_Swerve.resetOdometry(new Pose2d(driveTrajectory.sample(0).poseMeters.getTranslation(), ((PathPlannerState)driveTrajectory.sample(0)).holonomicRotation));
       timer.start();
-      s_Swerve.resetOdometry(new Pose2d(/*0, 0, driveTrajectory.getInitialHolonomicPose().getRotation()*/));
-      driveTrajectory = HolonomicdriveTrajectory.relativeTo(HolonomicdriveTrajectory.getInitialHolonomicPose());
+      s_Swerve.resetOdometry(new Pose2d());
   }
 
   @Override
   public void execute() {
-    State state = driveTrajectory.sample(timer.get());
-    Rotation2d rotation = ((PathPlannerState) HolonomicdriveTrajectory.sample(timer.get())).holonomicRotation.minus(HolonomicdriveTrajectory.getInitialHolonomicPose().getRotation());
-    /*state.poseMeters = new Pose2d(
+    PathPlannerState state = (PathPlannerState) driveTrajectory.sample(timer.get());
+    state.poseMeters = new Pose2d(
       state.poseMeters.getX() - driveTrajectory.getInitialPose().getX(),
       state.poseMeters.getY() - driveTrajectory.getInitialPose().getY(), 
-      state.poseMeters.getRotation().minus(driveTrajectory.getInitialPose().getRotation()));*/
+      state.poseMeters.getRotation().minus(driveTrajectory.getInitialPose().getRotation()));
     ChassisSpeeds speed = new ChassisSpeeds(
       s_Swerve.xController.calculate(
         s_Swerve.swerveOdometry.getPoseMeters().getX(), 
@@ -60,10 +54,8 @@ public GoToCone(Swerve s_Swerve) {
         s_Swerve.swerveOdometry.getPoseMeters().getY(), 
         state.poseMeters.getY()), 
       s_Swerve.rotaController.calculate(
-        s_Swerve.swerveOdometry.getPoseMeters().getRotation().getRadians(),
-        rotation.getRadians()
-    ));
-
+        state.holonomicRotation.getRadians())
+    );
     SmartDashboard.putNumber("SpeedX", speed.vxMetersPerSecond);
     SmartDashboard.putNumber("SpeedY", speed.vyMetersPerSecond);
     SmartDashboard.putNumber("SpeedR", speed.omegaRadiansPerSecond);

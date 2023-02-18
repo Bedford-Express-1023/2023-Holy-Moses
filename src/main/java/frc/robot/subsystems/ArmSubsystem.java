@@ -77,10 +77,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     rotationLayout.add("Current Shoulder Command", currentShoulderCommand, "none");
 
-		rearShoulderMotor.configPeakOutputForward(+.5);
-		rearShoulderMotor.configPeakOutputReverse(-.5);
-		frontShoulderMotor.configPeakOutputForward(+.5);
-		frontShoulderMotor.configPeakOutputReverse(-.5);
+		rearShoulderMotor.configPeakOutputForward(+.25);
+		rearShoulderMotor.configPeakOutputReverse(-.25);
+		frontShoulderMotor.configPeakOutputForward(+.25);
+		frontShoulderMotor.configPeakOutputReverse(-.25);
 
     
 		// Set Motion Magic gains in slot0 - see documentation 
@@ -109,13 +109,13 @@ public class ArmSubsystem extends SubsystemBase {
     frontShoulderMotor.set(ControlMode.PercentOutput, 
       MathUtil.clamp(
         vSetpoint,
-        -feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration),
-        feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))/180); //calculates max power output so as not to go above max velocity and max accel
+        -Math.abs(feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration)),
+        Math.abs(feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))/180)); //calculates max power output so as not to go above max velocity and max accel
     rearShoulderMotor.set(ControlMode.PercentOutput, 
       MathUtil.clamp(
         vSetpoint,
-        -feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration),
-        feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))/180); //calculates max power output so as not to go above max velocity and max accel
+        -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration)),
+        Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))/180)); //calculates max power output so as not to go above max velocity and max accel
   }
 
   /**

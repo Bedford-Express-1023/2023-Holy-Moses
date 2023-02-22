@@ -25,13 +25,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import static frc.robot.Constants.Arm.maxShoulderVelocity;
-
-import java.util.ResourceBundle.Control;
-
-import static frc.robot.Constants.Arm.maxShoulderAcceleration;
-import static frc.robot.Constants.Arm.maxArmVelocity;
-import static frc.robot.Constants.Arm.maxArmAcceleration;
+import static frc.robot.Constants.Arm.*;
 
 public class ArmSubsystem extends SubsystemBase { 
   //shoulder is rotation (up/down)
@@ -41,24 +35,27 @@ public class ArmSubsystem extends SubsystemBase {
   public final WPI_TalonFX armMotor = new WPI_TalonFX(Constants.Arm.ARM_EXTEND_CAN);
 
   public final CANCoder shoulderCANCoder = new CANCoder(Constants.Arm.SHOULDER_CANCODER);
-  //public final CANCoder armCANCoder = new CANCoder(Constants.Arm.ARM_EXTEND_CAN);
 
   public final PigeonIMU pidgeonGyro = new PigeonIMU(0);
   private final XboxController oliviaController = new XboxController(1);
 
   public double shoulderPosition = 0;
+  public double shoulderPositionOverride = 0;
   public double armPosition = 0;
+  public double armPositionOverride = 0;
+  public int shoulderReversed = -1;
+
   public final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0,1,0);
   final PIDController armPID = new PIDController(1.6, 0.0, 0.0);
-  final PIDController shoulderPID = new PIDController(.5, 0.0, 0.1);
+  final PIDController shoulderPID = new PIDController(1.5, 0.0, 0.1);
 
-	final double shoulderTargetAngleHigh = -45;
-  final double shoulderTargetAngleMedium = 60-45;
-  final double shoulderTargetAngleLow = 90-45;
+	final public double shoulderTargetAngleHigh = 30;
+  final public double shoulderTargetAngleMiddle = 30;
+  final public double shoulderTargetAngleLow = 60;
 
-  final double armTargetPositionHigh = 0;
-  final double armTargetPositionMedium = 0;
-  final double armTargetPositionLow = 0;
+  public final double armTargetPositionHigh = 0;
+  public final double armTargetPositionMiddle = 0;
+  public final double armTargetPositionLow = 0;
 
   public String currentShoulderCommand = "";  
   public String currentArmCommand = "";
@@ -71,16 +68,7 @@ public class ArmSubsystem extends SubsystemBase {
 		frontShoulderMotor.setNeutralMode(NeutralMode.Brake);
     frontShoulderMotor.follow(rearShoulderMotor);
     armMotor.setNeutralMode(NeutralMode.Coast);
-    //shoulderPID.enableContinuousInput(-180, 180);
 
-    ShuffleboardTab subsystemTab = Shuffleboard.getTab("Subsystems");
-    ShuffleboardLayout rotationLayout = subsystemTab.getLayout("Shoulder Rotation", BuiltInLayouts.kList)
-    .withSize(1, 4)
-    .withPosition(0, 2);
-    rotationLayout.addDouble("RotationSpeed", () -> shoulderCANCoder.getVelocity());
-    rotationLayout.addDouble("RotationPosition", () -> shoulderCANCoder.getPosition());
-
-    rotationLayout.add("Current Shoulder Command", currentShoulderCommand, "none");
 
 		rearShoulderMotor.configPeakOutputForward(+.5);
 		rearShoulderMotor.configPeakOutputReverse(-.5);
@@ -89,21 +77,19 @@ public class ArmSubsystem extends SubsystemBase {
   
     armMotor.configPeakOutputForward(+.5);
 		armMotor.configPeakOutputReverse(-.5);
-  
-    
-		// Set Motion Magic gains in slot0 - see documentation 
-    /*
-		leftShoulderMotor.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
-		leftShoulderMotor.config_kF(Constants.kSlotIdx, Constants.kGains.kF, Constants.kTimeoutMs);
-		leftShoulderMotor.config_kP(Constants.kSlotIdx, Constants.kGains.kP, Constants.kTimeoutMs);
-		leftShoulderMotor.config_kI(Constants.kSlotIdx, Constants.kGains.kI, Constants.kTimeoutMs);
-		leftShoulderMotor.config_kD(Constants.kSlotIdx, Constants.kGains.kD, Constants.kTimeoutMs);
-    */
+
+    ShuffleboardTab subsystemTab = Shuffleboard.getTab("Subsystems");
     ShuffleboardLayout extensionLayout = subsystemTab.getLayout("Arm Extension", BuiltInLayouts.kList)
     .withSize(1, 4)
     .withPosition(0, 4);
-    //extensionLayout.addDouble("ExtensionSpeed", () -> armCANCoder.getVelocity()*10);
-    //extensionLayout.addDouble("ExtensionPosition", () -> armCANCoder.getAbsolutePosition());
+    extensionLayout.addNumber("ExtensionSpeed", () -> armMotor.getSelectedSensorVelocity());
+    extensionLayout.addNumber("ExtensionPosition", () -> armMotor.getSelectedSensorPosition());
+
+    ShuffleboardLayout rotationLayout = subsystemTab.getLayout("Shoulder Rotation", BuiltInLayouts.kList)
+    .withSize(1, 4)
+    .withPosition(0, 2);
+    rotationLayout.addDouble("RotationSpeed", () -> shoulderCANCoder.getVelocity());
+    rotationLayout.addDouble("RotationPosition", () -> shoulderCANCoder.getPosition());
     rotationLayout.add("Current Arm Command", currentArmCommand, "none");
   }
 
@@ -132,11 +118,11 @@ public class ArmSubsystem extends SubsystemBase {
    */
   public void ArmPosition() {
     double vSetpoint = armPID.calculate(TicksToMeters(armMotor.getSelectedSensorPosition()), armPosition);
-    armMotor.set(ControlMode.PercentOutput, vSetpoint);
-     // MathUtil.clamp(
-     //   vSetpoint,
-      //  -feedForward.calculate(MathUtil.clamp(vSetpoint, -maxArmVelocity, maxArmVelocity), maxArmAcceleration),
-      //  feedForward.calculate(MathUtil.clamp(vSetpoint, -maxArmVelocity, maxArmVelocity), maxArmAcceleration))); //calculates max power output so as not to go above max velocity and max accel
+    armMotor.set(ControlMode.PercentOutput,
+     MathUtil.clamp(
+      vSetpoint,
+      -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)),
+      Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration))/180)); //calculates max power output so as not to go above max velocity and max accel
   }
 
 
@@ -146,21 +132,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void ArmPosition(double angle) {
     armPosition = angle;
-  }
-
-  public void ArmHighScore() {
-    shoulderPosition = shoulderTargetAngleHigh;
-    currentArmCommand = "High Score";
-  }
-
-  public void ArmMiddleScore() {
-    shoulderPosition = shoulderTargetAngleMedium;
-    currentArmCommand = "Middle Score";
-  }
-
-  public void ArmLowScore() {
-    shoulderPosition = shoulderTargetAngleLow;
-    currentArmCommand = "Low Score";
   }
 
   public void ArmPercent(double percent) {
@@ -207,7 +178,7 @@ public class ArmSubsystem extends SubsystemBase {
       rghtYstick = 0; // deadband 10% 
     } 
     // This method will be called once per scheduler run
-    //ArmPosition();
+    ArmPosition();
     ShoulderPosition();
   }
 }

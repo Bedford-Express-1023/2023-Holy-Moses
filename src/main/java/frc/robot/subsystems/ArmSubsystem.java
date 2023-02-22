@@ -13,7 +13,9 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.XboxController;
@@ -46,6 +48,7 @@ public class ArmSubsystem extends SubsystemBase {
   public double armPosition = 0;
   public final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0,1,0);
   final PIDController armPID = new PIDController(0.1, 0.0, 0.0);
+  final ProfiledPIDController profiledArmPID = new ProfiledPIDController(0.5, 0.0, 0.0, new Constraints(3, 3));
   final PIDController shoulderPID = new PIDController(1, 0.0, 0.1);
 
 	final double shoulderTargetAngleHigh = 45;
@@ -65,8 +68,8 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem() {
 		rearShoulderMotor.setNeutralMode(NeutralMode.Brake);
 		frontShoulderMotor.setNeutralMode(NeutralMode.Brake);
-    frontShoulderMotor.follow(rearShoulderMotor);
-    //shoulderPID.enableContinuousInput(-180, 180);
+    rearShoulderMotor.follow(frontShoulderMotor);
+    shoulderPID.enableContinuousInput(-180, 180);
 
     ShuffleboardTab subsystemTab = Shuffleboard.getTab("Subsystems");
     ShuffleboardLayout rotationLayout = subsystemTab.getLayout("Shoulder Rotation", BuiltInLayouts.kList)
@@ -106,16 +109,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void ShoulderPosition() {
     double vSetpoint = shoulderPID.calculate(shoulderCANCoder.getAbsolutePosition(), shoulderPosition);
     SmartDashboard.putNumber("PID", vSetpoint);
-    frontShoulderMotor.set(ControlMode.PercentOutput, 
-      MathUtil.clamp(
-        vSetpoint,
-        -Math.abs(feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration)),
-        Math.abs(feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))/180)); //calculates max power output so as not to go above max velocity and max accel
-    rearShoulderMotor.set(ControlMode.PercentOutput, 
-      MathUtil.clamp(
-        vSetpoint,
-        -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration)),
-        Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))/180)); //calculates max power output so as not to go above max velocity and max accel
+    frontShoulderMotor.set(TalonFXControlMode.Position, vSetpoint); //calculates max power output so as not to go above max velocity and max accel
   }
 
   /**
@@ -140,6 +134,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void ArmHighScore() {
+    ArmPosition(90);
+    ArmPosition();
     shoulderPosition = shoulderTargetAngleHigh;
     currentArmCommand = "High Score";
   }
@@ -189,7 +185,5 @@ public class ArmSubsystem extends SubsystemBase {
       rghtYstick = 0; // deadband 10% 
     } 
     // This method will be called once per scheduler run
-    ArmPosition();
-    ShoulderPosition();
   }
 }

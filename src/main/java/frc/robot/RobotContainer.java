@@ -52,9 +52,9 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    //private final ArmSubsystem s_Arm = new ArmSubsystem();
+    private final ArmSubsystem s_Arm = new ArmSubsystem();
     private final IntakeSubsystem s_Intake = new IntakeSubsystem();
-    private final WristSubsystem s_Wrist = new WristSubsystem();
+    //private final WristSubsystem s_Wrist = new WristSubsystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -82,15 +82,19 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        //ArmUp.onTrue(new InstantCommand(s_Arm::ArmHighScore));
+        ArmUp.onTrue(new InstantCommand(() -> s_Intake.intake(0.5, Value.kReverse))).onFalse(
+                    new InstantCommand(() -> s_Intake.intake(0.0, Value.kReverse)));
+        ArmDown.onTrue(new InstantCommand(() -> s_Intake.intake(0.6, Value.kForward))).onFalse(
+                    new InstantCommand(() -> s_Intake.intake(0.0, Value.kReverse)));
         //ArmDown.onTrue(new InstantCommand(s_Arm::ArmLowScore));
 
-        intakeCube.onTrue(new InstantCommand(() -> s_Intake.Intake(0.5, Value.kForward)));
+        /*intakeCube.onTrue(new InstantCommand(() -> s_Intake.Intake(0.5, Value.kForward)));
         intakeCube.onTrue(new InstantCommand(() -> s_Wrist.setWrist(50)).andThen(
                 new InstantCommand(() -> s_Intake.Intake(0.5, Value.kForward))));
         intakeCone.onTrue(new InstantCommand(() -> s_Intake.Intake(0.75, Value.kReverse)));
         intakeDropCube.onTrue(new InstantCommand(() -> s_Intake.Intake(-0.5, Value.kForward)));
-        intakeDropCone.onTrue(new InstantCommand(() -> s_Intake.Intake(0.0, Value.kReverse)));
+        intakeDropCone.onTrue(new InstantCommand(() -> s_Intake.Intake(0.0, Value.kReverse)));*/
+
 
 
         

@@ -104,11 +104,6 @@ public class RobotContainer {
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));;
         intakeCone.whileTrue(new InstantCommand(() -> s_Intake.Intake(0.5, Value.kReverse)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-
-
-
-        
-        
     }
 
     /**

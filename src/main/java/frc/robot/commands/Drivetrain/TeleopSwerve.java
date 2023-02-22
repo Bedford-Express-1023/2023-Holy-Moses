@@ -1,6 +1,7 @@
 package frc.robot.commands.Drivetrain;
 
 import frc.robot.Constants;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
 import java.util.function.BooleanSupplier;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TeleopSwerve extends CommandBase {    
     private Swerve s_Swerve;    
+    private Limelight s_Limelight;
     private DoubleSupplier translationSup;
     private DoubleSupplier strafeSup;
     private DoubleSupplier rotationSup;
@@ -22,7 +24,7 @@ public class TeleopSwerve extends CommandBase {
     private BooleanSupplier slowSpeedSup;
     private BooleanSupplier fastTurnSup;
 
-    public TeleopSwerve(Swerve s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup, BooleanSupplier slowSpeedSup, BooleanSupplier fastTurnSup) {
+    public TeleopSwerve(Swerve s_Swerve, Limelight s_Limelight, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup, BooleanSupplier slowSpeedSup, BooleanSupplier fastTurnSup) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
@@ -32,14 +34,15 @@ public class TeleopSwerve extends CommandBase {
         this.robotCentricSup = robotCentricSup;
         this.slowSpeedSup = slowSpeedSup;
         this.fastTurnSup = fastTurnSup;
+        this.s_Limelight = s_Limelight;
     }
 
     @Override
     public void execute() {
         /* Get Values, Deadband*/
-        double translationVal;
-        double strafeVal;
-        double rotationVal;
+        double translationVal = 0;
+        double strafeVal = 0;
+        double rotationVal = 0;
             if (slowSpeedSup.getAsBoolean() == true){
                 translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband) * Constants.Swerve.slowSpeedMultiplier;
                 strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband) * Constants.Swerve.slowSpeedMultiplier;
@@ -66,8 +69,8 @@ public class TeleopSwerve extends CommandBase {
                 rotationVal * Constants.Swerve.maxAngularVelocity, 
                 !robotCentricSup.getAsBoolean(), 
                 true);
-    
         }
+
         
     }
 }

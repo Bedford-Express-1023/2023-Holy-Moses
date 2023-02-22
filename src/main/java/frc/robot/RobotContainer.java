@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.commands.*;
 import frc.robot.commands.Autos.DoNothing;
 import frc.robot.commands.Autos.GoToCone;
 import frc.robot.commands.Drivetrain.AlignToTarget;
@@ -68,7 +67,7 @@ public class RobotContainer {
     public RobotContainer() {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
-                s_Swerve, 
+                s_Swerve, s_Limelight, 
                 () -> -willController.getRawAxis(translationAxis), 
                 () -> -willController.getRawAxis(strafeAxis), 
                 () -> -willController.getRawAxis(rotationAxis),

@@ -13,9 +13,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Limelight extends SubsystemBase {
   public double limelightXLeft;
   public double limelightYLeft;
+  public double limelightVLeft;
   public double limelightAreaLeft;
   public double limelightXRight;
   public double limelightYRight;
+  public double limelightVRight;
   public double limelightAreaRight;
 
   private NetworkTable tableLeft = NetworkTableInstance.getDefault().getTable("limelight-left");
@@ -23,15 +25,29 @@ public class Limelight extends SubsystemBase {
 
   private NetworkTableEntry txLeft = tableLeft.getEntry("tx");
   private NetworkTableEntry tyLeft = tableLeft.getEntry("ty");
+  private NetworkTableEntry tvLeft = tableLeft.getEntry("tv");
   private NetworkTableEntry taLeft = tableLeft.getEntry("ta");
-  
+
   private NetworkTableEntry txRight = tableRight.getEntry("tx");
   private NetworkTableEntry tyRight = tableRight.getEntry("ty");
+  private NetworkTableEntry tvRight = tableRight.getEntry("tv");
   private NetworkTableEntry taRight = tableRight.getEntry("ta");
   
   /** Creates a new Limelight. */
   public Limelight() {
   }
+
+  /** Updates limelightV for Left Limelight
+   * pass an int to define which led mode you want
+   * @param desiredLEDState 0 is default for pipeline, 1 is off, 2 is blink, 3 is on
+   * @return double V; whether limelight has target or not
+   */
+  public double updateLimelightVLeft(int desiredLEDState){
+    tableLeft.getEntry("ledMode").setNumber(desiredLEDState);
+    limelightVLeft = tvLeft.getDouble(0.0);
+    return limelightVLeft;
+  }
+
 
     /** Updates limelightX for Left Limelight
    * pass an int to define which led mode you want - 

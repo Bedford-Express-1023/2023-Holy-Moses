@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.commands.Autos.DoNothing;
 import frc.robot.commands.Autos.GoToCone;
+import frc.robot.commands.Drivetrain.AlignToTarget;
+import frc.robot.commands.Drivetrain.TeleopSwerve;
 import frc.robot.subsystems.*;
 
 /**
@@ -49,6 +51,7 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton slowSpeed = new JoystickButton(willController, XboxController.Axis.kLeftTrigger.value);
     private final JoystickButton fastTurn = new JoystickButton(willController, XboxController.Axis.kRightTrigger.value);
+    private final JoystickButton alignToTarget = new JoystickButton(willController, XboxController.Button.kRightBumper.value);
     private final JoystickButton ArmDown = new JoystickButton(testController, XboxController.Button.kX.value);
     //private final JoystickButton ArmUp = new JoystickButton(testController, XboxController.Button.kY.value);
     private final JoystickButton WristTest = new JoystickButton(testController, XboxController.Button.kA.value);
@@ -57,6 +60,7 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final Limelight s_Limelight = new Limelight();
     //private final ArmSubsystem s_Arm = new ArmSubsystem();
 
 
@@ -104,6 +108,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+        alignToTarget.onTrue(new AlignToTarget(s_Swerve, s_Limelight));
         //ArmUp.onTrue(new InstantCommand(s_Arm::ArmHighScore));
         //ArmDown.onTrue(new InstantCommand(s_Arm::ArmLowScore));
     }

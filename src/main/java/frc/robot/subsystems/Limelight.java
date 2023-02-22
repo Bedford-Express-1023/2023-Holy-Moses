@@ -11,56 +11,105 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
-  public double limelightX;
-  public double limelightY;
-  public double limelightArea;
-  private NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  private NetworkTableEntry tx = table.getEntry("tx");
-  private NetworkTableEntry ty = table.getEntry("ty");
-  private NetworkTableEntry ta = table.getEntry("ta");
+  public double limelightXLeft;
+  public double limelightYLeft;
+  public double limelightAreaLeft;
+  public double limelightXRight;
+  public double limelightYRight;
+  public double limelightAreaRight;
+
+  private NetworkTable tableLeft = NetworkTableInstance.getDefault().getTable("limelight-left");
+  private NetworkTable tableRight = NetworkTableInstance.getDefault().getTable("limelight-right");
+
+  private NetworkTableEntry txLeft = tableLeft.getEntry("tx");
+  private NetworkTableEntry tyLeft = tableLeft.getEntry("ty");
+  private NetworkTableEntry taLeft = tableLeft.getEntry("ta");
+  
+  private NetworkTableEntry txRight = tableRight.getEntry("tx");
+  private NetworkTableEntry tyRight = tableRight.getEntry("ty");
+  private NetworkTableEntry taRight = tableRight.getEntry("ta");
   
   /** Creates a new Limelight. */
   public Limelight() {
   }
 
-    /**
+    /** Updates limelightX for Left Limelight
    * pass an int to define which led mode you want - 
-   * 0 is default for pipeline, 1 is off, 2 is blink, 3 is on
-   * @return
+   * @param desiredLEDState 0 is default for pipeline, 1 is off, 2 is blink, 3 is on
+   * @return double X value of target
    */
-  public double updateLimelightX(int desiredLEDState){
-    table.getEntry("ledMode").setNumber(desiredLEDState);
-    limelightX = tx.getDouble(0.0);
-    return limelightX;
+  public double updateLimelightXLeft(int desiredLEDState){
+    tableLeft.getEntry("ledMode").setNumber(desiredLEDState);
+    limelightXLeft = txLeft.getDouble(0.0);
+    return limelightXLeft;
+  }
+
+    /** Updates limelightX for Right Limelight
+   * pass an int to define which led mode you want - 
+   * @param desiredLEDState 0 is default for pipeline, 1 is off, 2 is blink, 3 is on
+   * @return double X value of target
+   */
+  public double updateLimelightXRight(int desiredLEDState){
+    tableRight.getEntry("ledMode").setNumber(desiredLEDState);
+    limelightXRight = txRight.getDouble(0.0);
+    return limelightXRight;
   }
   
   /**
+   * Updates limelightY value for Left Limelight
    * pass an int to define which led mode you want - 
-   * 0 is default for pipeline, 1 is off, 2 is blink, 3 is on
-   * @return
+   * @param desiredLEDState 0 is default for pipeline, 1 is off, 2 is blink, 3 is on
+   * @return Y value of target
    */
-  public double updateLimelightY(int desiredLEDState){
-    table.getEntry("ledMode").setNumber(desiredLEDState);
-    limelightY = ty.getDouble(0.0);
-    return limelightY;
+  public double updateLimelightYLeft(int desiredLEDState){
+    tableLeft.getEntry("ledMode").setNumber(desiredLEDState);
+    limelightYLeft = tyLeft.getDouble(0.0);
+    return limelightYLeft;
   }
 
     /**
+   * Updates limelightY value for Right Limelight
    * pass an int to define which led mode you want - 
-   * 0 is default for pipeline, 1 is off, 2 is blink, 3 is on
-   * @return
+   * @param desiredLEDState 0 is default for pipeline, 1 is off, 2 is blink, 3 is on
+   * @return double Y value of target
    */
-  public double updateLimelightArea(int desiredLEDState){
-    table.getEntry("ledMode").setNumber(desiredLEDState);
-    limelightArea = ta.getDouble(0.0);
-    return limelightArea;
+  public double updateLimelightYRight(int desiredLEDState){
+    tableRight.getEntry("ledMode").setNumber(desiredLEDState);
+    limelightYRight = tyRight.getDouble(0.0);
+    return limelightYRight;
+  }
+
+    /** Updates limelightArea value for Left Limelight
+   * pass an int to define which led mode you want 
+   * @param desiredLEDState 0 is pipeline default, 1 is off, 2 is blink, 3 is on
+   * @return double area of image the target occupies
+   */
+  public double updateLimelightAreaLeft(int desiredLEDState){
+    tableLeft.getEntry("ledMode").setNumber(desiredLEDState);
+    limelightAreaLeft = taLeft.getDouble(0.0);
+    return limelightAreaLeft;
+  }
+
+    /** Updates limelightArea value for Right Limelight
+   * pass an int to define which led mode you want 
+   * @param desiredLEDState 0 is pipeline default, 1 is off, 2 is blink, 3 is on
+   * @return double area of image the target occupies
+   */
+  public double updateLimelightAreaRight(int desiredLEDState){
+    tableRight.getEntry("ledMode").setNumber(desiredLEDState);
+    limelightAreaRight = taRight.getDouble(0.0);
+    return limelightAreaRight;
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("LimelightX", limelightX);
-    SmartDashboard.putNumber("LimelightY", limelightY);
-    SmartDashboard.putNumber("LimelightArea", limelightArea);
+    SmartDashboard.putNumber("LimelightX LEFT", limelightXLeft);
+    SmartDashboard.putNumber("LimelightY LEFT", limelightYLeft);
+    SmartDashboard.putNumber("LimelightArea LEFT", limelightAreaLeft);
+
+    SmartDashboard.putNumber("LimelightX RIGHT", limelightXRight);
+    SmartDashboard.putNumber("LimelightY RIGHT", limelightYRight);
+    SmartDashboard.putNumber("LimelightArea RIGHT", limelightAreaRight);
     // This method will be called once per scheduler run
   }
 }

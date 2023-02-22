@@ -40,14 +40,15 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton ArmDown = new JoystickButton(testController, XboxController.Button.kX.value);
-    private final JoystickButton ArmUp = new JoystickButton(testController, XboxController.Button.kY.value);
 
-
+    private final JoystickButton intakeDropCube = new JoystickButton(oliviaController, XboxController.Button.kX.value);
+    private final JoystickButton intakeDropCone = new JoystickButton(oliviaController, XboxController.Button.kY.value);
     private final JoystickButton intakeCube = new JoystickButton(oliviaController, XboxController.Button.kA.value);
     private final JoystickButton intakeCone = new JoystickButton(oliviaController, XboxController.Button.kB.value);
-    private final POVButton intakeDropCube = new POVButton(oliviaController, 0);
-    private final POVButton intakeDropCone = new POVButton(oliviaController, 90);
+
+    private final POVButton ArmHigh = new POVButton(oliviaController, 0);
+    private final POVButton ArmMid = new POVButton(oliviaController, 90);
+    private final POVButton ArmLow = new POVButton(oliviaController, 180);
 
 
     /* Subsystems */
@@ -59,6 +60,10 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        s_Arm.setDefaultCommand(new ArmInOut(
+            s_Arm,
+            () -> oliviaController.getRawAxis(translationAxis)
+        ));
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -82,22 +87,11 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        ArmUp.onTrue(new InstantCommand(() -> s_Intake.intake(0.5, Value.kReverse))).onFalse(
+        intakeCone.onTrue(new InstantCommand(() -> s_Intake.intake(0.5, Value.kReverse))).onFalse(
                     new InstantCommand(() -> s_Intake.intake(0.0, Value.kReverse)));
-        ArmDown.onTrue(new InstantCommand(() -> s_Intake.intake(0.6, Value.kForward))).onFalse(
+        intakeCube.onTrue(new InstantCommand(() -> s_Intake.intake(0.6, Value.kForward))).onFalse(
                     new InstantCommand(() -> s_Intake.intake(0.0, Value.kReverse)));
-        //ArmDown.onTrue(new InstantCommand(s_Arm::ArmLowScore));
-
-        /*intakeCube.onTrue(new InstantCommand(() -> s_Intake.Intake(0.5, Value.kForward)));
-        intakeCube.onTrue(new InstantCommand(() -> s_Wrist.setWrist(50)).andThen(
-                new InstantCommand(() -> s_Intake.Intake(0.5, Value.kForward))));
-        intakeCone.onTrue(new InstantCommand(() -> s_Intake.Intake(0.75, Value.kReverse)));
-        intakeDropCube.onTrue(new InstantCommand(() -> s_Intake.Intake(-0.5, Value.kForward)));
-        intakeDropCone.onTrue(new InstantCommand(() -> s_Intake.Intake(0.0, Value.kReverse)));*/
-
-
-
-        
+      
         
     }
 

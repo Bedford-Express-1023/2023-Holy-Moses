@@ -45,7 +45,7 @@ public class WristSubsystem extends SubsystemBase {
     wristPidController.setI(0.0);
     wristPidController.setD(0.0);
     wristPidController.setIZone(0.0);
-    wristPidController.setFF(0.5);
+    wristPidController.setFF(.5);
     wristPidController.setOutputRange(-.6, .6);
 
 
@@ -53,13 +53,13 @@ public class WristSubsystem extends SubsystemBase {
   }
 
   public void setWrist(double position){
-      wristPidController.setReference(position, ControlType.kPosition);
-      if (neoEncoder.getPosition() >= position + 2 && neoEncoder.getPosition() <= position -2){
+      wristPidController.setReference(position, CANSparkMax.ControlType.kPosition);
+      /*if (neoEncoder.getPosition() >= position + 2 && neoEncoder.getPosition() <= position -2){
         stopWrist();
       }
       else {
         return;
-      }
+      }*/
   
   }
 

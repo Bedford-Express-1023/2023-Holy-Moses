@@ -47,6 +47,8 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton slowSpeed = new JoystickButton(willController, XboxController.Axis.kLeftTrigger.value);
+    private final JoystickButton fastTurn = new JoystickButton(willController, XboxController.Axis.kRightTrigger.value);
     private final JoystickButton ArmDown = new JoystickButton(testController, XboxController.Button.kX.value);
     //private final JoystickButton ArmUp = new JoystickButton(testController, XboxController.Button.kY.value);
     private final JoystickButton WristTest = new JoystickButton(testController, XboxController.Button.kA.value);
@@ -66,7 +68,9 @@ public class RobotContainer {
                 () -> -willController.getRawAxis(translationAxis), 
                 () -> -willController.getRawAxis(strafeAxis), 
                 () -> -willController.getRawAxis(rotationAxis),
-                () -> robotCentric.getAsBoolean()
+                () -> robotCentric.getAsBoolean(),
+                () -> slowSpeed.getAsBoolean(), 
+                () -> fastTurn.getAsBoolean()
             )
         );
 

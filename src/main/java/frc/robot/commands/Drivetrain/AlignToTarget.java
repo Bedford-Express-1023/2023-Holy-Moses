@@ -12,12 +12,13 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
 public class AlignToTarget extends CommandBase {
-
-  public PIDController LimeLightRotationPID;
+  private PIDController LimeLightRotationPID;
   private Swerve s_Swerve;
   private Limelight s_Limelight;
 
-  /** Creates a new AlignToTarget. */
+  /** Creates a new AlignToTarget. 
+   * Takes feedback from limelight and tries to adjust the robot heading to stay parallel to a target 
+   */
   public AlignToTarget(Swerve swerve, Limelight limelight) {
     this.s_Swerve = swerve;
     this.s_Limelight = limelight;
@@ -36,7 +37,8 @@ public class AlignToTarget extends CommandBase {
   @Override
   public void execute() {
     if (s_Limelight.updateLimelightVLeft(3) == 1) {
-      double toRotate = LimeLightRotationPID.calculate(0, -s_Limelight.updateLimelightXLeft(3) * Math.PI/180);
+      double toRotate = LimeLightRotationPID.calculate(
+              0, -s_Limelight.updateLimelightXLeft(3) * Math.PI/180);
       s_Swerve.drive(new Translation2d(0, 0), toRotate, false, false);
   }
     else if (s_Limelight.updateLimelightVLeft(3) == 0){
@@ -44,7 +46,8 @@ public class AlignToTarget extends CommandBase {
     }
 
   if (s_Limelight.limelightXLeft > -1 && s_Limelight.limelightXLeft < 1 ) {
-      s_Swerve.drive(new Translation2d(0.0, 0.0), 0.0, false, false);  
+      s_Swerve.drive(new Translation2d(
+              0.0, 0.0), 0.0, false, false);  
   }
   
 
@@ -53,7 +56,8 @@ public class AlignToTarget extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    s_Swerve.drive(new Translation2d(0.0, 0.0), 0.0, false, false);  
+    s_Swerve.drive(new Translation2d(
+              0.0, 0.0), 0.0, false, false);  
 
   }
 

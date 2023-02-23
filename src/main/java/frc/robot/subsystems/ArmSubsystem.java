@@ -14,7 +14,9 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.XboxController;
@@ -100,16 +102,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void ShoulderPosition() {
     double vSetpoint = shoulderPID.calculate(shoulderCANCoder.getAbsolutePosition(), shoulderPosition);
     SmartDashboard.putNumber("PID", vSetpoint);
-    frontShoulderMotor.set(ControlMode.PercentOutput, 
-      MathUtil.clamp(
-        vSetpoint,
-        -Math.abs(feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration)),
-        Math.abs(feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))/180)); //calculates max power output so as not to go above max velocity and max accel
-    rearShoulderMotor.set(ControlMode.PercentOutput, 
-      MathUtil.clamp(
-        vSetpoint,
-        -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration)),
-        Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration))/180)); //calculates max power output so as not to go above max velocity and max accel
+    frontShoulderMotor.set(TalonFXControlMode.Position, vSetpoint); //calculates max power output so as not to go above max velocity and max accel
   }
 
   /**

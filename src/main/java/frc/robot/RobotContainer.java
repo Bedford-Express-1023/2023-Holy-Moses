@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -39,21 +41,29 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton ArmDown = new JoystickButton(testController, XboxController.Button.kX.value);
+    //private final JoystickButton ArmDown = new JoystickButton(testController, XboxController.Button.kX.value);
     //private final JoystickButton ArmUp = new JoystickButton(testController, XboxController.Button.kY.value);
     private final JoystickButton WristTest = new JoystickButton(testController, XboxController.Button.kA.value);
     private final JoystickButton WristTest2 = new JoystickButton(testController, XboxController.Button.kB.value);
+    private final JoystickButton ArmHighScore = new JoystickButton(testController, XboxController.Button.kStart.value);
+    //private final JoystickButton ArmMiddleScore = new JoystickButton(testController, XboxController.Button.?.value);
+    private final JoystickButton ArmLowScore = new JoystickButton(testController, XboxController.Button.kBack.value);
 
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    //private final ArmSubsystem s_Arm = new ArmSubsystem();
+    private final ArmSubsystem s_Arm = new ArmSubsystem();
     private final WristSubsystem s_Wrist = new WristSubsystem();
     private final IntakeSubsystem s_Intake = new IntakeSubsystem();
 
+    /* Commands */
+    private final ArmStop armStop = new ArmStop(s_Arm);
+    private final ArmHighScore armHighScore = new ArmHighScore(s_Arm);
+    private final ArmLowScore armLowScore = new ArmLowScore(s_Arm);
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        s_Arm.register();
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -63,6 +73,13 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
+        s_Arm.setDefaultCommand(
+            new ArmInOut(
+                s_Arm, 
+                () -> oliviaController.getRawAxis(translationAxis)
+            )
+        );
+        //s_Arm.setDefaultCommand(armStop);
 
         // Configure the button bindings
         configureButtonBindings();
@@ -85,6 +102,10 @@ public class RobotContainer {
             new InstantCommand(() -> s_Intake.stopIntakeCube())));*/
         WristTest2.whileTrue(new InstantCommand(() -> s_Wrist.setWrist(0)));
         //WristTest2.whileFalse(new InstantCommand(() -> s_Wrist.setWrist(0)));
+        ArmLowScore.whileTrue(armLowScore);
+        ArmLowScore.whileFalse(armStop);
+        ArmHighScore.whileTrue(armHighScore);
+        ArmHighScore.whileFalse(armStop);
     }
 
     /**

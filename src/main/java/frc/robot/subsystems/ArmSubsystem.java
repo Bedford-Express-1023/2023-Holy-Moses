@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.util.RotationalFeedForward;
 import frc.robot.Constants;
 import static frc.robot.Constants.Arm.*;
 
@@ -47,12 +48,13 @@ public class ArmSubsystem extends SubsystemBase {
   public double armPositionOverride = 0;
   public int shoulderReversed = -1;
 
-  public final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0,1,0);
+  public final double gravity = .085;
+  public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, gravity);
   final PIDController armPID = new PIDController(1.6, 0.0, 0.0);
-  final PIDController shoulderPID = new PIDController(1.5, 0.0, 0.1);
+  final PIDController shoulderPID = new PIDController(.5, 0.0, 0.1);
 
 	final public double shoulderTargetAngleHigh = 30;
-  final public double shoulderTargetAngleMiddle = 30;
+  final public double shoulderTargetAngleMiddle = -30;
   final public double shoulderTargetAngleLow = 60;
 
   public final double armTargetPositionHigh = 0;
@@ -102,7 +104,16 @@ public class ArmSubsystem extends SubsystemBase {
   public void ShoulderPosition() {
     double vSetpoint = shoulderPID.calculate(shoulderCANCoder.getAbsolutePosition(), shoulderPosition);
     SmartDashboard.putNumber("PID", vSetpoint);
-    frontShoulderMotor.set(TalonFXControlMode.Position, vSetpoint); //calculates max power output so as not to go above max velocity and max accel
+    frontShoulderMotor.set(ControlMode.PercentOutput, 
+      MathUtil.clamp(
+        vSetpoint,
+        -Math.abs(feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration, shoulderCANCoder.getAbsolutePosition())),
+        Math.abs(feedForward.calculate(MathUtil.clamp(vSetpoint, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration, shoulderCANCoder.getAbsolutePosition()))/180)); //calculates max power output so as not to go above max velocity and max accel
+    rearShoulderMotor.set(ControlMode.PercentOutput, 
+      MathUtil.clamp(
+        vSetpoint,
+        -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration, shoulderCANCoder.getAbsolutePosition())),
+        Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration, shoulderCANCoder.getAbsolutePosition()))/180)); //calculates max power output so as not to go above max velocity and max accel //calculates max power output so as not to go above max velocity and max accel
   }
 
   /**
@@ -171,7 +182,8 @@ public class ArmSubsystem extends SubsystemBase {
       rghtYstick = 0; // deadband 10% 
     } 
     // This method will be called once per scheduler run
-    ArmPosition();
+    //ArmPosition();
+    //ShoulderPosition(0);
     ShoulderPosition();
   }
 }

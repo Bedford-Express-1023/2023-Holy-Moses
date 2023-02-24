@@ -50,7 +50,7 @@ public class WristSubsystem extends SubsystemBase {
   }
 
   public void wristPosition() {
-    double setpoint = wristPID.calculate(wristCancoder.getAbsolutePosition(), wristPosition + wristPositionOverride);
+    double setpoint = -wristPID.calculate(wristCancoder.getAbsolutePosition(), wristPosition + wristPositionOverride);
     SmartDashboard.putNumber("WristPID setpoint", setpoint);
     wristMotor.set(setpoint);
   }

@@ -65,7 +65,7 @@ public class RobotContainer {
                 s_Swerve, 
                 () -> -willController.getRawAxis(translationAxis), 
                 () -> -willController.getRawAxis(strafeAxis), 
-                () -> -willController.getRawAxis(rotationAxis),
+                () -> -willController.getRawAxis(rotationAxis) * .8,
                 () -> robotCentric.getAsBoolean()
             )
         );
@@ -87,13 +87,13 @@ public class RobotContainer {
         ArmMid.onTrue(new ScoreMid(s_Wrist, s_Arm, ArmMid));
         ArmLow.onTrue(new ScoreLow(s_Wrist, s_Arm, ArmLow));
 
-        intakeCube.whileTrue(new InstantCommand(() -> s_Intake.Intake(0.5, Value.kForward)))
+        intakeCube.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5, Value.kForward)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        intakeDropCube.onTrue(new InstantCommand(() -> s_Intake.Intake(-0.5, Value.kForward)))
+        intakeDropCube.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5, Value.kForward)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        intakeDropCone.onTrue(new InstantCommand(() -> s_Intake.Intake(0.0, Value.kForward)))
+        intakeDropCone.onTrue(new InstantCommand(() -> s_Intake.intake(0.0, Value.kForward)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));;
-        intakeCone.whileTrue(new InstantCommand(() -> s_Intake.Intake(0.5, Value.kReverse)))
+        intakeCone.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5, Value.kReverse)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
     }
 

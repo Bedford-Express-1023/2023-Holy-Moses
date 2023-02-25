@@ -70,6 +70,7 @@ public class RobotContainer {
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final ArmSubsystem s_Arm = new ArmSubsystem();
+    private final Limelight s_Limelight = new Limelight();
     private final WristSubsystem s_Wrist = new WristSubsystem();
     private final IntakeSubsystem s_Intake = new IntakeSubsystem();
     private final JoystickButton alignToTarget = new JoystickButton(willController, XboxController.Button.kRightBumper.value);

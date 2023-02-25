@@ -17,12 +17,16 @@ public class Blinkin extends SubsystemBase {
   /** Creates a new blinkin. */
   public Blinkin() {}
 
-  public void green(){
-    m_Spark.set(0.77);
+  public void yellow(){
+    m_Spark.set(0.69);
   }
 
-  public void blue(){
-    m_Spark.set(0.87);
+  public void purple(){
+    m_Spark.set(0.91);
+  }
+
+  public void blue (){
+    m_Spark.set(-0.23);
   }
 
 

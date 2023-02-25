@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.Intake;
 import frc.robot.commands.*;
-import frc.robot.commands.Autos.GoToCone;
+import frc.robot.commands.Autos.TopScore1CubeAnd1Cone;
 import frc.robot.subsystems.*;
 
 /**
@@ -40,11 +40,15 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton turnSLow = new JoystickButton(willController, XboxController.Button.kRightBumper.value);
+    private final JoystickButton slow = new JoystickButton(willController, XboxController.Button.kX.value);
 
     private final JoystickButton intakeDropCube = new JoystickButton(oliviaController, XboxController.Button.kX.value);
     private final JoystickButton intakeDropCone = new JoystickButton(oliviaController, XboxController.Button.kY.value);
     private final JoystickButton intakeCube = new JoystickButton(oliviaController, XboxController.Button.kA.value);
     private final JoystickButton intakeCone = new JoystickButton(oliviaController, XboxController.Button.kB.value);
+    private final JoystickButton yellow = new JoystickButton(oliviaController, XboxController.Button.kStart.value);
+    private final JoystickButton purple = new JoystickButton(oliviaController, XboxController.Button.kBack.value);
 
     private final POVButton ArmHigh = new POVButton(oliviaController, 0);
     private final POVButton ArmMid = new POVButton(oliviaController, 90);
@@ -56,6 +60,7 @@ public class RobotContainer {
     private final ArmSubsystem s_Arm = new ArmSubsystem();
     private final IntakeSubsystem s_Intake = new IntakeSubsystem();
     private final WristSubsystem s_Wrist = new WristSubsystem();
+    private final Blinkin s_Blinkin = new Blinkin();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -66,7 +71,10 @@ public class RobotContainer {
                 () -> -willController.getRawAxis(translationAxis), 
                 () -> -willController.getRawAxis(strafeAxis), 
                 () -> -willController.getRawAxis(rotationAxis) * .8,
-                () -> robotCentric.getAsBoolean()
+                () -> robotCentric.getAsBoolean(),
+                () -> turnSLow.getAsBoolean(),
+                () -> slow.getAsBoolean()
+                
             )
         );
 
@@ -95,6 +103,10 @@ public class RobotContainer {
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));;
         intakeCone.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5, Value.kReverse)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
+        yellow.whileTrue(new InstantCommand(() -> s_Blinkin.yellow()))
+            .whileFalse(new InstantCommand(() -> s_Blinkin.blue()));
+        purple.whileTrue(new InstantCommand(() -> s_Blinkin.purple()))
+            .whileFalse(new InstantCommand(() -> s_Blinkin.blue()));
     }
 
     /**
@@ -104,6 +116,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new GoToCone(s_Swerve);
+        return new TopScore1CubeAnd1Cone(s_Swerve);
     }
 }

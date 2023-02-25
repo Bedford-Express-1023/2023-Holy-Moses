@@ -58,9 +58,11 @@ public class ArmSubsystem extends SubsystemBase {
   final double shoulderTargetAngleMedium = 30;
   final double shoulderTargetAngleLow = 15;
 
-  final double armTargetPositionHigh = -20000;
-  final double armTargetPositionMedium = -10000;
+  final double armTargetPositionHigh = -50000;
+  final double armTargetPositionMedium = -25000;
   final double armTargetPositionLow = 0;
+
+  final double armGravity = -0.225;
 
   public String currentShoulderCommand = "";  
   public String currentArmCommand = "";
@@ -130,12 +132,12 @@ public class ArmSubsystem extends SubsystemBase {
     double vSetpoint = armPID.calculate(armMotor.getSelectedSensorPosition(), armPosition);
     SmartDashboard.putNumber("Extension Setpoint", vSetpoint);
     SmartDashboard.putNumber("Target Position", armPosition);
-    armMotor.set(ControlMode.PercentOutput,-0.225);/* 
-    MathUtil.clamp(
+    armMotor.set(ControlMode.PercentOutput,
+    MathUtil.clamp(armGravity +
         vSetpoint,
         -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)),
         Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)))); //calculates max power output so as not to go above max velocity and max accel
-  */}
+  }
 
   public void ArmPercent(double percent){
     armMotor.set(TalonFXControlMode.PercentOutput, percent);
@@ -162,6 +164,11 @@ public class ArmSubsystem extends SubsystemBase {
   public void ArmStop() {
     armMotor.set(ControlMode.PercentOutput, 0);
   }
+
+  public void ArmPositionZero() {
+    armMotor.setSelectedSensorPosition(0);
+  }
+  
 /**
  * @param ticks the encoder value (in ticks, 2048/rotation)
  * @return the angle, in degrees, off of absolute 0

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
 import frc.robot.commands.Autos.GoToCone;
 import frc.robot.subsystems.*;
@@ -43,12 +43,15 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
     //private final JoystickButton ArmDown = new JoystickButton(testController, XboxController.Button.kX.value);
     //private final JoystickButton ArmUp = new JoystickButton(testController, XboxController.Button.kY.value);
-    private final JoystickButton WristTest = new JoystickButton(testController, XboxController.Button.kA.value);
-    private final JoystickButton WristTest2 = new JoystickButton(testController, XboxController.Button.kB.value);
-    private final JoystickButton ArmHighScore = new JoystickButton(testController, XboxController.Button.kStart.value);
+    //private final JoystickButton WristTest = new JoystickButton(testController, XboxController.Button.kA.value);
+    //private final JoystickButton WristTest2 = new JoystickButton(testController, XboxController.Button.kB.value);
+    //private final JoystickButton ArmHighScore = new JoystickButton(testController, XboxController.Button.kStart.value);
     //private final JoystickButton ArmMiddleScore = new JoystickButton(testController, XboxController.Button.?.value);
-    private final JoystickButton ArmLowScore = new JoystickButton(testController, XboxController.Button.kBack.value);
-
+    //private final JoystickButton ArmLowScore = new JoystickButton(testController, XboxController.Button.kBack.value);
+    private final JoystickButton ArmPositionZero = new JoystickButton(testController, XboxController.Button.kA.value);
+    private final POVButton ArmHighScore = new POVButton(testController, 0);
+    private final POVButton ArmMiddleScore = new POVButton(testController, 90);
+    private final POVButton ArmLowScore = new POVButton(testController, 180);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -59,7 +62,9 @@ public class RobotContainer {
     /* Commands */
     private final ArmStop armStop = new ArmStop(s_Arm);
     private final ArmHighScore armHighScore = new ArmHighScore(s_Arm);
+    private final ArmMiddleScore armMiddleScore = new ArmMiddleScore(s_Arm);
     private final ArmLowScore armLowScore = new ArmLowScore(s_Arm);
+    private final ArmPositionZero armPositionZero = new ArmPositionZero(s_Arm);
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -73,13 +78,13 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
-        /* 
+        
         s_Arm.setDefaultCommand(
             new ArmInOut(
                 s_Arm, 
                 () -> oliviaController.getRawAxis(translationAxis)
             )
-        );*/
+        );
         //s_Arm.setDefaultCommand(armStop);
 
         // Configure the button bindings
@@ -97,16 +102,19 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         //ArmUp.onTrue(new InstantCommand(s_Arm::ArmHighScore));
         //ArmDown.onTrue(new InstantCommand(s_Arm::ArmLowScore));
-        WristTest.whileTrue(new InstantCommand(() -> s_Wrist.setWrist(-50))/* .alongWith(new InstantCommand(()
-        -> s_Intake.Intake(Value.kReverse, -0.5)))*/);
+        //WristTest.whileTrue(new InstantCommand(() -> s_Wrist.setWrist(-50))/* .alongWith(new InstantCommand(()
+        //-> s_Intake.Intake(Value.kReverse, -0.5)))*/);
         /*WristTest.whileFalse(new InstantCommand(() -> s_Wrist.setWrist(0))/*.alongWith(
             new InstantCommand(() -> s_Intake.stopIntakeCube())));*/
-        WristTest2.whileTrue(new InstantCommand(() -> s_Wrist.setWrist(0)));
+        //WristTest2.whileTrue(new InstantCommand(() -> s_Wrist.setWrist(0)));
         //WristTest2.whileFalse(new InstantCommand(() -> s_Wrist.setWrist(0)));
-        ArmLowScore.whileTrue(armLowScore);
+        ArmLowScore.onTrue(armLowScore);
         //ArmLowScore.whileFalse(armStop);
-        ArmHighScore.whileTrue(armHighScore);
+        ArmMiddleScore.onTrue(armMiddleScore);
+
+        ArmHighScore.onTrue(armHighScore);
         //ArmHighScore.whileFalse(armStop);
+        ArmPositionZero.onTrue(armPositionZero);
     }
 
     /**

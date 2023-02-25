@@ -140,7 +140,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void ShoulderPosition(double position) {
-    ShoulderPosition(position);
+    shoulderPosition = position;
   }
   
   @Override

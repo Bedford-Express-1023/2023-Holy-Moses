@@ -31,7 +31,7 @@ public class ScoreHigh extends CommandBase {
   @Override
   public void initialize() {
     arm.shoulderPositionOverride = 0;
-    arm.armPositionOverride = 0;
+    //arm.armPositionOverride = 0;
     wrist.wristPositionOverride = 0;
   }
 
@@ -47,7 +47,7 @@ public class ScoreHigh extends CommandBase {
 
     wrist.wristPosition((arm.shoulderReversed * 90 - arm.shoulderCANCoder.getAbsolutePosition()));
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleHigh);
-    //arm.ArmPosition(arm.armTargetPositionHigh);
+    arm.ArmPosition(arm.armTargetPositionHigh);
   }
 
   // Called once the command ends or is interrupted.

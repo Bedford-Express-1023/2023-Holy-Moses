@@ -78,14 +78,11 @@ public class RobotContainer {
     //private final JoystickButton ArmUp = new JoystickButton(testController, XboxController.Button.kY.value);
     private final JoystickButton WristTest = new JoystickButton(testController, XboxController.Button.kA.value);
     private final JoystickButton WristTest2 = new JoystickButton(testController, XboxController.Button.kB.value);
->>>>>>>>> Temporary merge branch 2
 
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-<<<<<<<<< Temporary merge branch 1
     private final ArmSubsystem s_Arm = new ArmSubsystem();
-=========
     private final Limelight s_Limelight = new Limelight();
 
 

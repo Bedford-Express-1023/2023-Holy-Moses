@@ -5,24 +5,15 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoder;
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.ControlType;
-
-import static com.revrobotics.CANSparkMax.SoftLimitDirection.*;
-
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.*;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Constants.Intake.*;
 import static frc.robot.Constants.Arm.*;
 
 public class WristSubsystem extends SubsystemBase {
@@ -34,9 +25,8 @@ public class WristSubsystem extends SubsystemBase {
   public double wristPosition = 0;
   public double wristPositionOverride = 0;
 
-  private SparkMaxPIDController wristPidController;
   private SimpleMotorFeedforward wristFeedforward = new SimpleMotorFeedforward(0.0, 1, 0); //TODO: Tune
-  private PIDController wristPID = new PIDController(0.005, 0.0, 0.0);
+  private PIDController wristPID = new PIDController(0.04, 0.0, 0.0);
 
   public WristSubsystem() {
     wristEncoder = wristMotor.getEncoder();
@@ -51,11 +41,11 @@ public class WristSubsystem extends SubsystemBase {
     double setpoint = -wristPID.calculate(wristCancoder.getAbsolutePosition(), wristPosition + wristPositionOverride);
     SmartDashboard.putNumber("WristPID setpoint", setpoint);
     if (wristCancoder.getAbsolutePosition() > 90 && setpoint > 0) {wristMotor.set(0);}
-    else if (wristCancoder.getAbsolutePosition() < 90 && setpoint < 0) {wristMotor.set(0);}
-    wristMotor.set(setpoint);
+    else if (wristCancoder.getAbsolutePosition() < -90 && setpoint < 0) {wristMotor.set(0);}
+    wristMotor.set(MathUtil.clamp(setpoint, -.3, .3));
   }
 
-  public void wristPosition(double position){
+  public void wristPosition(double position) {
     wristPosition = position;
   }
 

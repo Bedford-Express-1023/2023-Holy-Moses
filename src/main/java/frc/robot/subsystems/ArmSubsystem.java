@@ -54,8 +54,8 @@ public class ArmSubsystem extends SubsystemBase {
   final PIDController shoulderPositionPID = new PIDController(.015, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 30;
-  final public double shoulderTargetAngleMiddle = -30;
-  final public double shoulderTargetAngleLow = 60;
+  final public double shoulderTargetAngleMiddle = 60;
+  final public double shoulderTargetAngleLow = 75;
 
   public final double armTargetPositionHigh = 0;
   public final double armTargetPositionMiddle = 0;
@@ -72,13 +72,6 @@ public class ArmSubsystem extends SubsystemBase {
 		frontShoulderMotor.setNeutralMode(NeutralMode.Brake);
     frontShoulderMotor.follow(rearShoulderMotor);
     armMotor.setNeutralMode(NeutralMode.Coast);
-
-/*
-		rearShoulderMotor.configPeakOutputForward(+.5);
-		rearShoulderMotor.configPeakOutputReverse(-.5);
-		frontShoulderMotor.configPeakOutputForward(+.5);
-		frontShoulderMotor.configPeakOutputReverse(-.5);
-*/
   
     armMotor.configPeakOutputForward(+.5);
 		armMotor.configPeakOutputReverse(-.5);
@@ -116,35 +109,10 @@ public class ArmSubsystem extends SubsystemBase {
         Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration)))); //calculates max power output so as not to go above max velocity and max accel //calculates max power output so as not to go above max velocity and max accel
   }
 
-  /**
-   * sets the arm position to the stored position
-   * probably use the other overload though
-   */
-  public void ArmPosition() {
-    double vSetpoint = armPID.calculate(TicksToMeters(armMotor.getSelectedSensorPosition()), armPosition);
-    armMotor.set(ControlMode.PercentOutput,
-     MathUtil.clamp(
-      vSetpoint,
-      -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)),
-      Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)))); //calculates max power output so as not to go above max velocity and max accel
-  }
-
-
   public void ShoulderPosition(double angle) {
     shoulderPosition = angle;
   }
 
-  public void ArmPosition(double angle) {
-    armPosition = angle;
-  }
-
-  public void ArmPercent(double percent) {
-    armMotor.set(ControlMode.PercentOutput, percent);
-  }
-
-  public void ArmStop() {
-    armMotor.set(ControlMode.PercentOutput, 0);
-  }
 /**
  * @param ticks the encoder value (in ticks, 2048/rotation)
  * @return the angle, in degrees, off of absolute 0
@@ -159,14 +127,6 @@ public class ArmSubsystem extends SubsystemBase {
  */
   public double TicksToMeters(double ticks) {
     return (1/2048)/*ticks to rotations*/ * (8/60) * (18/35)/*gear ratios*/ * 0.0508*Math.PI/*roller rotations to meters of cord*/ * 2/*final pulley magic ratio*/;
-  }
-
-  public void setAngleSpeed(double speed) {
-    if (counter.get() > 0) {
-      rearShoulderMotor.set(TalonFXControlMode.PercentOutput, 0);
-    } else {
-      rearShoulderMotor.set(TalonFXControlMode.PercentOutput, speed);
-    }
   }
   
   @Override

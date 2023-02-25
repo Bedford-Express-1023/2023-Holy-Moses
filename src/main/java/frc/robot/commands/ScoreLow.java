@@ -6,18 +6,24 @@ package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
 
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
 public class ScoreLow extends CommandBase {
   public WristSubsystem wrist;
   public ArmSubsystem arm;
+  public Trigger button;
+  public Boolean booleanReverse = false;
 
 
-  public ScoreLow(WristSubsystem wrist, ArmSubsystem arm, BooleanSupplier button) {
+  public ScoreLow(WristSubsystem wrist, ArmSubsystem arm, Trigger button) {
     this.wrist = wrist;
     this.arm = arm;
+    this.button = button;
     addRequirements(wrist, arm);
   }
 
@@ -32,9 +38,16 @@ public class ScoreLow extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (button.getAsBoolean() != booleanReverse) {
+      booleanReverse = button.getAsBoolean();
+      if (booleanReverse) {
+        arm.shoulderReversed *= -1;
+      }
+    }
+
     wrist.wristPosition((arm.shoulderReversed * 90 - arm.shoulderCANCoder.getAbsolutePosition()));
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleLow);
-    arm.ArmPosition(arm.armTargetPositionLow);
+    //arm.ArmPosition(arm.armTargetPositionLow);
   }
 
   // Called once the command ends or is interrupted.

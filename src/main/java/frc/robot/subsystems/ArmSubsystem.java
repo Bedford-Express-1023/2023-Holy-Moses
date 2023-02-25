@@ -112,7 +112,20 @@ public class ArmSubsystem extends SubsystemBase {
   public void ShoulderPosition(double angle) {
     shoulderPosition = angle;
   }
+  public void ArmHighScore() {
+    shoulderPosition = shoulderTargetAngleHigh;
+    currentArmCommand = "High Score";
+  }
 
+  public void ArmMiddleScore() {
+    shoulderPosition = shoulderTargetAngleMiddle;
+    currentArmCommand = "Middle Score";
+  }
+
+  public void ArmLowScore() {
+    shoulderPosition = shoulderTargetAngleLow;
+    currentArmCommand = "Low Score";
+  }
 /**
  * @param ticks the encoder value (in ticks, 2048/rotation)
  * @return the angle, in degrees, off of absolute 0
@@ -143,7 +156,6 @@ public class ArmSubsystem extends SubsystemBase {
       rghtYstick = 0; // deadband 10% 
     } 
     // This method will be called once per scheduler run
-    //ArmPosition();
     //ShoulderPosition(0);
     ShoulderPosition();
   }

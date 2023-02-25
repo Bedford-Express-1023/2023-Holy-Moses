@@ -11,18 +11,13 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 //import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
-import edu.wpi.first.math.controller.HolonomicDriveController;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -32,9 +27,9 @@ public class Swerve extends SubsystemBase {
     public SwerveModule[] mSwerveMods;
     public WPI_Pigeon2 gyro = new WPI_Pigeon2(Constants.Swerve.pigeonID);
     public final Constraints translationConstraints = new Constraints(10, 10);
-    public final ProfiledPIDController xController = new ProfiledPIDController(0.1, 0.0, 0.0, translationConstraints);
-    public final ProfiledPIDController yController = new ProfiledPIDController(0.1, 0.0, 0.0, translationConstraints);
-    public final ProfiledPIDController rotaController = new ProfiledPIDController(0.5, 0, 0, new Constraints(15, 15));
+    public final ProfiledPIDController xController = new ProfiledPIDController(4, 0.0, 0.0, translationConstraints);
+    public final ProfiledPIDController yController = new ProfiledPIDController(4, 0.0, 0.0, translationConstraints);
+    public final ProfiledPIDController rotaController = new ProfiledPIDController(.75, 0, 0, new Constraints(1000, 1000));
     public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
         new Translation2d(Constants.Swerve.trackWidth/ 2.0, Constants.Swerve.wheelBase / 2.0),
         new Translation2d(Constants.Swerve.trackWidth / 2.0, -Constants.Swerve.wheelBase / 2.0),
@@ -52,9 +47,10 @@ public class Swerve extends SubsystemBase {
    
    
     public Swerve() {
+
         gyro.configFactoryDefault();
         zeroGyro();
-
+        rotaController.enableContinuousInput(0, 2*Math.PI);
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
             new SwerveModule(1, Constants.Swerve.Mod1.constants),
@@ -85,11 +81,8 @@ public class Swerve extends SubsystemBase {
                                     translation.getY(), 
                                     rotation)
                                 );
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
-
-        for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
-        }
+        setModuleStates(swerveModuleStates);
+        
     }    
 
     /* Used by SwerveControllerCommand in Auto */
@@ -99,6 +92,11 @@ public class Swerve extends SubsystemBase {
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(desiredStates[mod.moduleNumber], true);
         }
+        /*
+        ChassisSpeeds chassisSpeeds = kinematics.toChassisSpeeds(desiredStates);
+        SmartDashboard.putNumber("SpeedX", chassisSpeeds.vxMetersPerSecond);
+        SmartDashboard.putNumber("SpeedY", chassisSpeeds.vyMetersPerSecond);
+        SmartDashboard.putNumber("SpeedR", chassisSpeeds.omegaRadiansPerSecond);*/
     }    
 
     public Pose2d getPose() {

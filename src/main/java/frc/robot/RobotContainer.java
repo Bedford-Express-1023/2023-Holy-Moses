@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Intake;
 import frc.robot.commands.*;
-import frc.robot.commands.Autos.GoToCone;
+import frc.robot.commands.Autos.TopScore1CubeAnd1Cone;
 import frc.robot.subsystems.*;
 
 /**
@@ -45,7 +45,12 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton turnSLow = new JoystickButton(willController, XboxController.Button.kRightBumper.value);
+    private final JoystickButton slow = new JoystickButton(willController, XboxController.Button.kX.value);
 
+    private final JoystickButton yellow = new JoystickButton(oliviaController, XboxController.Button.kStart.value);
+    private final JoystickButton purple = new JoystickButton(oliviaController, XboxController.Button.kBack.value);
+    
     private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
     private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
 
@@ -60,6 +65,7 @@ public class RobotContainer {
     private final ArmSubsystem s_Arm = new ArmSubsystem();
     private final IntakeSubsystem s_Intake = new IntakeSubsystem();
     private final WristSubsystem s_Wrist = new WristSubsystem();
+    private final Blinkin s_Blinkin = new Blinkin();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -70,7 +76,10 @@ public class RobotContainer {
                 () -> -willController.getRawAxis(translationAxis), 
                 () -> -willController.getRawAxis(strafeAxis), 
                 () -> -willController.getRawAxis(rotationAxis) * .8,
-                () -> robotCentric.getAsBoolean()
+                () -> robotCentric.getAsBoolean(),
+                () -> turnSLow.getAsBoolean(),
+                () -> slow.getAsBoolean()
+                
             )
         );
 
@@ -96,6 +105,10 @@ public class RobotContainer {
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         outtake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
+        yellow.whileTrue(new InstantCommand(() -> s_Blinkin.yellow()))
+            .whileFalse(new InstantCommand(() -> s_Blinkin.blue()));
+        purple.whileTrue(new InstantCommand(() -> s_Blinkin.purple()))
+            .whileFalse(new InstantCommand(() -> s_Blinkin.blue()));
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
             .whileTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
             .whileFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
@@ -108,6 +121,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new GoToCone(s_Swerve);
+        return new TopScore1CubeAnd1Cone(s_Swerve);
     }
 }

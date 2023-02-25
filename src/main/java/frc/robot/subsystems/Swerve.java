@@ -92,10 +92,6 @@ public class Swerve extends SubsystemBase {
         }
     }    
 
-    public void autoDrive(){
-
-    }
-
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);

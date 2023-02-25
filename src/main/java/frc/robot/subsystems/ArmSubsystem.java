@@ -48,14 +48,14 @@ public class ArmSubsystem extends SubsystemBase {
   public double armPositionOverride = 0;
   public int shoulderReversed = -1;
 
-  public final double gravity = .1;
-  public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, gravity);
+  public final double shoulderGravity = .075;
+  public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, shoulderGravity);
   final PIDController armPID = new PIDController(1.6, 0.0, 0.0);
   final PIDController shoulderPositionPID = new PIDController(.015, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 15;
   final public double shoulderTargetAngleMiddle = 30;
-  final public double shoulderTargetAngleLow = 90;
+  final public double shoulderTargetAngleLow = 105;
 
   public final double armTargetPositionHigh = 0;
   public final double armTargetPositionMiddle = 0;
@@ -100,9 +100,9 @@ public class ArmSubsystem extends SubsystemBase {
     //vSetpoint += shoulderVelocityPID.calculate(shoulderCANCoder.getVelocity(), vSetpoint);
     double vSetpoint = shoulderPositionPID.calculate(shoulderCANCoder.getAbsolutePosition(), shoulderPosition);
 
-    SmartDashboard.putNumber("gravity", gravity * -Math.sin(shoulderCANCoder.getAbsolutePosition()));
+    SmartDashboard.putNumber("gravity", shoulderGravity * -Math.sin(shoulderCANCoder.getAbsolutePosition()));
     SmartDashboard.putNumber("Shoulder Setpoint", vSetpoint);
-    rearShoulderMotor.set(ControlMode.PercentOutput, gravity * -Math.sin(shoulderCANCoder.getAbsolutePosition() * Math.PI/180) + 
+    rearShoulderMotor.set(ControlMode.PercentOutput, shoulderGravity * -Math.sin(shoulderCANCoder.getAbsolutePosition() * Math.PI/180) + 
       MathUtil.clamp(
         vSetpoint,
         -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration)),

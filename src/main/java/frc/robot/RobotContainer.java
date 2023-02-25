@@ -1,14 +1,19 @@
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.PS4Controller.Axis;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Intake;
 import frc.robot.commands.*;
 import frc.robot.commands.Autos.GoToCone;
@@ -41,14 +46,13 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
 
-    private final JoystickButton intakeDropCube = new JoystickButton(oliviaController, XboxController.Button.kX.value);
-    private final JoystickButton intakeDropCone = new JoystickButton(oliviaController, XboxController.Button.kY.value);
-    private final JoystickButton intakeCube = new JoystickButton(oliviaController, XboxController.Button.kA.value);
-    private final JoystickButton intakeCone = new JoystickButton(oliviaController, XboxController.Button.kB.value);
+    private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
+    private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
 
-    private final POVButton ArmHigh = new POVButton(oliviaController, 0);
-    private final POVButton ArmMid = new POVButton(oliviaController, 90);
-    private final POVButton ArmLow = new POVButton(oliviaController, 180);
+    private final POVButton armHigh = new POVButton(oliviaController, 0);
+    private final POVButton armMid = new POVButton(oliviaController, 90);
+    private final POVButton armLow = new POVButton(oliviaController, 180);
+    private final JoystickButton armReverse = new JoystickButton(oliviaController, XboxController.Button.kLeftBumper.value);
 
 
     /* Subsystems */
@@ -83,18 +87,18 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        ArmHigh.onTrue(new ScoreHigh(s_Wrist, s_Arm, ArmHigh));
-        ArmMid.onTrue(new ScoreMid(s_Wrist, s_Arm, ArmMid));
-        ArmLow.onTrue(new ScoreLow(s_Wrist, s_Arm, ArmLow));
+        armHigh.onTrue(new ScoreHigh(s_Wrist, s_Arm, armHigh));
+        armMid.onTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
+        armLow.onTrue(new ScoreLow(s_Wrist, s_Arm, armLow));
+        armReverse.onTrue(new InstantCommand(() -> s_Arm.shoulderReversed *= -1));
 
-        intakeCube.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5, Value.kForward)))
+        intake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        intakeDropCube.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5, Value.kForward)))
+        outtake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        intakeDropCone.onTrue(new InstantCommand(() -> s_Intake.intake(0.0, Value.kForward)))
-            .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));;
-        intakeCone.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5, Value.kReverse)))
-            .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
+        new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
+            .whileTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
+            .whileFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
     }
 
     /**

@@ -12,9 +12,9 @@ import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
     public static final double stickDeadband = 0.1;
-    public static final int BLINKIN = 0;
+    public static final int BLINKIN = 9;
 
-    public static final class Arm{
+    public static final class Arm {
         public static final int REAR_SHOULDER_CAN = 31;
         public static final int FRONT_SHOULDER_CAN = 32;
         public static final int ARM_EXTEND_CAN = 34;
@@ -26,13 +26,12 @@ public final class Constants {
         public static double maxArmAcceleration = 1;
     }
 
-    public static final class Intake{
+    public static final class Intake {
         public static int intake_TALON_CAN = 20;
         public static final int WRIST_CANCODER = 35;
         public static final int WRIST_SPARK = 42;
         public static int intake_SOLENOID_F_CHANNEL = 4;
         public static int intake_SOLENOID_R_CHANNEL = 5;
-
         public static double maxWristVelocity = 15;
         public static double maxWristAcceleration = 15;
     }

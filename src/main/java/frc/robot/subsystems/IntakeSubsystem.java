@@ -13,85 +13,54 @@ import com.ctre.phoenix.sensors.CANCoder;
 //import com.playingwithfusion.TimeOfFlight;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+//import com.playingwithfusion.TimeOfFlight;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.Constants.Intake.*;
 
 public class IntakeSubsystem extends SubsystemBase {
   private final TalonSRX intakeMotor = new TalonSRX(intake_TALON_CAN);
-  //private final CANSparkMax wristMotor = new CANSparkMax(wrist_SPARK_CAN, MotorType.kBrushless);
-  //private final CANCoder wristCANCoder = new CANCoder(wrist_CANCODER);
-  private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(CTREPCM, intake_SOLENOID_F_CHANNEL, intake_SOLENOID_R_CHANNEL);
-  //public final TimeOfFlight TOFSensor = new TimeOfFlight(TOF_sensor_CAN);
+  private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(
+        PneumaticsModuleType.CTREPCM, intake_SOLENOID_F_CHANNEL, intake_SOLENOID_R_CHANNEL);
 
-  private double wristCurrentPosition;
-  private String currentIntakeCommand = "";
-  private final double intakeSpeed = 0.9;
-  private double TOFRange;
-
-  //private boolean FullIntakeCheck;
-  //private boolean wristOk;
-
-  //private final SimpleMotorFeedforward wristFeedForward = new SimpleMotorFeedforward(0,0,0);
-  //private final ProfiledPIDController wristPID = new ProfiledPIDController(0.1, 0.0, 0.0, new Constraints(15, 100));
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
+    intakeMotor.setNeutralMode(NeutralMode.Coast);
+    intakeMotor.configOpenloopRamp(0.2);
+    intakeMotor.configContinuousCurrentLimit(30);
   }
 
-  public void WristPosition() {
-  }
 
-  /**boolean to set solenoid position, double to set intake speed, string
-   * 
-   * @
+  /**
+   * runs the intake
+   * @param speed speed of intake, percent output
+   * @param value state of solenoid, kForward kReverse or kOff
    */
-
-  public void Intake(Value solenoidPosition, double intakeSpeed) {
-    intakeSolenoid.set(solenoidPosition);
-    intakeMotor.set(PercentOutput, -intakeSpeed);
-    currentIntakeCommand = "Intake running at solenoid " + solenoidPosition + " and speed " + intakeSpeed;
+  public void intake(double speed) {
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, speed);
   }
 
-  public void stopIntakeCube(){
-    intakeSolenoid.set(Value.kReverse);
-    intakeMotor.set(PercentOutput, 0.0);
-    currentIntakeCommand = "Intake Stopped";
+  public void solenoid(Value value) {
+    intakeSolenoid.set(value);
+  }
+
+  public void intakeStop(){
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.0);
   }
 
 
-  /*public void FullIntakeCheck() {
-    if (TOFRange <= 2) {
-      FullIntakeCheck = true;
-    }
-    else {
-      FullIntakeCheck = false;
-    }
-  }*/
-
-  /*public void TOFIntake() {
-    if (FullIntakeCheck = true) {
-      wristMotor.set(intakeSpeed);
-    }
-    else {
-      wristMotor.set(0);
-    }
-  }*/
 
   @Override
   public void periodic() {
-    //TOFRange = TOFSensor.getRange();
-    SmartDashboard.putString("Current intake command", currentIntakeCommand);
-    //FullIntakeCheck();
     // This method will be called once per scheduler run
   }
 }

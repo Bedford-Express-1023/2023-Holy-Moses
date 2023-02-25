@@ -5,74 +5,63 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoder;
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.ControlType;
-
-import static com.revrobotics.CANSparkMax.SoftLimitDirection.*;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.*;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Constants.Intake.*;
+import frc.robot.Constants;
+
+import static frc.robot.Constants.Arm.*;
 
 public class WristSubsystem extends SubsystemBase {
   /** Creates a new WristSubsystem. */
-  private CANSparkMax wristSpark = new CANSparkMax(WRIST_SPARK, kBrushless);
-  private CANCoder wristCancoder = new CANCoder(WRIST_CANCODER);
-  private RelativeEncoder neoEncoder = wristSpark.getEncoder();
+  private CANSparkMax wristMotor = new CANSparkMax(Constants.Intake.WRIST_SPARK, kBrushless);
+  private CANCoder wristCancoder = new CANCoder(Constants.Intake.WRIST_CANCODER);
+  public RelativeEncoder wristEncoder;
 
-  private SparkMaxPIDController wristPidController;
+  public double wristPosition = 0;
+  public double wristPositionOverride = 0;
 
-  private ArmFeedforward wristFeedforward = new ArmFeedforward(0.1, 0.1, 0.1);
-  private PIDController wristPID = new PIDController(0.1, 0.0, 0.0);
+  private SimpleMotorFeedforward wristFeedforward = new SimpleMotorFeedforward(0.0, 1, 0); //TODO: Tune
+  private PIDController wristPID = new PIDController(0.03, 0.0, 0.0);
 
   public WristSubsystem() {
-    wristSpark.setSoftLimit(kForward, 0); 
-    wristSpark.setSoftLimit(kReverse, -265);
-    wristSpark.setSmartCurrentLimit(30); //sets current limit to 20 amps
-    neoEncoder.setPosition(0.0);
-    wristSpark.setControlFramePeriodMs(20);
-
-    wristPidController = wristSpark.getPIDController();
-    wristPidController.setP(2);
-    wristPidController.setI(0.0);
-    wristPidController.setD(0.0);
-    wristPidController.setIZone(0.0);
-    wristPidController.setFF(0.5);
-    wristPidController.setOutputRange(-.6, .6);
-
-
-
+    wristEncoder = wristMotor.getEncoder();
+    wristEncoder.setPositionConversionFactor(((72/32)/25) * 360);
+    wristEncoder.setPosition(wristCancoder.getAbsolutePosition());
+    wristPID.disableContinuousInput();
+    wristMotor.setSoftLimit(SoftLimitDirection.kReverse, -110);
+    wristMotor.setSoftLimit(SoftLimitDirection.kForward, 110);
+    wristMotor.setSmartCurrentLimit(30); //sets current limit to 20 amps
+    wristMotor.setControlFramePeriodMs(20);
   }
 
-  public void setWrist(double position){
-      wristPidController.setReference(position, ControlType.kPosition);
-      if (neoEncoder.getPosition() >= position + 2 && neoEncoder.getPosition() <= position -2){
-        stopWrist();
-      }
-      else {
-        return;
-      }
-  
+  public void wristPosition() {
+    double setpoint = -wristPID.calculate(wristCancoder.getAbsolutePosition(), wristPosition + wristPositionOverride);
+    SmartDashboard.putNumber("WristPID setpoint", setpoint);
+    if (wristCancoder.getAbsolutePosition() > 90 && setpoint > 0) {wristMotor.set(0);}
+    else if (wristCancoder.getAbsolutePosition() < -90 && setpoint < 0) {wristMotor.set(0);}
+    wristMotor.set(MathUtil.clamp(setpoint, -.3, .3));
   }
 
-
-  public void stopWrist(){
-    wristSpark.stopMotor();
+  public void wristPosition(double position) {
+    wristPosition = position;
   }
-
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Cancoder position", wristCancoder.getAbsolutePosition());
-    SmartDashboard.putNumber("Neo position", neoEncoder.getPosition());
-    SmartDashboard.putNumber("Wrist output", wristSpark.getOutputCurrent());
-    // This method will be called once per scheduler run
+    wristEncoder.setPosition(wristCancoder.getAbsolutePosition());
+    wristPosition();
+    SmartDashboard.putNumber("Wrist Output", wristMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Wrist Motor Position", wristMotor.getEncoder().getPosition());
+    SmartDashboard.putNumber("Wrist Cancoder", wristCancoder.getAbsolutePosition());
+    SmartDashboard.putNumber("wristTarget", wristPosition);
   }
 }

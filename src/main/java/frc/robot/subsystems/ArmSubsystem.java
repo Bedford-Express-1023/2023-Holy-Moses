@@ -13,8 +13,10 @@ import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -49,16 +51,16 @@ public class ArmSubsystem extends SubsystemBase {
   public double armPosition = 0;
   //public double armPosition = 0;
   public final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0,1,0);
-  final ProfiledPIDController armPID = new ProfiledPIDController(1.6, 0.0, 0.0, new Constraints(maxShoulderVelocity, maxShoulderAcceleration));
+  final PIDController armPID = new PIDController(0.00007, 0.0, 0);
   final ProfiledPIDController shoulderPID = new ProfiledPIDController(0.1, 0.0, 0.1, new Constraints(maxShoulderVelocity, maxShoulderAcceleration));
 
 	final double shoulderTargetAngleHigh = 45;
   final double shoulderTargetAngleMedium = 30;
   final double shoulderTargetAngleLow = 15;
 
-  final double armTargetPositionHigh = -1000;
-  final double armTargetPositionMedium = -750;
-  final double armTargetPositionLow = -500;
+  final double armTargetPositionHigh = -20000;
+  final double armTargetPositionMedium = -10000;
+  final double armTargetPositionLow = 0;
 
   public String currentShoulderCommand = "";  
   public String currentArmCommand = "";
@@ -79,6 +81,7 @@ public class ArmSubsystem extends SubsystemBase {
     rotationLayout.addDouble("RotationSpeed", () -> TicksToDegrees(shoulderCANCoder.getVelocity() * 10));
     rotationLayout.addDouble("RotationPosition", () -> TicksToDegrees(shoulderCANCoder.getPosition()));
     rotationLayout.add("Current Shoulder Command", currentShoulderCommand, "none");
+  
 
 		rearShoulderMotor.configPeakOutputForward(.5);
 		rearShoulderMotor.configPeakOutputReverse(-.5);
@@ -87,6 +90,7 @@ public class ArmSubsystem extends SubsystemBase {
 
 		armMotor.configPeakOutputForward(0.5);
 		armMotor.configPeakOutputReverse(-0.5);
+    //armMotor.configOpenloopRamp(1);
     
 		// Set Motion Magic gains in slot0 - see documentation 
     /*
@@ -123,24 +127,18 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void ArmPosition() {
-    double vSetpoint = armPID.calculate(TicksToMeters(armMotor.getSelectedSensorPosition()), armPosition);
-    armMotor.set(ControlMode.PercentOutput,
-     MathUtil.clamp(
+    double vSetpoint = armPID.calculate(armMotor.getSelectedSensorPosition(), armPosition);
+    SmartDashboard.putNumber("Extension Setpoint", vSetpoint);
+    SmartDashboard.putNumber("Target Position", armPosition);
+    armMotor.set(ControlMode.PercentOutput,-0.225);/* 
+    MathUtil.clamp(
         vSetpoint,
-        -feedForward.calculate(MathUtil.clamp(vSetpoint, -maxArmVelocity, maxArmVelocity), -maxArmAcceleration),
-        feedForward.calculate(MathUtil.clamp(vSetpoint, -maxArmVelocity, maxArmVelocity), maxArmAcceleration))); //calculates max power output so as not to go above max velocity and max accel
-  }
-
-  public void ArmPosition(double armTargetPosition) {
-    armPosition = armTargetPosition;
-  }
+        -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)),
+        Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)))); //calculates max power output so as not to go above max velocity and max accel
+  */}
 
   public void ArmPercent(double percent){
     armMotor.set(TalonFXControlMode.PercentOutput, percent);
-  }
-
-  public void ShoulderPosition(double angle) {
-    shoulderPosition = angle;
   }
 
   public void ArmHighScore() {

@@ -73,12 +73,13 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
+        /* 
         s_Arm.setDefaultCommand(
             new ArmInOut(
                 s_Arm, 
                 () -> oliviaController.getRawAxis(translationAxis)
             )
-        );
+        );*/
         //s_Arm.setDefaultCommand(armStop);
 
         // Configure the button bindings
@@ -103,9 +104,9 @@ public class RobotContainer {
         WristTest2.whileTrue(new InstantCommand(() -> s_Wrist.setWrist(0)));
         //WristTest2.whileFalse(new InstantCommand(() -> s_Wrist.setWrist(0)));
         ArmLowScore.whileTrue(armLowScore);
-        ArmLowScore.whileFalse(armStop);
+        //ArmLowScore.whileFalse(armStop);
         ArmHighScore.whileTrue(armHighScore);
-        ArmHighScore.whileFalse(armStop);
+        //ArmHighScore.whileFalse(armStop);
     }
 
     /**

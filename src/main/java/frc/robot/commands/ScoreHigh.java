@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
@@ -15,7 +16,7 @@ public class ScoreHigh extends CommandBase {
   public ArmSubsystem arm;
 
 
-  public ScoreHigh(WristSubsystem wrist, ArmSubsystem arm, BooleanSupplier button) {
+  public ScoreHigh(WristSubsystem wrist, ArmSubsystem arm, Trigger button) {
     this.wrist = wrist;
     this.arm = arm;
     addRequirements(wrist, arm);

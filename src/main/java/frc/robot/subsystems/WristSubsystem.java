@@ -42,9 +42,7 @@ public class WristSubsystem extends SubsystemBase {
     wristEncoder = wristMotor.getEncoder();
     wristEncoder.setPositionConversionFactor(((72/32)/25) * 360);
     wristEncoder.setPosition(wristCancoder.getAbsolutePosition());
-    wristMotor.setSoftLimit(kForward, 90); 
     wristPID.disableContinuousInput();
-    wristMotor.setSoftLimit(kReverse, -90);
     wristMotor.setSmartCurrentLimit(30); //sets current limit to 20 amps
     wristMotor.setControlFramePeriodMs(20);
   }
@@ -52,6 +50,8 @@ public class WristSubsystem extends SubsystemBase {
   public void wristPosition() {
     double setpoint = -wristPID.calculate(wristCancoder.getAbsolutePosition(), wristPosition + wristPositionOverride);
     SmartDashboard.putNumber("WristPID setpoint", setpoint);
+    if (wristCancoder.getAbsolutePosition() > 90 && setpoint > 0) {wristMotor.set(0);}
+    else if (wristCancoder.getAbsolutePosition() < 90 && setpoint < 0) {wristMotor.set(0);}
     wristMotor.set(setpoint);
   }
 

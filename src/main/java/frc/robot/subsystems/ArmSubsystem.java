@@ -33,8 +33,8 @@ import static frc.robot.Constants.Arm.*;
 public class ArmSubsystem extends SubsystemBase { 
   //shoulder is rotation (up/down)
   //arm is extension (in/out)
-  public final TalonFX rearShoulderMotor = new TalonFX(Constants.Arm.REAR_SHOULDER_CAN);
-  public final TalonFX frontShoulderMotor = new TalonFX(Constants.Arm.FRONT_SHOULDER_CAN);
+  public final TalonFX rearShoulderMotor = new TalonFX(Constants.Arm.FRONT_SHOULDER_CAN);
+  public final TalonFX frontShoulderMotor = new TalonFX(Constants.Arm.REAR_SHOULDER_CAN);
   public final WPI_TalonFX armMotor = new WPI_TalonFX(Constants.Arm.ARM_EXTEND_CAN);
 
   public final CANCoder shoulderCANCoder = new CANCoder(Constants.Arm.SHOULDER_CANCODER);
@@ -48,11 +48,10 @@ public class ArmSubsystem extends SubsystemBase {
   public double armPositionOverride = 0;
   public int shoulderReversed = -1;
 
-  public final double gravity = .085;
+  public final double gravity = .1;
   public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, gravity);
   final PIDController armPID = new PIDController(1.6, 0.0, 0.0);
-  final PIDController shoulderPositionPID = new PIDController(2, 0.0, 0);
-  final PIDController shoulderVelocityPID = new PIDController(0.25, 0.0, 0.00);
+  final PIDController shoulderPositionPID = new PIDController(.015, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 30;
   final public double shoulderTargetAngleMiddle = -30;
@@ -74,11 +73,12 @@ public class ArmSubsystem extends SubsystemBase {
     frontShoulderMotor.follow(rearShoulderMotor);
     armMotor.setNeutralMode(NeutralMode.Coast);
 
-
+/*
 		rearShoulderMotor.configPeakOutputForward(+.5);
 		rearShoulderMotor.configPeakOutputReverse(-.5);
 		frontShoulderMotor.configPeakOutputForward(+.5);
 		frontShoulderMotor.configPeakOutputReverse(-.5);
+*/
   
     armMotor.configPeakOutputForward(+.5);
 		armMotor.configPeakOutputReverse(-.5);
@@ -103,21 +103,17 @@ public class ArmSubsystem extends SubsystemBase {
    * probably use the other overload though
    */
   public void ShoulderPosition() {
-    double vSetpoint = shoulderPositionPID.calculate(shoulderCANCoder.getAbsolutePosition(), shoulderPosition) * .5;
-    vSetpoint += shoulderVelocityPID.calculate(vSetpoint, shoulderCANCoder.getVelocity());
-    //double vSetpoint = shoulderPositionPID.calculate(shoulderCANCoder.getAbsolutePosition(), shoulderPosition);
+    //double vSetpoint = shoulderPositionPID.calculate(shoulderCANCoder.getAbsolutePosition(), shoulderPosition) * .5;
+    //vSetpoint += shoulderVelocityPID.calculate(shoulderCANCoder.getVelocity(), vSetpoint);
+    double vSetpoint = shoulderPositionPID.calculate(shoulderCANCoder.getAbsolutePosition(), shoulderPosition);
 
-    SmartDashboard.putNumber("PID", vSetpoint);
-    frontShoulderMotor.set(ControlMode.PercentOutput,
+    SmartDashboard.putNumber("gravity", gravity * -Math.sin(shoulderCANCoder.getAbsolutePosition()));
+    SmartDashboard.putNumber("Shoulder Setpoint", vSetpoint);
+    rearShoulderMotor.set(ControlMode.PercentOutput, gravity * -Math.sin(shoulderCANCoder.getAbsolutePosition() * Math.PI/180) + 
       MathUtil.clamp(
         vSetpoint,
-        -Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration, shoulderCANCoder.getAbsolutePosition())),
-        Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration, shoulderCANCoder.getAbsolutePosition()))/180)); //calculates max power output so as not to go above max velocity and max accel
-    rearShoulderMotor.set(ControlMode.PercentOutput,
-      MathUtil.clamp(
-        vSetpoint,
-        -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration, shoulderCANCoder.getAbsolutePosition())),
-        Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration, shoulderCANCoder.getAbsolutePosition()))/180)); //calculates max power output so as not to go above max velocity and max accel //calculates max power output so as not to go above max velocity and max accel
+        -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration)),
+        Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration)))); //calculates max power output so as not to go above max velocity and max accel //calculates max power output so as not to go above max velocity and max accel
   }
 
   /**
@@ -130,7 +126,7 @@ public class ArmSubsystem extends SubsystemBase {
      MathUtil.clamp(
       vSetpoint,
       -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)),
-      Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration))/180)); //calculates max power output so as not to go above max velocity and max accel
+      Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)))); //calculates max power output so as not to go above max velocity and max accel
   }
 
 

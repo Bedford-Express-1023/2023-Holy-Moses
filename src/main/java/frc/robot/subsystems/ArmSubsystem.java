@@ -103,21 +103,22 @@ public class ArmSubsystem extends SubsystemBase {
         -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration)),
         Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration)))); //calculates max power output so as not to go above max velocity and max accel //calculates max power output so as not to go above max velocity and max accel
   }
-
-  public void armScoreHigh() {
+  public void ShoulderPosition(double position) {
+    shoulderPosition = position;
   }
+
   public void ArmHighScore() {
-    shoulderPosition = shoulderTargetAngleHigh;
+    ShoulderPosition(shoulderTargetAngleHigh);
     //currentArmCommand = "High Score";
   }
 
   public void ArmMiddleScore() {
-    shoulderPosition = shoulderTargetAngleMiddle;
+    ShoulderPosition(shoulderTargetAngleMiddle);
     //currentArmCommand = "Middle Score";
   }
 
   public void ArmLowScore() {
-    shoulderPosition = shoulderTargetAngleLow;
+    ShoulderPosition(shoulderTargetAngleLow);
     //currentArmCommand = "Low Score";
   }
 /**

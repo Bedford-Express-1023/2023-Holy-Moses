@@ -8,12 +8,17 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PS4Controller.Axis;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+import frc.robot.commands.Autos.TopScore1CubeAnd1Cone;
+import frc.robot.commands.Drivetrain.AlignToTarget;
 import frc.robot.subsystems.*;
 
 /**
@@ -48,6 +53,7 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton turnSLow = new JoystickButton(willController, XboxController.Button.kRightBumper.value);
     private final JoystickButton slow = new JoystickButton(willController, XboxController.Button.kX.value);
+    private final JoystickButton alignToTarget = new JoystickButton(willController, XboxController.Button.kA.value);
 
     private final JoystickButton yellow = new JoystickButton(oliviaController, XboxController.Button.kStart.value);
     private final JoystickButton purple = new JoystickButton(oliviaController, XboxController.Button.kBack.value);
@@ -67,13 +73,14 @@ public class RobotContainer {
     private final IntakeSubsystem s_Intake = new IntakeSubsystem();
     private final WristSubsystem s_Wrist = new WristSubsystem();
     private final Blinkin s_Blinkin = new Blinkin();
+    private final ArmSubsystem s_Arm = new ArmSubsystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
-                s_Swerve, s_Limelight, 
+                s_Swerve, 
                 () -> -willController.getRawAxis(translationAxis), 
                 () -> -willController.getRawAxis(strafeAxis), 
                 () -> -willController.getRawAxis(rotationAxis) * .8,
@@ -99,7 +106,7 @@ public class RobotContainer {
         
         SmartDashboard.putData(autoDelay);
 
-        autoChooser.setDefaultOption("Do Nothing", new DoNothing());
+        autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -124,7 +131,7 @@ public class RobotContainer {
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         outtake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        //yellow.whileTrue(new InstantCommand(() -> s_Blinkin.yellow()))
+        yellow.whileTrue(new InstantCommand(() -> s_Blinkin.yellow()))
             .whileFalse(new InstantCommand(() -> s_Blinkin.blue()));
         purple.whileTrue(new InstantCommand(() -> s_Blinkin.purple()))
             .whileFalse(new InstantCommand(() -> s_Blinkin.blue()));

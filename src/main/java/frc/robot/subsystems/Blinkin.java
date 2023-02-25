@@ -37,14 +37,17 @@ public void limitSwitchColor() {
        
 } 
 
+
+
   @Override
   public void periodic() {
     if (m_blinkinLimitswitch.get()){
       m_limitSwitchState = true;
-    }
-    else if (!m_blinkinLimitswitch.get()){
+   }
+   else if (!m_blinkinLimitswitch.get()){
             m_limitSwitchState = false;
-    }     
+   }
+        
    }
     // This method will be called once per scheduler run
   }

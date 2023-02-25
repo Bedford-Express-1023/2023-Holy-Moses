@@ -74,14 +74,18 @@ public class RobotContainer {
     private final POVButton armLow = new POVButton(oliviaController, 180);
     private final JoystickButton armReverse = new JoystickButton(oliviaController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton alignToTarget = new JoystickButton(willController, XboxController.Button.kRightBumper.value);
+    private final JoystickButton ArmDown = new JoystickButton(testController, XboxController.Button.kX.value);
+    //private final JoystickButton ArmUp = new JoystickButton(testController, XboxController.Button.kY.value);
+    private final JoystickButton WristTest = new JoystickButton(testController, XboxController.Button.kA.value);
+    private final JoystickButton WristTest2 = new JoystickButton(testController, XboxController.Button.kB.value);
+>>>>>>>>> Temporary merge branch 2
 
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+<<<<<<<<< Temporary merge branch 1
     private final ArmSubsystem s_Arm = new ArmSubsystem();
-    private final IntakeSubsystem s_Intake = new IntakeSubsystem();
-    private final WristSubsystem s_Wrist = new WristSubsystem();
-    private final Blinkin s_Blinkin = new Blinkin();
+=========
     private final Limelight s_Limelight = new Limelight();
 
 
@@ -129,22 +133,10 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        armHigh.onTrue(new ScoreHigh(s_Wrist, s_Arm, armHigh));
-        armMid.onTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
-        armLow.onTrue(new ScoreLow(s_Wrist, s_Arm, armLow));
-        armReverse.onTrue(new InstantCommand(() -> s_Arm.shoulderReversed *= -1));
-
-        intake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
-            .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        outtake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
-            .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        yellow.whileTrue(new InstantCommand(() -> s_Blinkin.yellow()))
-            .whileFalse(new InstantCommand(() -> s_Blinkin.blue()));
-        purple.whileTrue(new InstantCommand(() -> s_Blinkin.purple()))
-            .whileFalse(new InstantCommand(() -> s_Blinkin.blue()));
-        new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
-            .whileTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
-            .whileFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
+<<<<<<<<< Temporary merge branch 1
+        ArmUp.onTrue(new InstantCommand(s_Arm::ArmHighScore));
+        ArmDown.onTrue(new InstantCommand(s_Arm::ArmLowScore));
+=========
         alignToTarget.onTrue(new AlignToTarget(s_Swerve, s_Limelight));
     }
 

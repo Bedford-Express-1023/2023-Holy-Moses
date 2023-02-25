@@ -53,9 +53,9 @@ public class ArmSubsystem extends SubsystemBase {
   final PIDController armPID = new PIDController(1.6, 0.0, 0.0);
   final PIDController shoulderPositionPID = new PIDController(.015, 0.0, 0);
 
-	final public double shoulderTargetAngleHigh = 30;
-  final public double shoulderTargetAngleMiddle = 60;
-  final public double shoulderTargetAngleLow = 75;
+	final public double shoulderTargetAngleHigh = 15;
+  final public double shoulderTargetAngleMiddle = 30;
+  final public double shoulderTargetAngleLow = 90;
 
   public final double armTargetPositionHigh = 0;
   public final double armTargetPositionMiddle = 0;

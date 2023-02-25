@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
+
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.*;
 
 import edu.wpi.first.math.MathUtil;
@@ -26,13 +28,15 @@ public class WristSubsystem extends SubsystemBase {
   public double wristPositionOverride = 0;
 
   private SimpleMotorFeedforward wristFeedforward = new SimpleMotorFeedforward(0.0, 1, 0); //TODO: Tune
-  private PIDController wristPID = new PIDController(0.04, 0.0, 0.0);
+  private PIDController wristPID = new PIDController(0.03, 0.0, 0.0);
 
   public WristSubsystem() {
     wristEncoder = wristMotor.getEncoder();
     wristEncoder.setPositionConversionFactor(((72/32)/25) * 360);
     wristEncoder.setPosition(wristCancoder.getAbsolutePosition());
     wristPID.disableContinuousInput();
+    wristMotor.setSoftLimit(SoftLimitDirection.kReverse, -110);
+    wristMotor.setSoftLimit(SoftLimitDirection.kForward, 110);
     wristMotor.setSmartCurrentLimit(30); //sets current limit to 20 amps
     wristMotor.setControlFramePeriodMs(20);
   }

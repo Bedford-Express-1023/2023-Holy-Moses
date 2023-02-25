@@ -17,7 +17,7 @@ public class ScoreHigh extends CommandBase {
   public WristSubsystem wrist;
   public ArmSubsystem arm;
   public Trigger button;
-  public Boolean booleanReverse = false;
+  public Boolean booleanReverse = true;
 
 
   public ScoreHigh(WristSubsystem wrist, ArmSubsystem arm, Trigger button) {
@@ -38,12 +38,12 @@ public class ScoreHigh extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (button.getAsBoolean() != booleanReverse) {
+    /*if (button.getAsBoolean() != booleanReverse) {
       booleanReverse = button.getAsBoolean();
       if (booleanReverse) {
         arm.shoulderReversed *= -1;
       }
-    }
+    }*/
 
     wrist.wristPosition((arm.shoulderReversed * 90 - arm.shoulderCANCoder.getAbsolutePosition()));
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleHigh);

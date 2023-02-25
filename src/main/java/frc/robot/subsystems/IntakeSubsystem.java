@@ -36,9 +36,12 @@ public class IntakeSubsystem extends SubsystemBase {
    * @param speed speed of intake, percent output
    * @param value state of solenoid, kForward kReverse or kOff
    */
-  public void intake(double speed, Value value) {
-    intakeSolenoid.set(value);
+  public void intake(double speed) {
     intakeMotor.set(TalonSRXControlMode.PercentOutput, speed);
+  }
+
+  public void solenoid(Value value) {
+    intakeSolenoid.set(value);
   }
 
   public void intakeStop(){

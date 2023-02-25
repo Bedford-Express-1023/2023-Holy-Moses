@@ -17,6 +17,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Intake;
 import frc.robot.commands.*;
 import frc.robot.commands.Autos.TopScore1CubeAnd1Cone;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import frc.robot.commands.Autos.DoNothing;
+import frc.robot.commands.Autos.GoToCone;
+import frc.robot.commands.Drivetrain.AlignToTarget;
+import frc.robot.commands.Drivetrain.TeleopSwerve;
 import frc.robot.subsystems.*;
 
 /**
@@ -28,6 +39,10 @@ import frc.robot.subsystems.*;
 
     
 public class RobotContainer {
+    /* Sendable Choosers */
+    public final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+    public final SendableChooser<Command> autoDelay = new SendableChooser<Command>();
+
     /* Controllers */
     private final Joystick willController = new Joystick(0);
     private final XboxController oliviaController = new XboxController(1);
@@ -58,6 +73,7 @@ public class RobotContainer {
     private final POVButton armMid = new POVButton(oliviaController, 90);
     private final POVButton armLow = new POVButton(oliviaController, 180);
     private final JoystickButton armReverse = new JoystickButton(oliviaController, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton alignToTarget = new JoystickButton(willController, XboxController.Button.kRightBumper.value);
 
 
     /* Subsystems */
@@ -66,22 +82,39 @@ public class RobotContainer {
     private final IntakeSubsystem s_Intake = new IntakeSubsystem();
     private final WristSubsystem s_Wrist = new WristSubsystem();
     private final Blinkin s_Blinkin = new Blinkin();
+    private final Limelight s_Limelight = new Limelight();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
-                s_Swerve, 
+                s_Swerve, s_Limelight, 
                 () -> -willController.getRawAxis(translationAxis), 
                 () -> -willController.getRawAxis(strafeAxis), 
                 () -> -willController.getRawAxis(rotationAxis) * .8,
                 () -> robotCentric.getAsBoolean(),
                 () -> turnSLow.getAsBoolean(),
                 () -> slow.getAsBoolean()
-                
             )
         );
+
+
+        autoDelay.setDefaultOption("none", new WaitCommand(0.0));
+        autoDelay.addOption("1.0", new WaitCommand(1.0));
+        autoDelay.addOption("2.0", new WaitCommand(2.0));
+        autoDelay.addOption("3.0", new WaitCommand(3.0));
+        autoDelay.addOption("4.0", new WaitCommand(4.0));
+        autoDelay.addOption("5.0", new WaitCommand(5.0));
+        autoDelay.addOption("6.0", new WaitCommand(6.0));
+        autoDelay.addOption("7.0", new WaitCommand(7.0));
+        autoDelay.addOption("8.0", new WaitCommand(8.0));
+        autoDelay.addOption("9.0", new WaitCommand(9.0));
+        autoDelay.addOption("10.0", new WaitCommand(10.0));
+        
+        SmartDashboard.putData(autoDelay);
+
+        autoChooser.setDefaultOption("Do Nothing", new DoNothing());
 
         // Configure the button bindings
         configureButtonBindings();
@@ -112,6 +145,7 @@ public class RobotContainer {
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
             .whileTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
             .whileFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
+        alignToTarget.onTrue(new AlignToTarget(s_Swerve, s_Limelight));
     }
 
     /**

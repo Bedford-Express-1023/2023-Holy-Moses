@@ -19,7 +19,7 @@ public final class Constants {
         public static final int FRONT_SHOULDER_CAN = 32;
         public static final int ARM_EXTEND_CAN = 34;
         public static final int SHOULDER_CANCODER = 33;
-
+        
         public static double maxShoulderVelocity = 1;
         public static double maxShoulderAcceleration = 1;
         public static double maxArmVelocity = 0.5;
@@ -40,6 +40,8 @@ public final class Constants {
     public static final class Swerve {
         public static final int pigeonID = 1;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
+        public static final double slowSpeedMultiplier = 0.5;
+        public static final double fastTurnMultiplier = 10;
 
         public static final COTSFalconSwerveConstants chosenModule =   //TODO: This must be tuned to specific robot Done!
  COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);

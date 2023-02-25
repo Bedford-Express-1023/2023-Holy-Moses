@@ -12,11 +12,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.Intake;
+
 import frc.robot.commands.*;
-import frc.robot.commands.Autos.TopScore1CubeAnd1Cone;
 import frc.robot.subsystems.*;
 
 /**
@@ -28,6 +25,10 @@ import frc.robot.subsystems.*;
 
     
 public class RobotContainer {
+    /* Sendable Choosers */
+    public final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+    public final SendableChooser<Command> autoDelay = new SendableChooser<Command>();
+
     /* Controllers */
     private final Joystick willController = new Joystick(0);
     private final XboxController oliviaController = new XboxController(1);
@@ -62,7 +63,7 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final ArmSubsystem s_Arm = new ArmSubsystem();
+    private final Limelight s_Limelight = new Limelight();
     private final IntakeSubsystem s_Intake = new IntakeSubsystem();
     private final WristSubsystem s_Wrist = new WristSubsystem();
     private final Blinkin s_Blinkin = new Blinkin();
@@ -72,7 +73,7 @@ public class RobotContainer {
     public RobotContainer() {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
-                s_Swerve, 
+                s_Swerve, s_Limelight, 
                 () -> -willController.getRawAxis(translationAxis), 
                 () -> -willController.getRawAxis(strafeAxis), 
                 () -> -willController.getRawAxis(rotationAxis) * .8,
@@ -82,6 +83,23 @@ public class RobotContainer {
                 
             )
         );
+
+
+        autoDelay.setDefaultOption("none", new WaitCommand(0.0));
+        autoDelay.addOption("1.0", new WaitCommand(1.0));
+        autoDelay.addOption("2.0", new WaitCommand(2.0));
+        autoDelay.addOption("3.0", new WaitCommand(3.0));
+        autoDelay.addOption("4.0", new WaitCommand(4.0));
+        autoDelay.addOption("5.0", new WaitCommand(5.0));
+        autoDelay.addOption("6.0", new WaitCommand(6.0));
+        autoDelay.addOption("7.0", new WaitCommand(7.0));
+        autoDelay.addOption("8.0", new WaitCommand(8.0));
+        autoDelay.addOption("9.0", new WaitCommand(9.0));
+        autoDelay.addOption("10.0", new WaitCommand(10.0));
+        
+        SmartDashboard.putData(autoDelay);
+
+        autoChooser.setDefaultOption("Do Nothing", new DoNothing());
 
         // Configure the button bindings
         configureButtonBindings();
@@ -96,6 +114,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+        alignToTarget.onTrue(new AlignToTarget(s_Swerve, s_Limelight));
         armHigh.onTrue(new ScoreHigh(s_Wrist, s_Arm, armHigh));
         armMid.onTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
         armLow.onTrue(new ScoreLow(s_Wrist, s_Arm, armLow));
@@ -105,7 +124,7 @@ public class RobotContainer {
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         outtake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        yellow.whileTrue(new InstantCommand(() -> s_Blinkin.yellow()))
+        //yellow.whileTrue(new InstantCommand(() -> s_Blinkin.yellow()))
             .whileFalse(new InstantCommand(() -> s_Blinkin.blue()));
         purple.whileTrue(new InstantCommand(() -> s_Blinkin.purple()))
             .whileFalse(new InstantCommand(() -> s_Blinkin.blue()));
@@ -123,4 +142,6 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
         return new TopScore1CubeAnd1Cone(s_Swerve);
     }
+    //hahah hello
 }
+

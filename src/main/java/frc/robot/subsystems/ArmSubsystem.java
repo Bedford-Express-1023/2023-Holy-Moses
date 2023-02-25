@@ -6,7 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
@@ -61,12 +61,7 @@ public class ArmSubsystem extends SubsystemBase {
   public final double armTargetPositionMiddle = 0;
   public final double armTargetPositionLow = 0;
 
-  public String currentShoulderCommand = "";  
-  public String currentArmCommand = "";
-  public final DigitalInput limitSwitch = new DigitalInput(1);
-  public final Counter counter = new Counter(limitSwitch);
-
-  /** Creates a new ArmSubsystem. */
+  // Creates a new ArmSubsystem. 
   public ArmSubsystem() {
 		rearShoulderMotor.setNeutralMode(NeutralMode.Brake);
 		frontShoulderMotor.setNeutralMode(NeutralMode.Brake);
@@ -88,7 +83,7 @@ public class ArmSubsystem extends SubsystemBase {
     .withPosition(0, 2);
     rotationLayout.addDouble("RotationSpeed", () -> shoulderCANCoder.getVelocity());
     rotationLayout.addDouble("RotationPosition", () -> shoulderCANCoder.getPosition());
-    rotationLayout.add("Current Arm Command", currentArmCommand, "none");
+    //rotationLayout.add("Current Arm Command", currentArmCommand, "none");
   }
 
   /**
@@ -109,22 +104,21 @@ public class ArmSubsystem extends SubsystemBase {
         Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration)))); //calculates max power output so as not to go above max velocity and max accel //calculates max power output so as not to go above max velocity and max accel
   }
 
-  public void ShoulderPosition(double angle) {
-    shoulderPosition = angle;
+  public void armScoreHigh() {
   }
   public void ArmHighScore() {
     shoulderPosition = shoulderTargetAngleHigh;
-    currentArmCommand = "High Score";
+    //currentArmCommand = "High Score";
   }
 
   public void ArmMiddleScore() {
     shoulderPosition = shoulderTargetAngleMiddle;
-    currentArmCommand = "Middle Score";
+    //currentArmCommand = "Middle Score";
   }
 
   public void ArmLowScore() {
     shoulderPosition = shoulderTargetAngleLow;
-    currentArmCommand = "Low Score";
+    //currentArmCommand = "Low Score";
   }
 /**
  * @param ticks the encoder value (in ticks, 2048/rotation)
@@ -159,4 +153,4 @@ public class ArmSubsystem extends SubsystemBase {
     //ShoulderPosition(0);
     ShoulderPosition();
   }
-}
+} 

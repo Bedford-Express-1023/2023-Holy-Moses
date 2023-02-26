@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.PS4Controller.Axis;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -51,7 +52,7 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton turnSLow = new JoystickButton(willController, XboxController.Button.kRightBumper.value);
+    private final JoystickButton turnSow = new JoystickButton(willController, XboxController.Button.kRightBumper.value);
     private final JoystickButton slow = new JoystickButton(willController, XboxController.Button.kX.value);
     private final JoystickButton alignToTarget = new JoystickButton(willController, XboxController.Button.kA.value);
 
@@ -78,6 +79,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        s_Blinkin.setDefaultCommand(new InstantCommand(() -> s_Blinkin.blue(), s_Blinkin));
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -85,7 +87,7 @@ public class RobotContainer {
                 () -> -willController.getRawAxis(strafeAxis), 
                 () -> -willController.getRawAxis(rotationAxis) * .8,
                 () -> robotCentric.getAsBoolean(),
-                () -> turnSLow.getAsBoolean(),
+                () -> turnSow.getAsBoolean(),
                 () -> slow.getAsBoolean()
                 
             )
@@ -131,10 +133,8 @@ public class RobotContainer {
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         outtake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        yellow.whileTrue(new InstantCommand(() -> s_Blinkin.yellow()))
-            .whileFalse(new InstantCommand(() -> s_Blinkin.blue()));
-        purple.whileTrue(new InstantCommand(() -> s_Blinkin.purple()))
-            .whileFalse(new InstantCommand(() -> s_Blinkin.blue()));
+            yellow.whileTrue(new FunctionalCommand(() -> {}, () -> s_Blinkin.yellow(), (x) -> {}, () -> false, s_Blinkin));
+            purple.whileTrue(new FunctionalCommand(() -> {}, () -> s_Blinkin.purple(), (x) -> {}, () -> false, s_Blinkin));
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
             .whileTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
             .whileFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));

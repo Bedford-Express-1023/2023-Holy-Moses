@@ -47,7 +47,7 @@ public class ScoreLow extends CommandBase {
 
     wrist.wristPosition((arm.shoulderReversed * 90 - arm.shoulderCANCoder.getAbsolutePosition()));
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleLow);
-    //arm.ArmPosition(arm.armTargetPositionLow);
+    arm.ArmPosition(arm.armTargetPositionLow);
   }
 
   // Called once the command ends or is interrupted.

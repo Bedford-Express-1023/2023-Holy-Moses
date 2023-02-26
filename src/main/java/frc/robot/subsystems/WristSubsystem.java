@@ -14,6 +14,7 @@ import static com.revrobotics.CANSparkMaxLowLevel.MotorType.*;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Arm.*;
@@ -23,6 +24,8 @@ public class WristSubsystem extends SubsystemBase {
   private CANSparkMax wristMotor = new CANSparkMax(WRIST_SPARK, kBrushless);
   private CANCoder wristCancoder = new CANCoder(WRIST_CANCODER);
   public RelativeEncoder wristEncoder;
+  private final XboxController oliviaController = new XboxController(1);
+
 
   public double wristPosition = 0;
   public double wristPositionOverride = 0;
@@ -53,8 +56,14 @@ public class WristSubsystem extends SubsystemBase {
     wristPosition = position;
   }
 
+  public void wristToHome() {
+    wristPosition(0);
+  }
+
   @Override
   public void periodic() {
+    wristPositionOverride += oliviaController.getRightY() * 0.5;
+
     wristEncoder.setPosition(wristCancoder.getAbsolutePosition());
     wristPosition();
     SmartDashboard.putNumber("Wrist Output", wristMotor.getOutputCurrent());

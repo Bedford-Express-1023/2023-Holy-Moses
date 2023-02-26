@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -64,6 +65,7 @@ public class RobotContainer {
     private final POVButton armHigh = new POVButton(oliviaController, 0);
     private final POVButton armMid = new POVButton(oliviaController, 90);
     private final POVButton armLow = new POVButton(oliviaController, 180);
+    private final POVButton armHome = new POVButton(oliviaController, 270);
     private final JoystickButton armReverse = new JoystickButton(oliviaController, XboxController.Button.kLeftBumper.value);
 
 
@@ -125,6 +127,10 @@ public class RobotContainer {
         armHigh.onTrue(new ScoreHigh(s_Wrist, s_Arm, armHigh));
         armMid.onTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
         armLow.onTrue(new ScoreLow(s_Wrist, s_Arm, armLow));
+        armHome.onTrue(
+            new SequentialCommandGroup(
+                new WaitCommand(1).deadlineWith(new ArmToHome(s_Wrist, s_Arm)), 
+                new ShoulderToHome(s_Arm)));
         armReverse.onTrue(new InstantCommand(() -> s_Arm.shoulderReversed *= -1));
 
         intake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5)))

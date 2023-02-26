@@ -48,25 +48,26 @@ public class ArmSubsystem extends SubsystemBase {
   public double armPositionOverride = 0;
   public int shoulderReversed = -1;
 
-  public final double shoulderGravity = .075;
+  public final double shoulderGravity = .07;
+  public final double armGravity = -0.26;
   public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, shoulderGravity);
-  final PIDController armPID = new PIDController(1.6, 0.0, 0.0);
-  final PIDController shoulderPositionPID = new PIDController(.015, 0.0, 0);
+  final PIDController armPID = new PIDController(0.00009, 0.0, 0.0);
+  final PIDController shoulderPositionPID = new PIDController(.018, 0.0, 0);
 
-	final public double shoulderTargetAngleHigh = 15;
-  final public double shoulderTargetAngleMiddle = 30;
-  final public double shoulderTargetAngleLow = 105;
+	final public double shoulderTargetAngleHigh = 45;
+  final public double shoulderTargetAngleMiddle = 50; //TESTED AND WORKS
+  final public double shoulderTargetAngleLow = 110;
 
-  public final double armTargetPositionHigh = 0;
-  public final double armTargetPositionMiddle = 0;
-  public final double armTargetPositionLow = 0;
+  public final double armTargetPositionHigh = -85000;
+  public final double armTargetPositionMiddle = -45000; //TESTED AND WORKS
+  public final double armTargetPositionLow = -5000;
 
   // Creates a new ArmSubsystem. 
   public ArmSubsystem() {
 		rearShoulderMotor.setNeutralMode(NeutralMode.Brake);
 		frontShoulderMotor.setNeutralMode(NeutralMode.Brake);
     frontShoulderMotor.follow(rearShoulderMotor);
-    armMotor.setNeutralMode(NeutralMode.Coast);
+    armMotor.setNeutralMode(NeutralMode.Brake);
   
     armMotor.configPeakOutputForward(+.5);
 		armMotor.configPeakOutputReverse(-.5);
@@ -103,8 +104,21 @@ public class ArmSubsystem extends SubsystemBase {
         -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration)),
         Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration)))); //calculates max power output so as not to go above max velocity and max accel //calculates max power output so as not to go above max velocity and max accel
   }
-  public void ShoulderPosition(double position) {
-    shoulderPosition = position;
+  public void ShoulderPosition(double positionShoulder) {
+    shoulderPosition = positionShoulder;
+  }
+
+  public void ArmPosition() {
+    double vSetpoint = armPID.calculate(armMotor.getSelectedSensorPosition(), armPosition + armPositionOverride);
+    armMotor.set(ControlMode.PercentOutput,
+    MathUtil.clamp(armGravity * Math.cos(shoulderCANCoder.getAbsolutePosition() * Math.PI/180) +
+    vSetpoint,
+    -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)),
+    Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration))));
+    //calculates max power output so as not to go above max velocity and max accel
+  }
+  public void ArmPosition(double positionArm) {
+    armPosition = positionArm;
   }
 
   public void ArmHighScore() {
@@ -121,6 +135,19 @@ public class ArmSubsystem extends SubsystemBase {
     ShoulderPosition(shoulderTargetAngleLow);
     //currentArmCommand = "Low Score";
   }
+
+  public void ArmPositionZero() {
+    armMotor.setSelectedSensorPosition(0);
+  }
+
+  public void ArmToHome() {
+    ArmPosition(0);
+  }
+
+  public void ShoulderToHome() {
+    ShoulderPosition(0);
+  }
+
 /**
  * @param ticks the encoder value (in ticks, 2048/rotation)
  * @return the angle, in degrees, off of absolute 0
@@ -141,7 +168,8 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("ShoulderPosition", shoulderCANCoder.getAbsolutePosition());
     SmartDashboard.putNumber("ShoulderTarget", shoulderPosition);
-    SmartDashboard.putNumber("ExtenstionPosition", shoulderCANCoder.getAbsolutePosition()/1000);
+    SmartDashboard.putNumber("ExtenstionPosition", shoulderCANCoder.getAbsolutePosition());
+    SmartDashboard.putNumber("ExtensionTarget", armPosition);
     double leftYstick = -oliviaController.getRawAxis(0); // left-side Y for Xbox360Gamepad 
 		double rghtYstick = -oliviaController.getRawAxis(1); // right-side Y for Xbox360Gamepad 
 		if (Math.abs(leftYstick) < 0.10) {
@@ -150,8 +178,11 @@ public class ArmSubsystem extends SubsystemBase {
 		if (Math.abs(rghtYstick) < 0.10) { 
       rghtYstick = 0; // deadband 10% 
     } 
+    armPositionOverride += oliviaController.getLeftY() * 200;
     // This method will be called once per scheduler run
+    ArmPosition();
     //ShoulderPosition(0);
     ShoulderPosition();
+
   }
 } 

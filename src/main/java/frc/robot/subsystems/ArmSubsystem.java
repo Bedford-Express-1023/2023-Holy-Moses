@@ -49,16 +49,16 @@ public class ArmSubsystem extends SubsystemBase {
   public int shoulderReversed = -1;
 
   public final double shoulderGravity = .07;
-  public final double armGravity = -0.26;
+  public final double armGravity = -.0;
   public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, shoulderGravity);
-  final PIDController armPID = new PIDController(0.00009, 0.0, 0.0);
+  final PIDController armPID = new PIDController(0.00005, 0.0, 0.0);
   final PIDController shoulderPositionPID = new PIDController(.018, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 45;
   final public double shoulderTargetAngleMiddle = 50; //TESTED AND WORKS
   final public double shoulderTargetAngleLow = 110;
 
-  public final double armTargetPositionHigh = -85000;
+  public final double armTargetPositionHigh = -80000;
   public final double armTargetPositionMiddle = -45000; //TESTED AND WORKS
   public final double armTargetPositionLow = -5000;
 
@@ -113,8 +113,8 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor.set(ControlMode.PercentOutput,
     MathUtil.clamp(armGravity * Math.cos(shoulderCANCoder.getAbsolutePosition() * Math.PI/180) +
     vSetpoint,
-    -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)),
-    Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration))));
+    -Math.abs(-armGravity + -feedForward.calculate(MathUtil.clamp(Math.abs(Math.cos(shoulderCANCoder.getAbsolutePosition() * Math.PI/180) + vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)),
+    Math.abs(armGravity + feedForward.calculate(MathUtil.clamp(Math.abs(Math.cos(shoulderCANCoder.getAbsolutePosition() * Math.PI/180) + vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration))));
     //calculates max power output so as not to go above max velocity and max accel
   }
   public void ArmPosition(double positionArm) {
@@ -181,7 +181,7 @@ public class ArmSubsystem extends SubsystemBase {
     armPositionOverride += oliviaController.getLeftY() * 200;
     // This method will be called once per scheduler run
     ArmPosition();
-    //ShoulderPosition(0);
+    ShoulderPosition(0);
     ShoulderPosition();
 
   }

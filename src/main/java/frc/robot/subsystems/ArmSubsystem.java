@@ -54,7 +54,7 @@ public class ArmSubsystem extends SubsystemBase {
   final PIDController armPID = new PIDController(0.00005, 0.0, 0.0);
   final PIDController shoulderPositionPID = new PIDController(.018, 0.0, 0);
 
-	final public double shoulderTargetAngleHigh = 45;
+	final public double shoulderTargetAngleHigh = 50;
   final public double shoulderTargetAngleMiddle = 50; //TESTED AND WORKS
   final public double shoulderTargetAngleLow = 110;
 
@@ -181,7 +181,7 @@ public class ArmSubsystem extends SubsystemBase {
     armPositionOverride += oliviaController.getLeftY() * 200;
     // This method will be called once per scheduler run
     ArmPosition();
-    ShoulderPosition(0);
+    //ShoulderPosition(0);
     ShoulderPosition();
 
   }

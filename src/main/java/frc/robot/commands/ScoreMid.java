@@ -27,6 +27,12 @@ public class ScoreMid extends CommandBase {
     addRequirements(wrist, arm);
   }
 
+  public ScoreMid(WristSubsystem wrist, ArmSubsystem arm) {
+    this.wrist = wrist;
+    this.arm = arm;
+    addRequirements(wrist, arm);
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {

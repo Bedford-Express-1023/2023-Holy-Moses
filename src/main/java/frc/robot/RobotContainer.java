@@ -147,7 +147,8 @@ public class RobotContainer {
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         outtake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-            LED.toggleOnTrue(new FunctionalCommand(
+        LED.toggleOnTrue(
+            new FunctionalCommand(
                 () -> {}, 
                 () -> s_Blinkin.yellow(), 
                 (x) -> {

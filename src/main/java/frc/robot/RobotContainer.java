@@ -66,7 +66,7 @@ public class RobotContainer {
     private final POVButton armHigh = new POVButton(oliviaController, 0);
     private final POVButton armMid = new POVButton(oliviaController, 90);
     private final POVButton armLow = new POVButton(oliviaController, 180);
-    private final POVButton armHome = new POVButton(oliviaController, 270);
+    private final POVButton armFeeder = new POVButton(oliviaController, 270);
     private final JoystickButton armReverse = new JoystickButton(oliviaController, XboxController.Button.kLeftBumper.value);
 
 
@@ -82,6 +82,10 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         s_Blinkin.setDefaultCommand(new InstantCommand(() -> s_Blinkin.blue(), s_Blinkin));
+        s_Arm.setDefaultCommand(
+            new SequentialCommandGroup(
+                new WaitCommand(1).deadlineWith(new ArmToHome(s_Wrist, s_Arm)), 
+                new ShoulderToHome(s_Arm)));
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -125,14 +129,11 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        alignToTarget.onTrue(new AlignToTarget(s_Swerve, s_Limelight));
-        armHigh.onTrue(new ScoreHigh(s_Wrist, s_Arm, armHigh));
-        armMid.onTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
-        armLow.onTrue(new ScoreLow(s_Wrist, s_Arm, armLow));
-        armHome.onTrue(
-            new SequentialCommandGroup(
-                new WaitCommand(1).deadlineWith(new ArmToHome(s_Wrist, s_Arm)), 
-                new ShoulderToHome(s_Arm)));
+        alignToTarget.whileTrue(new AlignToTarget(s_Swerve, s_Limelight));
+        armHigh.whileTrue(new ScoreHigh(s_Wrist, s_Arm, armHigh));
+        armMid.whileTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
+        armLow.whileTrue(new ScoreLow(s_Wrist, s_Arm, armLow));
+        armFeeder.whileTrue(new ArmFeeder(s_Wrist, s_Arm));
         armReverse.onTrue(new InstantCommand(() -> s_Arm.shoulderReversed *= -1));
 
         intake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5)))

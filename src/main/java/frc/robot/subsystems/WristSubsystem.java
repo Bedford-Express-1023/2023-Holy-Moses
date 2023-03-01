@@ -45,7 +45,7 @@ public class WristSubsystem extends SubsystemBase {
   }
 
   public void wristPosition() {
-    double setpoint = -wristPID.calculate(wristCancoder.getAbsolutePosition(), wristPosition + wristPositionOverride);
+    double setpoint = -wristPID.calculate(wristCancoder.getAbsolutePosition(), wristPosition + Math.signum(wristPosition) * wristPositionOverride);
     SmartDashboard.putNumber("WristPID setpoint", setpoint);
     if (wristCancoder.getAbsolutePosition() > 90 && setpoint > 0) {wristMotor.set(0);}
     else if (wristCancoder.getAbsolutePosition() < -90 && setpoint < 0) {wristMotor.set(0);}
@@ -62,10 +62,13 @@ public class WristSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    wristPositionOverride += oliviaController.getRightY() * 0.5;
+    if (Math.abs(oliviaController.getRightY()) > .2) {
+      wristPositionOverride += oliviaController.getRightY() * 0.5;
+    }
 
     wristEncoder.setPosition(wristCancoder.getAbsolutePosition());
     wristPosition();
+    SmartDashboard.putNumber("Wrist Override", wristPositionOverride);
     SmartDashboard.putNumber("Wrist Output", wristMotor.getOutputCurrent());
     SmartDashboard.putNumber("Wrist Motor Position", wristMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Wrist Cancoder", wristCancoder.getAbsolutePosition());

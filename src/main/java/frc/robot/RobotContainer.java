@@ -59,8 +59,8 @@ public class RobotContainer {
     private final JoystickButton slow = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton alignToTarget = new JoystickButton(willController, XboxController.Button.kA.value);
 
-    private final JoystickButton yellow = new JoystickButton(oliviaController, XboxController.Button.kStart.value);
-    private final JoystickButton purple = new JoystickButton(oliviaController, XboxController.Button.kBack.value);
+    private final JoystickButton LED = new JoystickButton(oliviaController, XboxController.Button.kStart.value);
+    //private final JoystickButton purple = new JoystickButton(oliviaController, XboxController.Button.kBack.value);
     
     private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
     private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
@@ -70,6 +70,7 @@ public class RobotContainer {
     private final POVButton armLow = new POVButton(oliviaController, 180);
     private final POVButton armFeeder = new POVButton(oliviaController, 270);
     private final JoystickButton armReverse = new JoystickButton(oliviaController, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton armZero = new JoystickButton(oliviaController, XboxController.Button.kB.value);
 
 
     /* Subsystems */
@@ -140,13 +141,25 @@ public class RobotContainer {
         armLow.whileTrue(new ScoreLow(s_Wrist, s_Arm, armLow));
         armFeeder.whileTrue(new ArmFeeder(s_Wrist, s_Arm));
         armReverse.onTrue(new InstantCommand(() -> s_Arm.shoulderReversed *= -1));
+        armZero.onTrue(new InstantCommand(s_Arm::ArmPositionZero));
 
         intake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         outtake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-            yellow.toggleOnTrue(new FunctionalCommand(() -> {}, () -> s_Blinkin.yellow(), (x) -> {}, () -> false, s_Blinkin));
-            purple.toggleOnTrue(new FunctionalCommand(() -> {}, () -> s_Blinkin.purple(), (x) -> {}, () -> false, s_Blinkin));
+            LED.toggleOnTrue(new FunctionalCommand(
+                () -> {}, 
+                () -> s_Blinkin.yellow(), 
+                (x) -> {
+                    new FunctionalCommand(
+                        () -> {},
+                        () -> s_Blinkin.purple(),
+                        (a) -> {},
+                        () -> false,
+                        s_Blinkin
+                    );
+                }, 
+                () -> false, s_Blinkin));
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
             .whileTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
             .whileFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));

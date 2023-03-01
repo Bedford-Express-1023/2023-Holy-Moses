@@ -116,12 +116,14 @@ public class ArmSubsystem extends SubsystemBase {
 
   private void ArmPosition() {
     double vSetpoint = armPID.calculate(armMotor.getSelectedSensorPosition(), armPosition + armPositionOverride);
-    if (armMotor.getSelectedSensorPosition() > 0 && vSetpoint > 0) {vSetpoint = 0;}
+    if (armMotor.getSelectedSensorPosition() > 0 && vSetpoint > 0) {
+      armMotor.set(oliviaController.getLeftY() * .05);} else {
     armMotor.set(ControlMode.PercentOutput, armGravity * Math.cos(shoulderCANCoder.getAbsolutePosition() * Math.PI/180) + 
     MathUtil.clamp(
     vSetpoint,
     -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)),
     Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration))));
+    }
     //calculates max power output so as not to go above max velocity and max accel
   }
 
@@ -188,8 +190,8 @@ public class ArmSubsystem extends SubsystemBase {
 		if (Math.abs(rightYstick) < 0.10) { 
       rightYstick = 0; // deadband 10% 
     } 
-    if (armLimitSwitch.get() || oliviaController.getLeftStickButton()) {
-      armMotor.setSelectedSensorPosition(0);
+    if (armLimitSwitch.get() || oliviaController.getBButtonPressed()) {
+      ArmPositionZero();
     }
     armPositionOverride += oliviaController.getLeftY() * 200;
     // This method will be called once per scheduler run

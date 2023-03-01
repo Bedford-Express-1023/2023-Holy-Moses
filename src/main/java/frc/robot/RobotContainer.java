@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+import frc.robot.commands.Autos.BottomScore1CubeAnd1Cone;
+import frc.robot.commands.Autos.ChargingStation;
 import frc.robot.commands.Autos.TopScore1CubeAnd1Cone;
 import frc.robot.commands.Drivetrain.AlignToTarget;
 import frc.robot.subsystems.*;
@@ -52,9 +54,9 @@ public class RobotContainer {
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
-    private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kX.value);
     private final JoystickButton turnSow = new JoystickButton(willController, XboxController.Button.kRightBumper.value);
-    private final JoystickButton slow = new JoystickButton(willController, XboxController.Button.kX.value);
+    private final JoystickButton slow = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton alignToTarget = new JoystickButton(willController, XboxController.Button.kA.value);
 
     private final JoystickButton yellow = new JoystickButton(oliviaController, XboxController.Button.kStart.value);
@@ -115,6 +117,9 @@ public class RobotContainer {
         SmartDashboard.putData(autoDelay);
 
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
+        autoChooser.addOption("Top 1 cone and 1 cube", new TopScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
+        autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
+        autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -140,8 +145,8 @@ public class RobotContainer {
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         outtake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-            yellow.whileTrue(new FunctionalCommand(() -> {}, () -> s_Blinkin.yellow(), (x) -> {}, () -> false, s_Blinkin));
-            purple.whileTrue(new FunctionalCommand(() -> {}, () -> s_Blinkin.purple(), (x) -> {}, () -> false, s_Blinkin));
+            yellow.toggleOnTrue(new FunctionalCommand(() -> {}, () -> s_Blinkin.yellow(), (x) -> {}, () -> false, s_Blinkin));
+            purple.toggleOnTrue(new FunctionalCommand(() -> {}, () -> s_Blinkin.purple(), (x) -> {}, () -> false, s_Blinkin));
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
             .whileTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
             .whileFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
@@ -154,7 +159,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new TopScore1CubeAnd1Cone(s_Swerve);
+        return new TopScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist);
     }
     //hahah hello
 }

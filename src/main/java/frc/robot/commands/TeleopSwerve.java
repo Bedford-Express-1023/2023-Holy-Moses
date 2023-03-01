@@ -38,7 +38,7 @@ public class TeleopSwerve extends CommandBase {
         double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
         double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
         double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
-        if (this.turnSlow.getAsBoolean()) {rotationVal *= 0.2;}
+        if (this.turnSlow.getAsBoolean()) {rotationVal *= 0.4;}
         if (this.slow.getAsBoolean()) {translationVal *= 0.2;}
         if (this.slow.getAsBoolean()) {strafeVal *= 0.2;}
         /* Drive */

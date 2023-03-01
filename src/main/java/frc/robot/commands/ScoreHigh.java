@@ -27,6 +27,12 @@ public class ScoreHigh extends CommandBase {
     addRequirements(wrist, arm);
   }
 
+  public ScoreHigh(WristSubsystem wrist, ArmSubsystem arm) {
+    this.wrist = wrist;
+    this.arm = arm;
+    addRequirements(wrist, arm);
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {

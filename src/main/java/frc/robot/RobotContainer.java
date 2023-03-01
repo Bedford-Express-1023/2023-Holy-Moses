@@ -144,8 +144,8 @@ public class RobotContainer {
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         outtake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-            yellow.whileTrue(new FunctionalCommand(() -> {}, () -> s_Blinkin.yellow(), (x) -> {}, () -> false, s_Blinkin));
-            purple.whileTrue(new FunctionalCommand(() -> {}, () -> s_Blinkin.purple(), (x) -> {}, () -> false, s_Blinkin));
+            yellow.toggleOnTrue(new FunctionalCommand(() -> {}, () -> s_Blinkin.yellow(), (x) -> {}, () -> false, s_Blinkin));
+            purple.toggleOnTrue(new FunctionalCommand(() -> {}, () -> s_Blinkin.purple(), (x) -> {}, () -> false, s_Blinkin));
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
             .whileTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
             .whileFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));

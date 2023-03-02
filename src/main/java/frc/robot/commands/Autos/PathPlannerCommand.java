@@ -57,6 +57,7 @@ public PathPlannerCommand(Swerve s_Swerve, double maxSpeed, String pathName) {
         s_Swerve.swerveOdometry.getPoseMeters().getY(), 
         state.poseMeters.getY()), 
       s_Swerve.rotaController.calculate(
+        s_Swerve.swerveOdometry.getPoseMeters().getRotation().getDegrees(),
         state.holonomicRotation.getDegrees())
         //state.holonomicRotation.getRadians())
     );

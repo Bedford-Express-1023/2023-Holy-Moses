@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -30,6 +31,8 @@ import frc.lib.util.RotationalFeedForward;
 import frc.robot.Constants;
 import static frc.robot.Constants.Arm.*;
 
+import java.util.function.DoubleSupplier;
+
 import javax.swing.text.Position;
 
 public class ArmSubsystem extends SubsystemBase { 
@@ -38,7 +41,7 @@ public class ArmSubsystem extends SubsystemBase {
   public final TalonFX rearShoulderMotor = new TalonFX(Constants.Arm.FRONT_SHOULDER_CAN);
   public final TalonFX frontShoulderMotor = new TalonFX(Constants.Arm.REAR_SHOULDER_CAN);
   public final WPI_TalonFX armMotor = new WPI_TalonFX(Constants.Arm.ARM_EXTEND_CAN);
-  public final DigitalInput armLimitSwitch = new DigitalInput(Constants.Arm.ARM_LIMIT_SWITCH_DIO);
+  //public final DigitalInput armLimitSwitch = new DigitalInput(Constants.Arm.ARM_LIMIT_SWITCH_DIO);
 
   public final CANCoder shoulderCANCoder = new CANCoder(Constants.Arm.SHOULDER_CANCODER);
 
@@ -58,12 +61,12 @@ public class ArmSubsystem extends SubsystemBase {
   final PIDController shoulderPositionPID = new PIDController(.0195, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 45;
-  final public double shoulderTargetAngleMiddle = 45; //TESTED AND WORKS
+  final public double shoulderTargetAngleMiddle = 52; //TESTED AND WORKS
   final public double shoulderTargetAngleLow = 110;
   public final double shoulderTargetAngleFeeder = 27;
 
   public final double armTargetPositionHigh = -111000;
-  public final double armTargetPositionMiddle = -76000; //TESTED AND WORKS
+  public final double armTargetPositionMiddle = -71000; //TESTED AND WORKS
   public final double armTargetPositionLow = -5000;
   public final double armTargetPositionFeeder = -28000;
   
@@ -158,6 +161,10 @@ public class ArmSubsystem extends SubsystemBase {
     ShoulderPosition(0);
   }
 
+  public void ArmManual(double joystickDouble){
+    armMotor.set(TalonFXControlMode.PercentOutput, joystickDouble);
+  }
+
 /**
  * @param ticks the encoder value (in ticks, 2048/rotation)
  * @return the angle, in degrees, off of absolute 0
@@ -180,7 +187,7 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ShoulderTarget", shoulderPosition);
     SmartDashboard.putNumber("ExtenstionPosition", shoulderCANCoder.getAbsolutePosition());
     SmartDashboard.putNumber("ExtensionTarget", armPosition);
-    SmartDashboard.putBoolean("armLimitSwitch", armLimitSwitch.get());
+    //SmartDashboard.putBoolean("armLimitSwitch", armLimitSwitch.get());
     SmartDashboard.putNumber("ArmOutput", armMotor.getSupplyCurrent());
     double leftYstick = -oliviaController.getRawAxis(0); // left-side Y for Xbox360Gamepad 
 		double rightYstick = -oliviaController.getRawAxis(1); // right-side Y for Xbox360Gamepad 
@@ -190,9 +197,9 @@ public class ArmSubsystem extends SubsystemBase {
 		if (Math.abs(rightYstick) < 0.10) { 
       rightYstick = 0; // deadband 10% 
     } 
-    if (armLimitSwitch.get() || oliviaController.getBButtonPressed()) {
-      ArmPositionZero();
-    }
+
+  
+
     armPositionOverride += oliviaController.getLeftY() * 200;
     // This method will be called once per scheduler run
     ArmPosition();

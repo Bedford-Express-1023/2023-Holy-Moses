@@ -52,6 +52,8 @@ public class RobotContainer {
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
+    private final int armAxis = XboxController.Axis.kLeftY.value;
+
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kX.value);
@@ -122,6 +124,8 @@ public class RobotContainer {
         autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve));
 
+        SmartDashboard.putData(autoChooser);
+
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -162,8 +166,10 @@ public class RobotContainer {
                 }, 
                 () -> false, s_Blinkin));
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
-            .whileTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
-            .whileFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
+            .toggleOnTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
+            .toggleOnFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
+        //new InstantCommand(() -> s_Arm.ArmManual(oliviaController.getRawAxis(armAxis)));
+        //oliviaController.getRawAxis(armAxis)
     }
 
     /**

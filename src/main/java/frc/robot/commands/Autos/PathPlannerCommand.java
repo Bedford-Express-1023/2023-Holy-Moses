@@ -57,7 +57,8 @@ public PathPlannerCommand(Swerve s_Swerve, double maxSpeed, String pathName) {
         s_Swerve.swerveOdometry.getPoseMeters().getY(), 
         state.poseMeters.getY()), 
       s_Swerve.rotaController.calculate(
-        state.holonomicRotation.getRadians())
+        state.holonomicRotation.getDegrees())
+        //state.holonomicRotation.getRadians())
     );
     SmartDashboard.putNumber("SpeedX", speed.vxMetersPerSecond);
     SmartDashboard.putNumber("SpeedY", speed.vyMetersPerSecond);

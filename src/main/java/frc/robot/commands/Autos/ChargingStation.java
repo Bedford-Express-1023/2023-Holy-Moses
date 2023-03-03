@@ -24,8 +24,12 @@ import frc.robot.subsystems.WristSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ChargingStation extends SequentialCommandGroup {
   /** Creates a new Auto1. */
-  public ChargingStation(Swerve swerve) {
+  public ChargingStation(Swerve swerve, WristSubsystem wristSubsystem, IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
+      new ScoreHigh(wristSubsystem, armSubsystem),
+      new OutakeCube(intakeSubsystem),
+      new ArmToHome(wristSubsystem, armSubsystem),
+      new ShoulderToHome(armSubsystem),
       new PathPlannerCommand(swerve, 5, "Charging station")
     );
   }

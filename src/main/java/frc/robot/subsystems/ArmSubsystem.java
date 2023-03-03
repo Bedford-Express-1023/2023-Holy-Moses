@@ -189,18 +189,14 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ExtensionTarget", armPosition);
     //SmartDashboard.putBoolean("armLimitSwitch", armLimitSwitch.get());
     SmartDashboard.putNumber("ArmOutput", armMotor.getSupplyCurrent());
-    double leftYstick = -oliviaController.getRawAxis(0); // left-side Y for Xbox360Gamepad 
-		double rightYstick = -oliviaController.getRawAxis(1); // right-side Y for Xbox360Gamepad 
+    double leftYstick = oliviaController.getLeftY(); // left-side Y for Xbox360Gamepad 
 		if (Math.abs(leftYstick) < 0.10) {
       leftYstick = 0; // deadband 10% 
-    } 
-		if (Math.abs(rightYstick) < 0.10) { 
-      rightYstick = 0; // deadband 10% 
     } 
 
   
 
-    armPositionOverride += oliviaController.getLeftY() * 200;
+    armPositionOverride += leftYstick * 275;
     // This method will be called once per scheduler run
     ArmPosition();
     //ShoulderPosition(0);

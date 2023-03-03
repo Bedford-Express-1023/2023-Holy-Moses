@@ -25,7 +25,7 @@ public class IntakeCone extends CommandBase {
   @Override
   public void execute() {
     intake.intake(0.5);
-    intake.solenoid(Value.kReverse);
+    intake.solenoid(Value.kForward);
   }
 
   // Called once the command ends or is interrupted.

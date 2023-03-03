@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PS4Controller.Axis;
+import edu.wpi.first.wpilibj.event.NetworkBooleanEvent;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -71,7 +72,7 @@ public class RobotContainer {
     private final POVButton armMid = new POVButton(oliviaController, 90);
     private final POVButton armLow = new POVButton(oliviaController, 180);
     private final POVButton armFeeder = new POVButton(oliviaController, 270);
-    private final JoystickButton armReverse = new JoystickButton(oliviaController, XboxController.Button.kLeftBumper.value);
+    //private final JoystickButton armReverse = new JoystickButton(oliviaController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton armZero = new JoystickButton(oliviaController, XboxController.Button.kB.value);
 
 
@@ -86,7 +87,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        s_Blinkin.setDefaultCommand(new InstantCommand(() -> s_Blinkin.blue(), s_Blinkin));
+        //s_Blinkin.setDefaultCommand(new InstantCommand(() -> s_Blinkin.blue(), s_Blinkin));
         s_Arm.setDefaultCommand(
             new SequentialCommandGroup(
                 new WaitCommand(1).deadlineWith(new ArmToHome(s_Wrist, s_Arm)), 
@@ -122,7 +123,7 @@ public class RobotContainer {
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
         autoChooser.addOption("Top 1 cone and 1 cube", new TopScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
-        autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve));
+        autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Wrist, s_Intake, s_Arm));
 
         SmartDashboard.putData(autoChooser);
 
@@ -144,7 +145,9 @@ public class RobotContainer {
         armMid.whileTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
         armLow.whileTrue(new ScoreLow(s_Wrist, s_Arm, armLow));
         armFeeder.whileTrue(new ArmFeeder(s_Wrist, s_Arm));
-        armReverse.onTrue(new InstantCommand(() -> s_Arm.shoulderReversed *= -1));
+        //armReverse.onTrue(new InstantCommand(() -> s_Arm.shoulderReversed *= -1));
+        new Trigger(() -> oliviaController.getLeftTriggerAxis() > 0.5)
+            .onTrue(new InstantCommand(() -> s_Arm.shoulderReversed *= -1));
         armZero.onTrue(new InstantCommand(s_Arm::ArmPositionZero));
 
         intake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
@@ -162,7 +165,7 @@ public class RobotContainer {
                         (a) -> {},
                         () -> false,
                         s_Blinkin
-                    );
+                    ).schedule();;
                 }, 
                 () -> false, s_Blinkin));
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
@@ -177,10 +180,10 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand() {
+    /* .public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         return new TopScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist);
-    }
+    }*/
     //hahah hello
 }
 

@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.IntakeStop;
+import frc.robot.subsystems.IntakeSubsystem;
 
 
 /**
@@ -86,6 +88,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    new IntakeStop(m_robotContainer.s_Intake).schedule();
   }
 
   /** This function is called periodically during operator control. */

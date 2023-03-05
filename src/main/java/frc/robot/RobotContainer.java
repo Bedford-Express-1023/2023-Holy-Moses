@@ -77,12 +77,12 @@ public class RobotContainer {
 
 
     /* Subsystems */
-    private final Swerve s_Swerve = new Swerve();
-    private final Limelight s_Limelight = new Limelight();
-    private final IntakeSubsystem s_Intake = new IntakeSubsystem();
-    private final WristSubsystem s_Wrist = new WristSubsystem();
-    private final Blinkin s_Blinkin = new Blinkin();
-    private final ArmSubsystem s_Arm = new ArmSubsystem();
+    public final Swerve s_Swerve = new Swerve();
+    public final Limelight s_Limelight = new Limelight();
+    public final IntakeSubsystem s_Intake = new IntakeSubsystem();
+    public final WristSubsystem s_Wrist = new WristSubsystem();
+    public final Blinkin s_Blinkin = new Blinkin();
+    public final ArmSubsystem s_Arm = new ArmSubsystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -123,7 +123,7 @@ public class RobotContainer {
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
         autoChooser.addOption("Top 1 cone and 1 cube", new TopScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
-        autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Wrist, s_Intake, s_Arm));
+        autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Intake, s_Arm, s_Wrist));
 
         SmartDashboard.putData(autoChooser);
 
@@ -165,12 +165,12 @@ public class RobotContainer {
                         (a) -> {},
                         () -> false,
                         s_Blinkin
-                    ).schedule();;
+                    ).schedule();
                 }, 
                 () -> false, s_Blinkin));
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
-            .toggleOnTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
-            .toggleOnFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
+            .onTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
+            .onFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
         //new InstantCommand(() -> s_Arm.ArmManual(oliviaController.getRawAxis(armAxis)));
         //oliviaController.getRawAxis(armAxis)
     }

@@ -44,7 +44,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeSolenoid.set(value);
   }
 
-  public void intakeStop(){
+  public void intakeStop() {
     intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.0);
   }
 

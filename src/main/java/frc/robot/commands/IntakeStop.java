@@ -8,25 +8,24 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeCone extends CommandBase {
-  public IntakeSubsystem intake;
-  /** Creates a new IntakeCone. */
-  public IntakeCone(IntakeSubsystem intake) {
+public class IntakeStop extends CommandBase {
+  IntakeSubsystem intake; 
+  /** Creates a new IntakeStop. */
+  public IntakeStop(IntakeSubsystem intake) {
     this.intake = intake;
     addRequirements(intake);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    intake.intake(0);
+    intake.solenoid(Value.kReverse);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    intake.intake(0.5);
-    intake.solenoid(Value.kForward);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -35,6 +34,6 @@ public class IntakeCone extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

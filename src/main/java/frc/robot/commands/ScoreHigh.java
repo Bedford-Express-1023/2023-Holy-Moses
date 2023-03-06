@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
 public class ScoreHigh extends CommandBase {
@@ -27,10 +28,10 @@ public class ScoreHigh extends CommandBase {
     addRequirements(wrist, arm);
   }
 
-  public ScoreHigh(WristSubsystem wrist, ArmSubsystem arm) {
-    this.wrist = wrist;
-    this.arm = arm;
-    addRequirements(wrist, arm);
+  public ScoreHigh(ArmSubsystem s_Arm, WristSubsystem s_Wrist) {
+    this.wrist = s_Wrist;
+    this.arm = s_Arm;
+    addRequirements(s_Arm, s_Wrist);
   }
 
   // Called when the command is initially scheduled.
@@ -51,7 +52,7 @@ public class ScoreHigh extends CommandBase {
       }
     }*/
 
-    wrist.wristPosition((arm.shoulderReversed * 90 - arm.shoulderCANCoder.getAbsolutePosition()));
+    wrist.wristPosition((arm.shoulderReversed * 80 - arm.shoulderCANCoder.getAbsolutePosition()));
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleHigh);
     arm.ArmPosition(arm.armTargetPositionHigh);
   }

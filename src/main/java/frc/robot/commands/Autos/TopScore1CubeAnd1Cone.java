@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ArmToHome;
 import frc.robot.commands.IntakeCone;
 import frc.robot.commands.IntakeCube;
+import frc.robot.commands.IntakeStop;
 import frc.robot.commands.OutakeCone;
 import frc.robot.commands.OutakeCube;
 import frc.robot.commands.ScoreHigh;
@@ -28,10 +29,10 @@ public class TopScore1CubeAnd1Cone extends SequentialCommandGroup {
   /** Creates a new Auto1. */
   public TopScore1CubeAnd1Cone(Swerve swerve, IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, WristSubsystem wristSubsystem) {
     addCommands(
-      //new ScoreHigh(wristSubsystem, armSubsystem),
-      //new OutakeCone(intakeSubsystem),
-      //new ArmToHome(wristSubsystem, armSubsystem),
-      //new ShoulderToHome(armSubsystem),
+      new ScoreHigh(armSubsystem, wristSubsystem),
+      new OutakeCone(intakeSubsystem),
+      new ArmToHome(wristSubsystem, armSubsystem),
+      new ShoulderToHome(armSubsystem),
       //new PathPlannerCommand(swerve, 1, "Straight 1 top"),
       new PathPlannerCommand(swerve, 1, "Go to first game piece 1 top")
      // new PathPlannerCommand(swerve, 1, "Turn 180 Right 1 top"),

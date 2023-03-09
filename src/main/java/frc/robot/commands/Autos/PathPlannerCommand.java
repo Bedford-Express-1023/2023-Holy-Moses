@@ -7,6 +7,8 @@ package frc.robot.commands.Autos;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -32,34 +34,36 @@ public PathPlannerCommand(Swerve s_Swerve, double maxSpeed, String pathName) {
         s_Swerve.xController.setConstraints(new Constraints(maxSpeed, 10));
         s_Swerve.yController.setConstraints(new Constraints(maxSpeed, 10));
         s_Swerve.rotaController.setConstraints(new Constraints(1000, 100));
-        //driveController = new HolonomicDriveController(s_Swerve.xController, s_Swerve.yController, s_Swerve.rotaController);
   }
 
   @Override
   public void initialize() {
-      //s_Swerve.resetOdometry(new Pose2d(driveTrajectory.sample(0).poseMeters.getTranslation(), ((PathPlannerState)driveTrajectory.sample(0)).holonomicRotation));
       timer.start();
-      s_Swerve.resetOdometry(new Pose2d());
+      s_Swerve.gyro.setYaw(driveTrajectory.getInitialHolonomicPose().getRotation().getDegrees());
+      s_Swerve.resetOdometry(driveTrajectory.getInitialHolonomicPose());
   }
 
   @Override
   public void execute() {
     PathPlannerState state = (PathPlannerState) driveTrajectory.sample(timer.get());
-    state.poseMeters = new Pose2d(
+    Pose2d targetPose = new Pose2d(
       state.poseMeters.getX() - driveTrajectory.getInitialPose().getX(),
       state.poseMeters.getY() - driveTrajectory.getInitialPose().getY(), 
       state.poseMeters.getRotation().minus(driveTrajectory.getInitialPose().getRotation()));
+    Pose2d robotPose = new Pose2d(
+      s_Swerve.getPose().getX() - driveTrajectory.getInitialHolonomicPose().getX(),
+      s_Swerve.getPose().getY() - driveTrajectory.getInitialHolonomicPose().getY(),
+      s_Swerve.getPose().getRotation().minus(driveTrajectory.getInitialHolonomicPose().getRotation()));
     ChassisSpeeds speed = new ChassisSpeeds(
       s_Swerve.xController.calculate(
-        s_Swerve.swerveOdometry.getPoseMeters().getX(), 
-        state.poseMeters.getX()),
+        robotPose.getX(),
+        targetPose.getX()),
       s_Swerve.yController.calculate(
-        s_Swerve.swerveOdometry.getPoseMeters().getY(), 
-        state.poseMeters.getY()), 
+        robotPose.getY(), 
+        targetPose.getY()), 
       s_Swerve.rotaController.calculate(
-        s_Swerve.swerveOdometry.getPoseMeters().getRotation().getDegrees(),
-        state.holonomicRotation.getDegrees())
-        //state.holonomicRotation.getRadians())
+        robotPose.getRotation().getRadians(),
+        targetPose.getRotation().getRadians())
     );
     SmartDashboard.putNumber("SpeedX", speed.vxMetersPerSecond);
     SmartDashboard.putNumber("SpeedY", speed.vyMetersPerSecond);
@@ -79,7 +83,7 @@ public PathPlannerCommand(Swerve s_Swerve, double maxSpeed, String pathName) {
   @Override
   public void end(boolean interrupted) {
       // Stop the drivetrain
-      s_Swerve.drive(new Translation2d(0.0, 0.0), 0, false, false);
+      s_Swerve.drive(new Translation2d(0.0, 0.0), 0, true, false);
       timer.reset();
   }
 }

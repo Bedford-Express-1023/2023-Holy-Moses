@@ -4,128 +4,106 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Limelight extends SubsystemBase {
-  public double limelightXLeft;
-  public double limelightYLeft;
-  public double limelightVLeft;
-  public double limelightAreaLeft;
-  public double limelightXRight;
-  public double limelightYRight;
-  public double limelightVRight;
-  public double limelightAreaRight;
+public final class Limelight {
+  public final static int Left = 0;
+  public final static int Right = 1;
+  public final Pose3d LimelightPose = new Pose3d(2.23, 18.16, 15, new Rotation3d(0, 0, 0)).times(.0254);
 
-  private NetworkTable tableLeft = NetworkTableInstance.getDefault().getTable("limelight-left");
-  private NetworkTable tableRight = NetworkTableInstance.getDefault().getTable("limelight-right");
+  public final static NetworkTable limeLightLeft = NetworkTableInstance.getDefault().getTable("limelight-left");
+  public final static NetworkTable limeLightRight = NetworkTableInstance.getDefault().getTable("limelight-right");
 
-  private NetworkTableEntry txLeft = tableLeft.getEntry("tx");
-  private NetworkTableEntry tyLeft = tableLeft.getEntry("ty");
-  private NetworkTableEntry tvLeft = tableLeft.getEntry("tv");
-  private NetworkTableEntry taLeft = tableLeft.getEntry("ta");
-
-  private NetworkTableEntry txRight = tableRight.getEntry("tx");
-  private NetworkTableEntry tyRight = tableRight.getEntry("ty");
-  private NetworkTableEntry tvRight = tableRight.getEntry("tv");
-  private NetworkTableEntry taRight = tableRight.getEntry("ta");
-  
-  /** Creates a new Limelight. */
-  public Limelight() {
+  public static int getClosest() {
+    if (ta(Left) <= ta(Right)) {
+      return Left;
+    }
+    return Right;
   }
 
-  /** Updates limelightV for Left Limelight
-   * pass an int to define which led mode you want
-   * @param desiredLEDState 0 is default for pipeline, 1 is off, 2 is blink, 3 is on
-   * @return double V; whether limelight has target or not
-   */
-  public double updateLimelightVLeft(int desiredLEDState){
-    tableLeft.getEntry("ledMode").setNumber(desiredLEDState);
-    limelightVLeft = tvLeft.getDouble(0.0);
-    return limelightVLeft;
-  }
-
-
-    /** Updates limelightX for Left Limelight
-   * pass an int to define which led mode you want - 
-   * @param desiredLEDState 0 is default for pipeline, 1 is off, 2 is blink, 3 is on
-   * @return double X value of target
-   */
-  public double updateLimelightXLeft(int desiredLEDState){
-    tableLeft.getEntry("ledMode").setNumber(desiredLEDState);
-    limelightXLeft = txLeft.getDouble(0.0);
-    return limelightXLeft;
-  }
-
-    /** Updates limelightX for Right Limelight
-   * pass an int to define which led mode you want - 
-   * @param desiredLEDState 0 is default for pipeline, 1 is off, 2 is blink, 3 is on
-   * @return double X value of target
-   */
-  public double updateLimelightXRight(int desiredLEDState){
-    tableRight.getEntry("ledMode").setNumber(desiredLEDState);
-    limelightXRight = txRight.getDouble(0.0);
-    return limelightXRight;
-  }
-  
   /**
-   * Updates limelightY value for Left Limelight
-   * pass an int to define which led mode you want - 
-   * @param desiredLEDState 0 is default for pipeline, 1 is off, 2 is blink, 3 is on
-   * @return Y value of target
+   * @return if any limelight has a valid target
    */
-  public double updateLimelightYLeft(int desiredLEDState){
-    tableLeft.getEntry("ledMode").setNumber(desiredLEDState);
-    limelightYLeft = tyLeft.getDouble(0.0);
-    return limelightYLeft;
+  public static Boolean tv() {
+    return 
+      NetworkTableInstance.getDefault().getTable("limelight-left").getEntry("tv").getDouble(0) == 1 ||
+      NetworkTableInstance.getDefault().getTable("limelight-right").getEntry("tv").getDouble(0) == 1;
   }
 
-    /**
-   * Updates limelightY value for Right Limelight
-   * pass an int to define which led mode you want - 
-   * @param desiredLEDState 0 is default for pipeline, 1 is off, 2 is blink, 3 is on
-   * @return double Y value of target
+  /**
+   * 
+   * @param side which limelight, Limelight.Left or Limelight.Right, to use.
+   * @return if that specific limelight has a valid target
    */
-  public double updateLimelightYRight(int desiredLEDState){
-    tableRight.getEntry("ledMode").setNumber(desiredLEDState);
-    limelightYRight = tyRight.getDouble(0.0);
-    return limelightYRight;
+  public static Boolean tv(int side) {
+    return side == Left ? 
+      limeLightLeft.getEntry("tv").getDouble(0) == 1:
+      limeLightRight.getEntry("tv").getDouble(0) == 1;
+      
   }
 
-    /** Updates limelightArea value for Left Limelight
-   * pass an int to define which led mode you want 
-   * @param desiredLEDState 0 is pipeline default, 1 is off, 2 is blink, 3 is on
-   * @return double area of image the target occupies
+  /**
+   * @param side which limelight, Limelight.Left or Limelight.Right, to use.
+   * @return area of the target 0-100% 
    */
-  public double updateLimelightAreaLeft(int desiredLEDState){
-    tableLeft.getEntry("ledMode").setNumber(desiredLEDState);
-    limelightAreaLeft = taLeft.getDouble(0.0);
-    return limelightAreaLeft;
+  public static double ta(int side) {
+    return (side == 1) ? 
+    limeLightRight.getEntry("ta").getDouble(0) : 
+    limeLightLeft.getEntry("ta").getDouble(0);
   }
 
-    /** Updates limelightArea value for Right Limelight
-   * pass an int to define which led mode you want 
-   * @param desiredLEDState 0 is pipeline default, 1 is off, 2 is blink, 3 is on
-   * @return double area of image the target occupies
+  /**
+   * @param side which limelight, Limelight.Left or Limelight.Right, to use.
+   * @return the horizontal angle to the target
    */
-  public double updateLimelightAreaRight(int desiredLEDState){
-    tableRight.getEntry("ledMode").setNumber(desiredLEDState);
-    limelightAreaRight = taRight.getDouble(0.0);
-    return limelightAreaRight;
+  public static double tx(int side) {
+    return (side == 1) ? 
+    limeLightRight.getEntry("tx").getDouble(0) : 
+    limeLightLeft.getEntry("tx").getDouble(0);
   }
 
-  @Override
-  public void periodic() {
-    SmartDashboard.putNumber("LimelightX LEFT", limelightXLeft);
-    SmartDashboard.putNumber("LimelightY LEFT", limelightYLeft);
-    SmartDashboard.putNumber("LimelightArea LEFT", limelightAreaLeft);
+  /**
+   * @param side which limelight, Limelight.Left or Limelight.Right, to use.
+   * @return the vertical angle to the target
+   */
+  public static double ty(int side) {
+    return (side == 1) ? 
+    limeLightRight.getEntry("ty").getDouble(0) : 
+    limeLightLeft.getEntry("ty").getDouble(0);
+  }
 
-    SmartDashboard.putNumber("LimelightX RIGHT", limelightXRight);
-    SmartDashboard.putNumber("LimelightY RIGHT", limelightYRight);
-    SmartDashboard.putNumber("LimelightArea RIGHT", limelightAreaRight);
-    // This method will be called once per scheduler run
+  /**
+   * @param side which limelight, Limelight.Left or Limelight.Right, to use.
+   * @return the vertical angle to the target
+   */
+  public static Pose3d botPose(int side) {
+    double[] left = {0,0,0,0,0,0};
+    double[] right = {0,0,0,0,0,0};
+    if (limeLightLeft.getEntry("botpose").getDoubleArray(new double[] {0,0,0,0,0,0}).length > 1)
+      {left = limeLightLeft.getEntry("botpose").getDoubleArray(new double[] {0,0,0,0,0,0});};
+    if (limeLightRight.getEntry("botpose").getDoubleArray(new double[] {0,0,0,0,0,0}).length > 1)
+      {right = limeLightRight.getEntry("botpose").getDoubleArray(new double[] {0,0,0,0,0,0});};
+      return (side == 1) ? 
+      new Pose3d(
+        right[0],
+        right[1],
+        right[2],
+        new Rotation3d(
+          Math.toRadians(right[3]),
+          Math.toRadians(right[4]),
+          Math.toRadians(right[5])
+      )): 
+      new Pose3d(
+        left[0],
+        left[1],
+        left[2],
+        new Rotation3d(
+          Math.toRadians(left[3]),
+          Math.toRadians(left[4]),
+          Math.toRadians(left[5])
+      ));
   }
 }

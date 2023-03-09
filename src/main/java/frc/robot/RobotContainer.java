@@ -22,8 +22,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.commands.Autos.BottomScore1CubeAnd1Cone;
 import frc.robot.commands.Autos.ChargingStation;
+import frc.robot.commands.Autos.PathPlannerCommand;
 import frc.robot.commands.Autos.TopScore1CubeAnd1Cone;
-import frc.robot.commands.Drivetrain.AlignToTarget;
+//import frc.robot.commands.Drivetrain.AlignToTarget;
 import frc.robot.subsystems.*;
 
 /**
@@ -120,7 +121,7 @@ public class RobotContainer {
         
         SmartDashboard.putData(autoDelay);
 
-        autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
+        autoChooser.setDefaultOption("Two Meters", new PathPlannerCommand(s_Swerve, 3, "Test Path"));
         autoChooser.addOption("Top 1 cone and 1 cube", new TopScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Intake, s_Arm, s_Wrist));
@@ -140,7 +141,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        alignToTarget.whileTrue(new AlignToTarget(s_Swerve, s_Limelight));
+        //alignToTarget.whileTrue(new AlignToTarget(s_Swerve, s_Limelight));
         armHigh.whileTrue(new ScoreHigh(s_Wrist, s_Arm, armHigh));
         armMid.whileTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
         armLow.whileTrue(new ScoreLow(s_Wrist, s_Arm, armLow));

@@ -121,7 +121,7 @@ public class RobotContainer {
         
         SmartDashboard.putData(autoDelay);
 
-        autoChooser.setDefaultOption("Two Meters", new PathPlannerCommand(s_Swerve, 3, "Test Path"));
+        autoChooser.setDefaultOption("Two Meters", new PathPlannerCommand(s_Swerve, 3, "Test Path", true));
         autoChooser.addOption("Top 1 cone and 1 cube", new TopScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Intake, s_Arm, s_Wrist));

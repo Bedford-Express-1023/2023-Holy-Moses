@@ -31,7 +31,7 @@ public class ChargingStation extends SequentialCommandGroup {
     (new ArmToHome(s_Wrist, s_Arm)).withTimeout(2),
     (new ShoulderToHome(s_Arm)).withTimeout(3),
       //new PathPlannerCommand(swerve, 1, "Straight 1 Bottom"),
-    new PathPlannerCommand(s_Swerve, 4, "Charging station"),
+    new PathPlannerCommand(s_Swerve, 4, "Charging station", true),
     new PathPlannerCommand(s_Swerve, 4, "Little right")
       //new PathPlannerCommand(swerve, 1, "Turn 180 Right 1 Bottom"),
       //new PathPlannerCommand(swerve, 1, "Go to first game piece 2 bottom"),

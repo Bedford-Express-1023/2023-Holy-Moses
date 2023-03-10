@@ -11,7 +11,9 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 //import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -27,9 +29,10 @@ public class Swerve extends SubsystemBase {
     public SwerveModule[] mSwerveMods;
     public WPI_Pigeon2 gyro = new WPI_Pigeon2(Constants.Swerve.pigeonID);
     public final Constraints translationConstraints = new Constraints(10, 10);
-    public final ProfiledPIDController xController = new ProfiledPIDController(4, 0.0, 0.0, translationConstraints);
-    public final ProfiledPIDController yController = new ProfiledPIDController(4, 0.0, 0.0, translationConstraints);
-    public final ProfiledPIDController rotaController = new ProfiledPIDController(2.5, 0, 0, new Constraints(1000, 1000));
+    public final PIDController xController = new PIDController(4, 0.0, 0.0);
+    public final PIDController yController = new PIDController(4, 0.0, 0.0);
+    public final PIDController rotaController = new PIDController(2.5, 0, 0);
+    public final SimpleMotorFeedforward rotaFF = new SimpleMotorFeedforward(.23, 1);
     public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
         new Translation2d(Constants.Swerve.trackWidth/ 2.0, Constants.Swerve.wheelBase / 2.0),
         new Translation2d(Constants.Swerve.trackWidth / 2.0, -Constants.Swerve.wheelBase / 2.0),
@@ -73,16 +76,15 @@ public class Swerve extends SubsystemBase {
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                                     translation.getX(), 
                                     translation.getY(), 
-                                    rotation, 
+                                    rotaFF.calculate(rotation), 
                                     getYaw()
                                 )
                                 : new ChassisSpeeds(
                                     translation.getX(), 
                                     translation.getY(), 
-                                    rotation)
+                                    rotaFF.calculate(rotation))
                                 );
         setModuleStates(swerveModuleStates);
-        
     }    
 
     /* Used by SwerveControllerCommand in Auto */

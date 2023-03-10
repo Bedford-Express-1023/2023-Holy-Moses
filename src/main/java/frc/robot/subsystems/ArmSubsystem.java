@@ -65,10 +65,10 @@ public class ArmSubsystem extends SubsystemBase {
   final public double shoulderTargetAngleLow = 110;
   public final double shoulderTargetAngleFeeder = 27;
 
-  public final double armTargetPositionHigh = -111000;
-  public final double armTargetPositionMiddle = -71000; //TESTED AND WORKS
-  public final double armTargetPositionLow = -5000;
-  public final double armTargetPositionFeeder = -28000;
+  public final double armTargetPositionHigh = -111000 * 18/35;
+  public final double armTargetPositionMiddle = -71000 * 18/35; //TESTED AND WORKS
+  public final double armTargetPositionLow = -5000 * 18/35;
+  public final double armTargetPositionFeeder = -28000 * 18/35;
   
   // Creates a new ArmSubsystem. 
   public ArmSubsystem() {
@@ -198,7 +198,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     armPositionOverride += leftYstick * 275;
     // This method will be called once per scheduler run
-    ArmPosition();
+    //ArmPosition();
     //ShoulderPosition(0);
     ShoulderPosition();
 

@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Swerve;
@@ -33,7 +34,7 @@ public PathPlannerCommand(Swerve s_Swerve, double maxSpeed, String pathName, Boo
         this.s_Swerve = s_Swerve;
         this.maxSpeed = maxSpeed;
         this.autoStart = autoStart;
-        this.driveTrajectory = PathPlannerTrajectory.transformTrajectoryForAlliance(PathPlanner.loadPath(pathName, maxSpeed, 10), DriverStation.getAlliance());
+        this.driveTrajectory = PathPlanner.loadPath(pathName, maxSpeed, 10);
   }
 
   public PathPlannerCommand(Swerve s_Swerve, double maxSpeed, String pathName) {
@@ -42,6 +43,7 @@ public PathPlannerCommand(Swerve s_Swerve, double maxSpeed, String pathName, Boo
 
   @Override
   public void initialize() {
+    driveTrajectory = PathPlannerTrajectory.transformTrajectoryForAlliance(driveTrajectory, DriverStation.getAlliance());
       timer.start();
       if (autoStart) {
         s_Swerve.gyro.setYaw(driveTrajectory.getInitialHolonomicPose().getRotation().getDegrees());
@@ -64,7 +66,7 @@ public PathPlannerCommand(Swerve s_Swerve, double maxSpeed, String pathName, Boo
       MathUtil.clamp(s_Swerve.xController.calculate(
         robotPose.getX(),
         targetPose.getX()), -maxSpeed, maxSpeed),
-        MathUtil.clamp(s_Swerve.yController.calculate(
+      MathUtil.clamp(s_Swerve.yController.calculate(
         robotPose.getY(), 
         targetPose.getY()), -maxSpeed, maxSpeed),
       s_Swerve.rotaController.calculate(

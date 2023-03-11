@@ -44,6 +44,7 @@ public class ArmSubsystem extends SubsystemBase {
   //public final DigitalInput armLimitSwitch = new DigitalInput(Constants.Arm.ARM_LIMIT_SWITCH_DIO);
 
   public final CANCoder shoulderCANCoder = new CANCoder(Constants.Arm.SHOULDER_CANCODER);
+  public final CANCoder armCANCoder = new CANCoder(Constants.Arm.ARM_CANCODER);
 
   public final PigeonIMU pidgeonGyro = new PigeonIMU(0);
   private final XboxController oliviaController = new XboxController(1);
@@ -118,14 +119,15 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private void ArmPosition() {
-    double vSetpoint = armPID.calculate(armMotor.getSelectedSensorPosition(), armPosition + armPositionOverride);
-    if (armMotor.getSelectedSensorPosition() > 0 && vSetpoint > 0) {
-      armMotor.set(oliviaController.getLeftY() * .05);} else {
-    armMotor.set(ControlMode.PercentOutput, armGravity * Math.cos(shoulderCANCoder.getAbsolutePosition() * Math.PI/180) + 
-    MathUtil.clamp(
-    vSetpoint,
-    -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)),
-    Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration))));
+    double vSetpoint = armPID.calculate(armCANCoder.getAbsolutePosition(), armPosition + armPositionOverride);
+    if (armCANCoder.getAbsolutePosition() > 0 && vSetpoint > 0){
+      armMotor.set(oliviaController.getLeftY() * .05);
+    } else {
+      armMotor.set(ControlMode.PercentOutput, armGravity * Math.cos(shoulderCANCoder.getAbsolutePosition() * Math.PI/180) + 
+      MathUtil.clamp(
+      vSetpoint,
+      -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)),
+      Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(vSetpoint), -maxArmVelocity, maxArmVelocity), maxArmAcceleration))));
     }
     //calculates max power output so as not to go above max velocity and max accel
   }
@@ -150,7 +152,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void ArmPositionZero() {
-    armMotor.setSelectedSensorPosition(0);
+    armCANCoder.setPosition(0);
   }
 
   public void ArmToHome() {
@@ -185,7 +187,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("ShoulderPosition", shoulderCANCoder.getAbsolutePosition());
     SmartDashboard.putNumber("ShoulderTarget", shoulderPosition);
-    SmartDashboard.putNumber("ExtenstionPosition", shoulderCANCoder.getAbsolutePosition());
+    SmartDashboard.putNumber("ExtensionPosition", armCANCoder.getAbsolutePosition());
     SmartDashboard.putNumber("ExtensionTarget", armPosition);
     //SmartDashboard.putBoolean("armLimitSwitch", armLimitSwitch.get());
     SmartDashboard.putNumber("ArmOutput", armMotor.getSupplyCurrent());

@@ -19,6 +19,7 @@ public final class Constants {
         public static final int FRONT_SHOULDER_CAN = 32;
         public static final int ARM_EXTEND_CAN = 34;
         public static final int SHOULDER_CANCODER = 33;
+        public static final int ARM_CANCODER = 36;
         public static final int WRIST_CANCODER = 35;
         public static final int WRIST_SPARK = 42;
         public static final int ARM_LIMIT_SWITCH_DIO = 0;

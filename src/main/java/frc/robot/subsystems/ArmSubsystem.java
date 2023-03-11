@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.playingwithfusion.TimeOfFlight;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -41,6 +42,8 @@ public class ArmSubsystem extends SubsystemBase {
   public final TalonFX rearShoulderMotor = new TalonFX(Constants.Arm.FRONT_SHOULDER_CAN);
   public final TalonFX frontShoulderMotor = new TalonFX(Constants.Arm.REAR_SHOULDER_CAN);
   public final WPI_TalonFX armMotor = new WPI_TalonFX(Constants.Arm.ARM_EXTEND_CAN);
+
+  public final TimeOfFlight tof = new TimeOfFlight(?); //put in TOF ID
   //public final DigitalInput armLimitSwitch = new DigitalInput(Constants.Arm.ARM_LIMIT_SWITCH_DIO);
 
   public final CANCoder shoulderCANCoder = new CANCoder(Constants.Arm.SHOULDER_CANCODER);
@@ -80,6 +83,8 @@ public class ArmSubsystem extends SubsystemBase {
   
     armMotor.configPeakOutputForward(1);
 		armMotor.configPeakOutputReverse(-1);
+
+    tof.setRangingMode(tof.RangingMode short, 100).fix.getpose.leftright2(123).for.(oasdnfhvyasdnsabdg1,123i128312m ,8327w18293);
 
     ShuffleboardTab subsystemTab = Shuffleboard.getTab("Subsystems");
     ShuffleboardLayout extensionLayout = subsystemTab.getLayout("Arm Extension", BuiltInLayouts.kList)

@@ -24,6 +24,7 @@ import frc.robot.commands.Autos.BottomScore1CubeAnd1Cone;
 import frc.robot.commands.Autos.ChargingStation;
 import frc.robot.commands.Autos.PathPlannerCommand;
 import frc.robot.commands.Autos.TopScore1CubeAnd1Cone;
+import frc.robot.commands.Drivetrain.Balance;
 //import frc.robot.commands.Drivetrain.AlignToTarget;
 import frc.robot.subsystems.*;
 
@@ -69,6 +70,7 @@ public class RobotContainer {
     private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
     private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
 
+    private final POVButton balance = new POVButton(willController, 0);
     private final POVButton armHigh = new POVButton(oliviaController, 0);
     private final POVButton armMid = new POVButton(oliviaController, 90);
     private final POVButton armLow = new POVButton(oliviaController, 180);
@@ -142,6 +144,7 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         //alignToTarget.whileTrue(new AlignToTarget(s_Swerve, s_Limelight));
+        balance.whileTrue(new Balance(s_Swerve));
         armHigh.whileTrue(new ScoreHigh(s_Wrist, s_Arm, armHigh));
         armMid.whileTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
         armLow.whileTrue(new ScoreLow(s_Wrist, s_Arm, armLow));

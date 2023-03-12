@@ -17,6 +17,8 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
+
 import static frc.robot.Constants.Arm.*;
 
 public class WristSubsystem extends SubsystemBase {
@@ -32,6 +34,7 @@ public class WristSubsystem extends SubsystemBase {
 
   private SimpleMotorFeedforward wristFeedforward = new SimpleMotorFeedforward(0.0, 1, 0); //TODO: Tune
   private PIDController wristPID = new PIDController(0.01, 0.0, 0.0);
+  public double wristGravity = 0.0;
 
   public WristSubsystem() {
     wristEncoder = wristMotor.getEncoder();
@@ -45,11 +48,12 @@ public class WristSubsystem extends SubsystemBase {
   }
 
   public void wristPosition() {
-    double setpoint = wristPID.calculate(wristCancoder.getAbsolutePosition(), wristPosition + Math.signum(wristPosition) * wristPositionOverride);
-    SmartDashboard.putNumber("WristPID setpoint", setpoint);
-    if (wristCancoder.getAbsolutePosition() > 100 && setpoint < 0) {wristMotor.set(0); return;}
-    else if (wristCancoder.getAbsolutePosition() < -100 && setpoint > 0) {wristMotor.set(0); return;}
-    wristMotor.set(-MathUtil.clamp(setpoint, -0.2, 0.2));
+    double output = wristPID.calculate(wristCancoder.getAbsolutePosition(), wristPosition + Math.signum(wristPosition) * wristPositionOverride);
+    SmartDashboard.putNumber("WristPID setpoint", output);
+    if (wristCancoder.getAbsolutePosition() > 100 && output < 0) {wristMotor.set(0); return;}
+    else if (wristCancoder.getAbsolutePosition() < -100 && output > 0) {wristMotor.set(0); return;}
+    wristMotor.set((wristGravity * -Math.sin(Math.toRadians(-wristPosition + 80 * Math.signum(wristPosition) + wristCancoder.getAbsolutePosition()))) + //gravity
+      -MathUtil.clamp(output, -0.4, 0.4));
   }
 
   public void wristPosition(double position) {

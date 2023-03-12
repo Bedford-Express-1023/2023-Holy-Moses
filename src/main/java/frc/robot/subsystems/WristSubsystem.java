@@ -33,7 +33,7 @@ public class WristSubsystem extends SubsystemBase {
   public double wristPositionOverride = 0;
 
   private SimpleMotorFeedforward wristFeedforward = new SimpleMotorFeedforward(0.0, 1, 0); //TODO: Tune
-  private PIDController wristPID = new PIDController(0.01, 0.0, 0.0);
+  private PIDController wristPID = new PIDController(0.015, 0.0, 0.0);
   public double wristGravity = 0.0;
 
   public WristSubsystem() {
@@ -53,7 +53,7 @@ public class WristSubsystem extends SubsystemBase {
     if (wristCancoder.getAbsolutePosition() > 100 && output < 0) {wristMotor.set(0); return;}
     else if (wristCancoder.getAbsolutePosition() < -100 && output > 0) {wristMotor.set(0); return;}
     wristMotor.set((wristGravity * -Math.sin(Math.toRadians(-wristPosition + 80 * Math.signum(wristPosition) + wristCancoder.getAbsolutePosition()))) + //gravity
-      -MathUtil.clamp(output, -0.4, 0.4));
+      -MathUtil.clamp(output, -0.45, 0.45));
   }
 
   public void wristPosition(double position) {

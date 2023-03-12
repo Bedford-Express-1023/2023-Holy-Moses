@@ -60,7 +60,7 @@ public class ArmSubsystem extends SubsystemBase {
   public final double armTargetPositionMiddle = -18500;
   public final double armTargetPositionLow = -2500;
   public final double armTargetPositionFeeder = -28000 * 18/35;
-  public final double armTargetAngleHome = -500;
+  public final double armTargetPositionHome = -1000;
   
   // Creates a new ArmSubsystem. 
   public ArmSubsystem() {
@@ -148,7 +148,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void ArmToHome() {
-    ArmPosition(armTargetAngleHome);
+    ArmPosition(armTargetPositionHome);
   }
 
   public void ShoulderToHome() {

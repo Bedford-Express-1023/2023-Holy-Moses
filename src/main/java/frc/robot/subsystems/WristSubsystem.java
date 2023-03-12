@@ -31,7 +31,7 @@ public class WristSubsystem extends SubsystemBase {
   public double wristPositionOverride = 0;
 
   private SimpleMotorFeedforward wristFeedforward = new SimpleMotorFeedforward(0.0, 1, 0); //TODO: Tune
-  private PIDController wristPID = new PIDController(0.03, 0.0, 0.0);
+  private PIDController wristPID = new PIDController(0.01, 0.0, 0.0);
 
   public WristSubsystem() {
     wristEncoder = wristMotor.getEncoder();
@@ -45,11 +45,11 @@ public class WristSubsystem extends SubsystemBase {
   }
 
   public void wristPosition() {
-    double setpoint = -wristPID.calculate(wristCancoder.getAbsolutePosition(), wristPosition + Math.signum(wristPosition) * wristPositionOverride);
+    double setpoint = wristPID.calculate(wristCancoder.getAbsolutePosition(), wristPosition + Math.signum(wristPosition) * wristPositionOverride);
     SmartDashboard.putNumber("WristPID setpoint", setpoint);
-    if (wristCancoder.getAbsolutePosition() > 100 && setpoint > 0) {wristMotor.set(0);}
-    else if (wristCancoder.getAbsolutePosition() < -90 && setpoint < 0) {wristMotor.set(0);}
-    wristMotor.set(MathUtil.clamp(setpoint, -.3, .3));
+    if (wristCancoder.getAbsolutePosition() > 100 && setpoint < 0) {wristMotor.set(0); return;}
+    else if (wristCancoder.getAbsolutePosition() < -100 && setpoint > 0) {wristMotor.set(0); return;}
+    wristMotor.set(-MathUtil.clamp(setpoint, -0.2, 0.2));
   }
 
   public void wristPosition(double position) {

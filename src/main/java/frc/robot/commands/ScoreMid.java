@@ -51,7 +51,7 @@ public class ScoreMid extends CommandBase {
       }
     }*/
 
-    wrist.wristPosition((arm.shoulderReversed * 90 - arm.shoulderCANCoder.getAbsolutePosition()));
+    wrist.wristPosition((arm.shoulderReversed * 80 - arm.shoulderCANCoder.getAbsolutePosition()));
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleMiddle);
     arm.ArmPosition(arm.armTargetPositionMiddle);
   }

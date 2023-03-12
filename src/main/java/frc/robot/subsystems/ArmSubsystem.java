@@ -193,7 +193,7 @@ public class ArmSubsystem extends SubsystemBase {
     armPositionOverride += leftYstick * 275;
     // This method will be called once per scheduler run
     ArmPosition();
-    //ShoulderPosition(60); //sets the arm to always be up
+    //ShoulderPosition(0); //sets the arm to always be up
     ShoulderPosition();
 
   }

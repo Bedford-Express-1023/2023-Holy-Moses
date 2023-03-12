@@ -38,11 +38,13 @@ public class ArmToHome extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    new ShoulderToHome(arm).schedule();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return Math.abs(arm.armTargetPositionHome - arm.armMotor.getSelectedSensorPosition()) < 5000;
   }
 }

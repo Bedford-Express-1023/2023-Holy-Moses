@@ -25,6 +25,7 @@ import frc.robot.commands.Autos.ChargingStation;
 import frc.robot.commands.Autos.PathPlannerCommand;
 import frc.robot.commands.Autos.TopScore1CubeAnd1Cone;
 import frc.robot.commands.Drivetrain.Balance;
+import frc.robot.commands.Autos.RightScore3;
 //import frc.robot.commands.Drivetrain.AlignToTarget;
 import frc.robot.subsystems.*;
 
@@ -92,9 +93,7 @@ public class RobotContainer {
     public RobotContainer() {
         //s_Blinkin.setDefaultCommand(new InstantCommand(() -> s_Blinkin.blue(), s_Blinkin));
         s_Arm.setDefaultCommand(
-            new SequentialCommandGroup(
-                new WaitCommand(1).deadlineWith(new ArmToHome(s_Wrist, s_Arm)), 
-                new ShoulderToHome(s_Arm)));
+            new ArmToHome(s_Wrist, s_Arm));
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -124,9 +123,9 @@ public class RobotContainer {
         SmartDashboard.putData(autoDelay);
 
         autoChooser.setDefaultOption("Two Meters", new PathPlannerCommand(s_Swerve, 3, "Test Path", true));
-        autoChooser.addOption("Top 1 cone and 1 cube", new TopScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Intake, s_Arm, s_Wrist));
+        autoChooser.addOption("Right 2.5 piece", new RightScore3(s_Swerve, s_Intake, s_Arm, s_Wrist));
 
         SmartDashboard.putData(autoChooser);
 

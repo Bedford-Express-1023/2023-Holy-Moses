@@ -93,7 +93,8 @@ public class RobotContainer {
     public RobotContainer() {
         //s_Blinkin.setDefaultCommand(new InstantCommand(() -> s_Blinkin.blue(), s_Blinkin));
         s_Arm.setDefaultCommand(
-            new ArmToHome(s_Wrist, s_Arm));
+            new ArmToHome(s_Wrist, s_Arm)
+                .andThen(new ShoulderToHome(s_Arm)));
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 

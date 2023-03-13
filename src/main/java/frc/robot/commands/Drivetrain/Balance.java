@@ -29,14 +29,14 @@ public class Balance extends CommandBase {
   @Override
   public void execute() {
     if (s_Swerve.gyro.getRoll() >= 7) {
-      s_Swerve.drive(new Translation2d(-0.5, 0),
+      s_Swerve.drive(new Translation2d(-0.7, 0),
       0,
       false,
       true);
       SmartDashboard.putString("Balancing?", "balancing");
     }
     else if (s_Swerve.gyro.getRoll() <= -7) {
-      s_Swerve.drive(new Translation2d(-0.5, 0),
+      s_Swerve.drive(new Translation2d(0.7, 0),
       0,
       false,
       true);

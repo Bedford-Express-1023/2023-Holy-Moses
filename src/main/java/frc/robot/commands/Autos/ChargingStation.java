@@ -6,6 +6,7 @@ package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArmToHome;
 import frc.robot.commands.IntakeCone;
 import frc.robot.commands.IntakeCube;
@@ -15,6 +16,7 @@ import frc.robot.commands.OutakeCube;
 import frc.robot.commands.ScoreHigh;
 import frc.robot.commands.ScoreLow;
 import frc.robot.commands.ShoulderToHome;
+import frc.robot.commands.Drivetrain.Balance;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Swerve;
@@ -30,14 +32,19 @@ public class ChargingStation extends SequentialCommandGroup {
       
     (new ScoreHigh(s_Arm, s_Wrist).alongWith(new IntakeCone(s_Intake))).withTimeout(1.5),
     (new OutakeCube(s_Intake)).withTimeout(.5),
-    //(new ArmToHome(s_Wrist, s_Arm)).withTimeout(2),
-    new PathPlannerCommand(s_Swerve, 4, "Over charge station", true).alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1)).alongWith(new ScoreLow(s_Wrist, s_Arm)).withTimeout(1),
-    new PathPlannerCommand(s_Swerve, 2, "Grab cube charge station").alongWith(new IntakeCube(s_Intake)).withTimeout(3),
-    new PathPlannerCommand(s_Swerve, 4, "Score cube charge station fast").alongWith(new ShoulderToHome(s_Arm)).withTimeout(2),
-    new PathPlannerCommand(s_Swerve, 4, "Score cube charge station slow").alongWith(new ScoreHigh(s_Arm, s_Wrist)).withTimeout(1.5).alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1)),
-    (new OutakeCube(s_Intake)).withTimeout(.5),
-    new PathPlannerCommand(s_Swerve, 4, "Charging station"),
-    new PathPlannerCommand(s_Swerve, 4, "Little right")
+    (new ArmToHome(s_Wrist, s_Arm)).withTimeout(1),
+    (new ShoulderToHome(s_Arm)).withTimeout(1),
+    new PathPlannerCommand(s_Swerve, 1.5, "Over charge station", true),
+    new WaitCommand(1.5),
+    new PathPlannerCommand(s_Swerve, 1.5, "Charging station"),
+    (new Balance(s_Swerve))
+    //.alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1)).alongWith(new ScoreLow(s_Wrist, s_Arm)).withTimeout(1)
+    //new PathPlannerCommand(s_Swerve, 2, "Grab cube charge station").alongWith(new IntakeCube(s_Intake)).withTimeout(3),
+    //new PathPlannerCommand(s_Swerve, 4, "Score cube charge station fast").alongWith(new ShoulderToHome(s_Arm)).withTimeout(2),
+    //new PathPlannerCommand(s_Swerve, 4, "Score cube charge station slow").alongWith(new ScoreHigh(s_Arm, s_Wrist)).withTimeout(1.5).alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1)),
+    //(new OutakeCube(s_Intake)).withTimeout(.5),
+    //new PathPlannerCommand(s_Swerve, 4, "Charging station"),
+    //new PathPlannerCommand(s_Swerve, 4, "Little right")
     );
   }
 }

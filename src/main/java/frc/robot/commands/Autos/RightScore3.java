@@ -30,7 +30,7 @@ public class RightScore3 extends SequentialCommandGroup {
     (new OutakeCube(s_Intake)).withTimeout(.5),
     /*(new ArmToHome(s_Wrist, s_Arm))
         .withTimeout(.5),*/
-    new PathPlannerCommand(s_Swerve, 4, "Back up after cone", true)
+    new PathPlannerCommand(s_Swerve, 2, "Back up after cone", true)
 /*      .alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1))
       .alongWith(new ScoreLow(s_Wrist, s_Arm))
       .withTimeout(2),*/
@@ -43,19 +43,19 @@ public class RightScore3 extends SequentialCommandGroup {
       .alongWith(new IntakeCube(s_Intake))
         .alongWith(new ScoreLow(s_Wrist, s_Arm))
         .withTimeout(3),
-    new PathPlannerCommand(s_Swerve, 4, "Go back top 1")
+    new PathPlannerCommand(s_Swerve, 2, "Go back top 1")
       .alongWith (new ShoulderToHome(s_Arm))
-        .withTimeout(2),
+        .withTimeout(4),
     new PathPlannerCommand(s_Swerve, 1, "Go back top 2")
       .alongWith(new ScoreHigh(s_Arm, s_Wrist))
         .withTimeout(1.5)
         .alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1)),
     (new OutakeCube(s_Intake)).withTimeout(.5),
-    (new ArmToHome(s_Wrist, s_Arm)),
-    new PathPlannerCommand(s_Swerve, 4, "Go back after cube").alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1)).alongWith(new ScoreLow(s_Wrist, s_Arm)).alongWith(new IntakeCube(s_Intake)).withTimeout(3.5),
+    (new ArmToHome(s_Wrist, s_Arm))
+   /*  new PathPlannerCommand(s_Swerve, 4, "Go back after cube").alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1)).alongWith(new ScoreLow(s_Wrist, s_Arm)).alongWith(new IntakeCube(s_Intake)).withTimeout(3.5),
     new PathPlannerCommand(s_Swerve, 4, "Score second cube").alongWith(new ArmToHome(s_Wrist, s_Arm)),
     (new ScoreMid(s_Wrist, s_Arm)).withTimeout(1.5).alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1)),
-    (new OutakeCube(s_Intake)).withTimeout(.5)
+    (new OutakeCube(s_Intake)).withTimeout(.5)*/
     );
   }
 }

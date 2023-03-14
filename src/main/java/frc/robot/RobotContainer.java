@@ -22,11 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.commands.Autos.BottomScore1CubeAnd1Cone;
 import frc.robot.commands.Autos.ChargingStation;
-import frc.robot.commands.Autos.PathPlannerCommand;
-import frc.robot.commands.Autos.TopScore1CubeAnd1Cone;
-import frc.robot.commands.Drivetrain.Balance;
-import frc.robot.commands.Autos.RightScore3;
-//import frc.robot.commands.Drivetrain.AlignToTarget;
+import frc.robot.commands.Drivetrain.DynamicTeleopSwerve;
 import frc.robot.subsystems.*;
 
 /**
@@ -71,7 +67,6 @@ public class RobotContainer {
     private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
     private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
 
-    private final POVButton balance = new POVButton(willController, 0);
     private final POVButton armHigh = new POVButton(oliviaController, 0);
     private final POVButton armMid = new POVButton(oliviaController, 90);
     private final POVButton armLow = new POVButton(oliviaController, 180);
@@ -93,11 +88,12 @@ public class RobotContainer {
     public RobotContainer() {
         //s_Blinkin.setDefaultCommand(new InstantCommand(() -> s_Blinkin.blue(), s_Blinkin));
         s_Arm.setDefaultCommand(
-            new ArmToHome(s_Wrist, s_Arm)
-                .andThen(new ShoulderToHome(s_Arm)));
+            new SequentialCommandGroup(
+                new WaitCommand(1).deadlineWith(new ArmToHome(s_Wrist, s_Arm)), 
+                new ShoulderToHome(s_Arm)));
         s_Swerve.setDefaultCommand(
-            new TeleopSwerve(
-                s_Swerve, 
+            new DynamicTeleopSwerve(
+                s_Swerve, s_Arm,
                 () -> -willController.getRawAxis(translationAxis), 
                 () -> -willController.getRawAxis(strafeAxis), 
                 () -> -willController.getRawAxis(rotationAxis) * .8,
@@ -123,10 +119,9 @@ public class RobotContainer {
         
         SmartDashboard.putData(autoDelay);
 
-        autoChooser.setDefaultOption("Two Meters", new PathPlannerCommand(s_Swerve, 3, "Test Path", true));
+        autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
         autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Intake, s_Arm, s_Wrist));
-        autoChooser.addOption("Right 2.5 piece", new RightScore3(s_Swerve, s_Intake, s_Arm, s_Wrist));
 
         SmartDashboard.putData(autoChooser);
 
@@ -143,8 +138,6 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        //alignToTarget.whileTrue(new AlignToTarget(s_Swerve, s_Limelight));
-        balance.whileTrue(new Balance(s_Swerve));
         armHigh.whileTrue(new ScoreHigh(s_Wrist, s_Arm, armHigh));
         armMid.whileTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
         armLow.whileTrue(new ScoreLow(s_Wrist, s_Arm, armLow));

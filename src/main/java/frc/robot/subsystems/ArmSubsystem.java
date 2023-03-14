@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -48,7 +49,7 @@ public class ArmSubsystem extends SubsystemBase {
   public final double shoulderGravity = .07;
   public final double armGravity = -.3;
   public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, shoulderGravity);
-  final PIDController armPID = new PIDController(0.00004, 0.0, 0.0);
+  final PIDController armPID = new PIDController(0.00007, 0.0, 0.0);
   final PIDController shoulderPositionPID = new PIDController(.0195, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 42;
@@ -70,6 +71,7 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor.setNeutralMode(NeutralMode.Brake);
     armMotor.configOpenloopRamp(.5);
     armMotor.setInverted(false);
+    armMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 45, 50), 30);
   
     armMotor.configPeakOutputForward(1);
 		armMotor.configPeakOutputReverse(-1);
@@ -112,6 +114,11 @@ public class ArmSubsystem extends SubsystemBase {
 
   private void ArmPosition() {
     double output = armPID.calculate(armMotor.getSelectedSensorPosition(), armPosition + armPositionOverride);
+    if (armPosition == armTargetPositionHome && -armMotor.getSelectedSensorPosition() + armPosition < 1000 && armPositionOverride == 0) 
+    {
+      armMotor.set(0); 
+      return;
+    }
     SmartDashboard.putNumber("ExtensionOutput", output);
     if (armMotor.getSelectedSensorPosition() > 0 && output > 0) {
       armMotor.set(oliviaController.getLeftY() * .05);} else {

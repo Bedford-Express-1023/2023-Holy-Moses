@@ -22,7 +22,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.commands.Autos.BottomScore1CubeAnd1Cone;
 import frc.robot.commands.Autos.ChargingStation;
+import frc.robot.commands.Autos.PathPlannerCommand;
 import frc.robot.commands.Drivetrain.DynamicTeleopSwerve;
+import frc.robot.commands.Drivetrain.Balance;
+import frc.robot.commands.Autos.RightScore3;
+//import frc.robot.commands.Drivetrain.AlignToTarget;
 import frc.robot.subsystems.*;
 
 /**

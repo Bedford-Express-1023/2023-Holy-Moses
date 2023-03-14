@@ -48,7 +48,7 @@ public class DynamicTeleopSwerve extends CommandBase {
         double rotationVal = 0;
 
         double armPosition = s_Arm.armPosition;
-        double dynamicDriveSpeed = (100 - (1e-8) * armPosition * armPosition)/100;
+        double dynamicDriveSpeed = (100 - (1e-9) * armPosition * armPosition)/100;
 
             if (slowSpeedSup.getAsBoolean() == true){
                 translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband) * Constants.Swerve.slowSpeedMultiplier;

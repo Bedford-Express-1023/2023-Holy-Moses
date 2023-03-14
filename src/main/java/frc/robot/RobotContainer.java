@@ -71,7 +71,7 @@ public class RobotContainer {
     private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
     private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
 
-    private final POVButton balance = new POVButton(oliviaController, 0);
+    private final POVButton balance = new POVButton(willController, 0);
     private final POVButton armHigh = new POVButton(oliviaController, 0);
     private final POVButton armMid = new POVButton(oliviaController, 90);
     private final POVButton armLow = new POVButton(oliviaController, 180);

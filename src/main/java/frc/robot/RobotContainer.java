@@ -71,6 +71,7 @@ public class RobotContainer {
     private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
     private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
 
+    private final POVButton balance = new POVButton(oliviaController, 0);
     private final POVButton armHigh = new POVButton(oliviaController, 0);
     private final POVButton armMid = new POVButton(oliviaController, 90);
     private final POVButton armLow = new POVButton(oliviaController, 180);
@@ -122,9 +123,10 @@ public class RobotContainer {
         
         SmartDashboard.putData(autoDelay);
 
-        autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
+        autoChooser.setDefaultOption("Two Meters", new PathPlannerCommand(s_Swerve, 3, "Test Path", true));
         autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Intake, s_Arm, s_Wrist));
+        autoChooser.addOption("Right 2.5 piece", new RightScore3(s_Swerve, s_Intake, s_Arm, s_Wrist));
 
         SmartDashboard.putData(autoChooser);
 
@@ -140,6 +142,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
+        balance.whileTrue(new Balance(s_Swerve));
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         armHigh.whileTrue(new ScoreHigh(s_Wrist, s_Arm, armHigh));
         armMid.whileTrue(new ScoreMid(s_Wrist, s_Arm, armMid));

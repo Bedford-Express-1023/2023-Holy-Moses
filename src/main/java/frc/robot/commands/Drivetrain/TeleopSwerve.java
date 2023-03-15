@@ -58,7 +58,7 @@ public class TeleopSwerve extends CommandBase {
         if (fastTurnSup.getAsBoolean() == true){
             s_Swerve.drive(
                 new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed),
-                rotationVal * Constants.Swerve.fastTurnMultiplier,
+                rotationVal * Constants.Swerve.SlowTurnMultiplier,
                 !robotCentricSup.getAsBoolean(),
                 true);
             }

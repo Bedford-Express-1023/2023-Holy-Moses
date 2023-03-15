@@ -61,15 +61,15 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kX.value);
-    private final JoystickButton turnSow = new JoystickButton(willController, XboxController.Button.kRightBumper.value);
+    private final JoystickButton turnSlow = new JoystickButton(willController, XboxController.Button.kRightBumper.value);
     private final JoystickButton slow = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton alignToTarget = new JoystickButton(willController, XboxController.Button.kA.value);
 
     private final JoystickButton LED = new JoystickButton(oliviaController, XboxController.Button.kStart.value);
     //private final JoystickButton purple = new JoystickButton(oliviaController, XboxController.Button.kBack.value);
     
-    private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
-    private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
+    private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
+    private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
 
     private final POVButton balance = new POVButton(willController, 0);
     private final POVButton armHigh = new POVButton(oliviaController, 0);
@@ -102,9 +102,8 @@ public class RobotContainer {
                 () -> -willController.getRawAxis(strafeAxis), 
                 () -> -willController.getRawAxis(rotationAxis) * .8,
                 () -> robotCentric.getAsBoolean(),
-                () -> turnSow.getAsBoolean(),
-                () -> slow.getAsBoolean()
-                
+                () -> slow.getAsBoolean(),
+                () -> turnSlow.getAsBoolean()
             )
         );
 

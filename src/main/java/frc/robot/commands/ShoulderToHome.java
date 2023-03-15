@@ -21,8 +21,6 @@ public class ShoulderToHome extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.shoulderPositionOverride = 0;
-    arm.armPositionOverride = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

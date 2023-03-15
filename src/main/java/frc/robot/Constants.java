@@ -43,7 +43,7 @@ public final class Constants {
         public static final int pigeonID = 1;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
         public static final double slowSpeedMultiplier = 0.5;
-        public static final double fastTurnMultiplier = 10;
+        public static final double SlowTurnMultiplier = .5;
 
         public static final COTSFalconSwerveConstants chosenModule =   //TODO: This must be tuned to specific robot Done!
  COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);

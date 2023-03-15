@@ -25,9 +25,17 @@ public class DynamicTeleopSwerve extends CommandBase {
     private DoubleSupplier rotationSup;
     private BooleanSupplier robotCentricSup;
     private BooleanSupplier slowSpeedSup;
-    private BooleanSupplier fastTurnSup;
+    private BooleanSupplier slowTurnSup;
 
-    public DynamicTeleopSwerve(Swerve s_Swerve, ArmSubsystem s_Arm, Limelight s_Limelight, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup, BooleanSupplier slowSpeedSup, BooleanSupplier fastTurnSup) {
+    public DynamicTeleopSwerve(Swerve s_Swerve, 
+                               ArmSubsystem s_Arm, 
+                               Limelight s_Limelight, 
+                               DoubleSupplier translationSup, 
+                               DoubleSupplier strafeSup, 
+                               DoubleSupplier rotationSup, 
+                               BooleanSupplier robotCentricSup, 
+                               BooleanSupplier slowSpeedSup, 
+                               BooleanSupplier slowTurnSup) {
         this.s_Swerve = s_Swerve;
         this.s_Arm = s_Arm;
         addRequirements(s_Swerve);
@@ -37,7 +45,7 @@ public class DynamicTeleopSwerve extends CommandBase {
         this.rotationSup = rotationSup;
         this.robotCentricSup = robotCentricSup;
         this.slowSpeedSup = slowSpeedSup;
-        this.fastTurnSup = fastTurnSup;
+        this.slowTurnSup = slowTurnSup;
         this.s_Limelight = s_Limelight;
     }
 
@@ -68,15 +76,15 @@ public class DynamicTeleopSwerve extends CommandBase {
             }
         
         /* Drive */
-        if (fastTurnSup.getAsBoolean() == true){
+        if (slowTurnSup.getAsBoolean() == true){
             s_Swerve.drive(
                 new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed),
-                rotationVal * Constants.Swerve.fastTurnMultiplier,
+                rotationVal * Constants.Swerve.SlowTurnMultiplier * Constants.Swerve.maxAngularVelocity,
                 !robotCentricSup.getAsBoolean(),
                 true);
             }
 
-        else if (fastTurnSup.getAsBoolean() == false){
+        else if (slowTurnSup.getAsBoolean() == false){
             s_Swerve.drive(
                 new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed), 
                 rotationVal * Constants.Swerve.maxAngularVelocity, 

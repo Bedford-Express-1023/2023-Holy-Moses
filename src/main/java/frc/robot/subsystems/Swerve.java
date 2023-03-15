@@ -30,7 +30,7 @@ public class Swerve extends SubsystemBase {
     public final Constraints translationConstraints = new Constraints(10, 10);
     public final PIDController xController = new PIDController(4, 0.0, 0.0);
     public final PIDController yController = new PIDController(4, 0.0, 0.0);
-    public final PIDController rotaController = new PIDController(2.5, 0, 0);
+    public final PIDController rotaController = new PIDController(5, 0, 0);
     public final SimpleMotorFeedforward rotaFF = new SimpleMotorFeedforward(.23, 1);
     public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
         new Translation2d(Constants.Swerve.trackWidth/ 2.0, Constants.Swerve.wheelBase / 2.0),
@@ -150,8 +150,6 @@ public class Swerve extends SubsystemBase {
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());
-        swerveOdometry.update(getPitch(), getModulePositions());
-        swerveOdometry.update(getRoll(), getModulePositions());
 
         SmartDashboard.putNumber("X Position", getPose().getX());
         SmartDashboard.putNumber("Y position", getPose().getY());

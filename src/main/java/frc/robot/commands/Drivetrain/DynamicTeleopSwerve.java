@@ -12,6 +12,7 @@ import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -29,7 +30,7 @@ public class DynamicTeleopSwerve extends CommandBase {
     public DynamicTeleopSwerve(Swerve s_Swerve, ArmSubsystem s_Arm, Limelight s_Limelight, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup, BooleanSupplier slowSpeedSup, BooleanSupplier fastTurnSup) {
         this.s_Swerve = s_Swerve;
         this.s_Arm = s_Arm;
-        addRequirements(s_Swerve, s_Arm);
+        addRequirements(s_Swerve);
 
         this.translationSup = translationSup;
         this.strafeSup = strafeSup;
@@ -47,8 +48,10 @@ public class DynamicTeleopSwerve extends CommandBase {
         double strafeVal = 0;
         double rotationVal = 0;
 
-        double armPosition = s_Arm.armPosition;
-        double dynamicDriveSpeed = (100 - (1e-9) * armPosition * armPosition)/100;
+        double armPosition = s_Arm.armMotor.getSelectedSensorPosition();
+        double dynamicDriveSpeed = (100 - (Math.pow(8.3,-8) * armPosition * armPosition))/100;
+        
+        SmartDashboard.putNumber("Dynamic Drive Speed", dynamicDriveSpeed);
 
             if (slowSpeedSup.getAsBoolean() == true){
                 translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband) * Constants.Swerve.slowSpeedMultiplier;
@@ -77,7 +80,5 @@ public class DynamicTeleopSwerve extends CommandBase {
                 !robotCentricSup.getAsBoolean(), 
                 true);
         }
-
-
     }
 }

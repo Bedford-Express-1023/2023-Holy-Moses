@@ -49,7 +49,10 @@ public class DynamicTeleopSwerve extends CommandBase {
         double rotationVal = 0;
 
         double armPosition = s_Arm.armMotor.getSelectedSensorPosition();
-        double dynamicDriveSpeed = (100 - (Math.pow(8.3,-8) * armPosition * armPosition))/100;
+        //double dynamicDriveSpeed = (100 - (Math.pow(8.3,-8) * armPosition * armPosition))/100; //old equation
+        double dynamicDriveSpeed = (2.01 * Math.pow(10, -5) * armPosition) + 1.04;
+        double dynamicDriveRotation = (1.01 * Math.pow(10, -5) * armPosition) + 1.04;
+
         
         SmartDashboard.putNumber("Dynamic Drive Speed", dynamicDriveSpeed);
 
@@ -61,7 +64,7 @@ public class DynamicTeleopSwerve extends CommandBase {
             else {
                 translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband) * dynamicDriveSpeed;
                 strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband) * dynamicDriveSpeed;
-                rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
+                rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband) * dynamicDriveRotation;
             }
         
         /* Drive */

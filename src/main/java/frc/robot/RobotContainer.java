@@ -23,6 +23,7 @@ import frc.robot.commands.*;
 import frc.robot.commands.Autos.BottomScore1CubeAnd1Cone;
 import frc.robot.commands.Autos.ChargingStation;
 import frc.robot.commands.Autos.PathPlannerCommand;
+import frc.robot.commands.Drivetrain.DynamicTeleopSwerve;
 import frc.robot.commands.Drivetrain.Balance;
 import frc.robot.commands.Autos.RightScore3;
 //import frc.robot.commands.Drivetrain.AlignToTarget;
@@ -95,8 +96,8 @@ public class RobotContainer {
             new ArmToHome(s_Wrist, s_Arm)
                 .andThen(new ShoulderToHome(s_Arm)));
         s_Swerve.setDefaultCommand(
-            new TeleopSwerve(
-                s_Swerve, 
+            new DynamicTeleopSwerve(
+                s_Swerve, s_Arm, s_Limelight,
                 () -> -willController.getRawAxis(translationAxis), 
                 () -> -willController.getRawAxis(strafeAxis), 
                 () -> -willController.getRawAxis(rotationAxis) * .8,
@@ -141,9 +142,8 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        //alignToTarget.whileTrue(new AlignToTarget(s_Swerve, s_Limelight));
         balance.whileTrue(new Balance(s_Swerve));
+        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         armHigh.whileTrue(new ScoreHigh(s_Wrist, s_Arm, armHigh));
         armMid.whileTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
         armLow.whileTrue(new ScoreLow(s_Wrist, s_Arm, armLow));

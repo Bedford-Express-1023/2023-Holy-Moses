@@ -58,7 +58,7 @@ public class ArmSubsystem extends SubsystemBase {
   public final double shoulderTargetAngleFeeder = 27;
 
   public final double armTargetPositionHigh = -42000;
-  public final double armTargetPositionMiddle = -18800;
+  public final double armTargetPositionMiddle = -25000;
   public final double armTargetPositionLow = -2500;
   public final double armTargetPositionFeeder = -9000;
   public final double armTargetPositionHome = -1000;

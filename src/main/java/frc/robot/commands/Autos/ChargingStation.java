@@ -35,7 +35,7 @@ public class ChargingStation extends SequentialCommandGroup {
     (new ArmToHome(s_Wrist, s_Arm)).withTimeout(1),
     (new ShoulderToHome(s_Arm)).withTimeout(1),
     new PathPlannerCommand(s_Swerve, 1.5, "Over charge station", true),
-    new WaitCommand(1.5),
+    new WaitCommand(.5),
     new PathPlannerCommand(s_Swerve, 1.5, "Charging station"),
     (new Balance(s_Swerve))
     //.alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1)).alongWith(new ScoreLow(s_Wrist, s_Arm)).withTimeout(1)

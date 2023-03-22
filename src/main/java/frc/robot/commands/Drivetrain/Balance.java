@@ -29,7 +29,7 @@ public class Balance extends CommandBase {
   @Override
   public void execute() {
     if (s_Swerve.gyro.getRoll() >= 7) {
-      s_Swerve.drive(new Translation2d(-0.6, 0),
+      s_Swerve.drive(new Translation2d(-0.8, 0),
       0,
       false,
       true);

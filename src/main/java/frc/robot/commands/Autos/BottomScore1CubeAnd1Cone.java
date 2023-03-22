@@ -26,15 +26,17 @@ public class BottomScore1CubeAnd1Cone extends SequentialCommandGroup {
   public BottomScore1CubeAnd1Cone(Swerve s_Swerve, IntakeSubsystem s_Intake, ArmSubsystem s_Arm, WristSubsystem s_Wrist) {
     addCommands(
       
-    (new ScoreHigh(s_Arm, s_Wrist).alongWith(new IntakeCone(s_Intake))).withTimeout(2),
+    (new ScoreMid(s_Wrist, s_Arm).alongWith(new IntakeCone(s_Intake))).withTimeout(2),
     (new OutakeCube(s_Intake)).withTimeout(.5),
     /*(new ArmToHome(s_Wrist, s_Arm))
         .withTimeout(.5),*/
     new PathPlannerCommand(s_Swerve, 2, "Back up after cone bottom", true)
-/*      .alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1))
+/*      
+.alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1))
       .alongWith(new ScoreLow(s_Wrist, s_Arm))
       .withTimeout(2),*/
-      .deadlineWith(new SequentialCommandGroup(
+
+      /* .deadlineWith(new SequentialCommandGroup(
         new InstantCommand(() -> s_Arm.shoulderReversed *= -1),
         new ArmToHome(s_Wrist, s_Arm),
           new ShoulderToHome(s_Arm),

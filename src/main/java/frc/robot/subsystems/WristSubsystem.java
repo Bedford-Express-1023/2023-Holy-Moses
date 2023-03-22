@@ -51,7 +51,7 @@ public class WristSubsystem extends SubsystemBase {
     if (wristCancoder.getAbsolutePosition() > 100 && output < 0) {wristMotor.set(0); return;}
     else if (wristCancoder.getAbsolutePosition() < -100 && output > 0) {wristMotor.set(0); return;}
     wristMotor.set((wristGravity * -Math.sin(Math.toRadians(-wristPosition + 80 * Math.signum(wristPosition) + wristCancoder.getAbsolutePosition()))) + //gravity
-      -MathUtil.clamp(output, -0.4, 0.4));
+      -MathUtil.clamp(output, -.5, .5));
   }
 
   public void wristPosition(double position) {

@@ -51,6 +51,7 @@ public class ArmSubsystem extends SubsystemBase {
   final PIDController armPID = new PIDController(0.00007, 0.0, 0.0);
   final PIDController shoulderPositionPID = new PIDController(.0195, 0.0, 0);
 
+<<<<<<< Updated upstream
 	final public double shoulderTargetAngleHigh = 42;
   final public double shoulderTargetAngleMiddle = 48;
   final public double shoulderTargetAngleLow = 120;
@@ -58,6 +59,15 @@ public class ArmSubsystem extends SubsystemBase {
 
   public final double armTargetPositionHigh = -44000;
   public final double armTargetPositionMiddle = -18500;
+=======
+	final public double shoulderTargetAngleHigh = 50;
+  final public double shoulderTargetAngleMiddle = 40;
+  final public double shoulderTargetAngleLow = 120;
+  public final double shoulderTargetAngleFeeder = 27;
+
+  public final double armTargetPositionHigh = -42000;
+  public final double armTargetPositionMiddle = -35000;
+>>>>>>> Stashed changes
   public final double armTargetPositionLow = -2500;
   public final double armTargetPositionFeeder = -28000 * 18/35;
   public final double armTargetPositionHome = -1000;
@@ -177,6 +187,7 @@ public class ArmSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Shoulder Direction", shoulderReversed);
     SmartDashboard.putNumber("ShoulderPosition", shoulderCANCoder.getAbsolutePosition());
     SmartDashboard.putNumber("ShoulderTarget", shoulderPosition);
     SmartDashboard.putNumber("ExtensionPosition", armMotor.getSelectedSensorPosition());

@@ -64,11 +64,16 @@ public class RobotContainer {
     private final JoystickButton slow = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton alignToTarget = new JoystickButton(willController, XboxController.Button.kA.value);
 
-    private final JoystickButton LED = new JoystickButton(oliviaController, XboxController.Button.kStart.value);
+   // private final JoystickButton LED = new JoystickButton(oliviaController, XboxController.Button.kStart.value);
     //private final JoystickButton purple = new JoystickButton(oliviaController, XboxController.Button.kBack.value);
     
     private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
     private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
+<<<<<<< Updated upstream
+=======
+    private final JoystickButton outtakeFast = new JoystickButton(oliviaController, XboxController.Button.kY.value);
+
+>>>>>>> Stashed changes
 
     private final POVButton balance = new POVButton(willController, 0);
     private final POVButton armHigh = new POVButton(oliviaController, 0);
@@ -94,6 +99,8 @@ public class RobotContainer {
         s_Arm.setDefaultCommand(
             new ArmToHome(s_Wrist, s_Arm)
                 .andThen(new ShoulderToHome(s_Arm)));
+        s_Blinkin.setDefaultCommand(
+            new ShoulderLED(s_Blinkin, s_Arm));
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -153,11 +160,17 @@ public class RobotContainer {
             .onTrue(new InstantCommand(() -> s_Arm.shoulderReversed *= -1));
         armZero.onTrue(new InstantCommand(s_Arm::ArmPositionZero));
 
-        intake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
+        outtake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.2)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
+<<<<<<< Updated upstream
         outtake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
+=======
+        intake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
+>>>>>>> Stashed changes
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        LED.toggleOnTrue(
+        outtakeFast.onTrue(new InstantCommand(() -> s_Intake.intake(0.75)))
+            .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
+        /*LED.toggleOnTrue(
             new FunctionalCommand(
                 () -> {}, 
                 () -> s_Blinkin.yellow(), 
@@ -170,7 +183,7 @@ public class RobotContainer {
                         s_Blinkin
                     ).schedule();
                 }, 
-                () -> false, s_Blinkin));
+                () -> false, s_Blinkin));*/
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
             .onTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
             .onFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));

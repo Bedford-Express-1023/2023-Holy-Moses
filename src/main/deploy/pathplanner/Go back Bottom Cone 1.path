@@ -2,15 +2,15 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.85,
-        "y": 0.5
+        "x": 6.5,
+        "y": 0.9
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8491054694327729,
-        "y": 0.5
+        "x": 6.500285479203437,
+        "y": 0.9019247594050747
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -24,23 +24,40 @@
     },
     {
       "anchorPoint": {
-        "x": 5.21,
-<<<<<<< Updated upstream
-        "y": 0.9
+        "x": 2.5,
+        "y": 1.2
       },
       "prevControl": {
-        "x": 5.226149142451045,
-        "y": 0.9
-=======
-        "y": 0.95
+        "x": 2.4657424955875555,
+        "y": 1.1771616637250355
+      },
+      "nextControl": {
+        "x": 2.5342575044124445,
+        "y": 1.2228383362749644
+      },
+      "holonomicAngle": 0.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 1.5,
+        "y": 1.53
       },
       "prevControl": {
-        "x": 5.226149142451045,
-        "y": 0.95
->>>>>>> Stashed changes
+        "x": 1.5267596048012608,
+        "y": 1.5761703453321443
       },
       "nextControl": null,
-      "holonomicAngle": 0.0,
+      "holonomicAngle": 200.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,

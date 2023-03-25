@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -22,10 +24,18 @@ public class Blinkin extends SubsystemBase {
     m_Spark.set(0.91);
   }
 
-  public void blue (){
+  public void color (){
+    if (DriverStation.getAlliance() == Alliance.Blue){
     m_Spark.set(-0.23);
+    }
+    else if (DriverStation.getAlliance() == Alliance.Red){
+      m_Spark.set(-0.25);
+    }
   }
 
+  public void off (){
+    m_Spark.set(.99);
+  }
 
 public void limitSwitchColor() {
 }

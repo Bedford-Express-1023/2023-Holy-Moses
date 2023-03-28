@@ -18,12 +18,17 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class Swerve extends SubsystemBase {
-
+    private final Joystick willController = new Joystick(0);
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public WPI_Pigeon2 gyro = new WPI_Pigeon2(Constants.Swerve.pigeonID);
@@ -32,6 +37,8 @@ public class Swerve extends SubsystemBase {
     public final PIDController yController = new PIDController(4, 0.0, 0.0);
     public final PIDController rotaController = new PIDController(5, 0, 0);
     public final SimpleMotorFeedforward rotaFF = new SimpleMotorFeedforward(.23, 1);
+    private final JoystickButton faceGrid = new JoystickButton(willController, XboxController.Button.kRightStick.value);
+    private final JoystickButton dontFaceGrid = new JoystickButton(willController, XboxController.Button.kLeftStick.value);
     public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
         new Translation2d(Constants.Swerve.trackWidth/ 2.0, Constants.Swerve.wheelBase / 2.0),
         new Translation2d(Constants.Swerve.trackWidth / 2.0, -Constants.Swerve.wheelBase / 2.0),
@@ -70,7 +77,12 @@ public class Swerve extends SubsystemBase {
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
-        SwerveModuleState[] swerveModuleStates =
+        if (faceGrid.getAsBoolean()) {
+            rotation = rotaController.calculate(Math.toRadians(180));
+        } else if (dontFaceGrid.getAsBoolean()) {
+            rotation = rotaController.calculate(Math.toRadians(1));
+        }
+            SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                                     translation.getX(), 
@@ -145,6 +157,7 @@ public class Swerve extends SubsystemBase {
             mod.resetToAbsolute();
         }
     }
+
 
 
     @Override

@@ -52,20 +52,6 @@ public class ArmSubsystem extends SubsystemBase {
   final PIDController armPID = new PIDController(0.00007, 0.0, 0.0);
   final PIDController shoulderPositionPID = new PIDController(.0195, 0.0, 0);
 
-<<<<<<< Updated upstream
-	final public double shoulderTargetAngleHigh = 50;
-  final public double shoulderTargetAngleMiddle = 48;
-  final public double shoulderTargetAngleLow = 120;
-  public final double shoulderTargetAngleFeeder = 27;
-
-  public final double armTargetPositionHigh = -42000;
-  public final double armTargetPositionMiddle = -25000;
-  public final double armTargetPositionLow = -2500;
-  public final double armTargetPositionFeeder = -9000;
-  public final double armTargetPositionHome = -1000;
-=======
-
-
 	final public double shoulderTargetAngleHigh = 50;
   final public double shoulderTargetAngleMiddle = 50;
   final public double shoulderTargetAngleLow = 120;
@@ -77,7 +63,6 @@ public class ArmSubsystem extends SubsystemBase {
   public final double armTargetPositionLow = -2500;
   public final double armTargetPositionFeeder = -18000 * 18/35;
   public final double armTargetPositionHome = -5000;
->>>>>>> Stashed changes
   
   // Creates a new ArmSubsystem. 
   public ArmSubsystem() {
@@ -130,14 +115,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   private void ArmPosition() {
     double output = armPID.calculate(armMotor.getSelectedSensorPosition(), armPosition + armPositionOverride);
-<<<<<<< Updated upstream
-    if (armPosition == armTargetPositionHome && -armMotor.getSelectedSensorPosition() + armPosition < 1000 && armPositionOverride == 0) 
-    {
-      armMotor.set(0); 
-=======
     if (armPosition == armTargetPositionHome && -armMotor.getSelectedSensorPosition() + armPosition < 5000 && armPositionOverride == 0) {
       armMotor.set(0);
->>>>>>> Stashed changes
       return;
     }
     SmartDashboard.putNumber("ExtensionOutput", output);

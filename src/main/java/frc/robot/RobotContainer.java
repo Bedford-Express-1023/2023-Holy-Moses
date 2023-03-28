@@ -69,17 +69,11 @@ public class RobotContainer {
     private final JoystickButton LED = new JoystickButton(oliviaController, XboxController.Button.kStart.value);
     //private final JoystickButton purple = new JoystickButton(oliviaController, XboxController.Button.kBack.value);
     
-<<<<<<< Updated upstream
-    private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
-    private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
-=======
     private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
     private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
 
 
     private final JoystickButton outtakeFast = new JoystickButton(oliviaController, XboxController.Button.kY.value);
-
->>>>>>> Stashed changes
 
     private final POVButton balance = new POVButton(willController, 0);
     private final POVButton armHigh = new POVButton(oliviaController, 0);
@@ -163,20 +157,13 @@ public class RobotContainer {
             .onTrue(new InstantCommand(() -> s_Arm.shoulderReversed *= -1));
         armZero.onTrue(new InstantCommand(s_Arm::ArmPositionZero));
 
-        intake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
+        intake.whileTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-<<<<<<< Updated upstream
-        outtake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
-            .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        LED.toggleOnTrue(
-=======
-
-        intake.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
+        outtake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.1)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         outtakeFast.onTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         /*LED.toggleOnTrue(
->>>>>>> Stashed changes
             new FunctionalCommand(
                 () -> {}, 
                 () -> s_Blinkin.yellow(), 

@@ -24,7 +24,7 @@ public final class Constants {
         public static final int WRIST_SPARK = 42;
         public static final int ARM_LIMIT_SWITCH_DIO = 0;
 
-        public static final double maxShoulderVelocity = .5;
+        public static final double maxShoulderVelocity = 0.5;
         public static final double maxShoulderAcceleration = 10;
         public static final double maxArmVelocity = 0.5;
         public static final double maxArmAcceleration = 1;
@@ -35,7 +35,7 @@ public final class Constants {
         public static final int intake_SOLENOID_F_CHANNEL = 4;
         public static final int intake_SOLENOID_R_CHANNEL = 5;
 
-        public static double maxWristVelocity = 15;
+        public static double maxWristVelocity = .5;
         public static double maxWristAcceleration = 15;
     }
 

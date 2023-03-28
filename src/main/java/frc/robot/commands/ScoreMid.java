@@ -51,7 +51,14 @@ public class ScoreMid extends CommandBase {
       }
     }*/
 
+<<<<<<< Updated upstream
     wrist.wristPosition((arm.shoulderReversed * 70 - arm.shoulderCANCoder.getAbsolutePosition()));
+=======
+
+
+    wrist.wristPosition((arm.shoulderReversed * 90 - arm.shoulderCANCoder.getAbsolutePosition()));
+
+>>>>>>> Stashed changes
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleMiddle);
     arm.ArmPosition(arm.armTargetPositionMiddle);
   }

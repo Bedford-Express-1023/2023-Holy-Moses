@@ -51,7 +51,14 @@ public class ScoreLow extends CommandBase {
       }
     }*/
 
+<<<<<<< Updated upstream
     wrist.wristPosition((arm.shoulderReversed * 80 - arm.shoulderCANCoder.getAbsolutePosition()));
+=======
+
+
+    wrist.wristPosition((arm.shoulderReversed * 89 - arm.shoulderCANCoder.getAbsolutePosition()));
+
+>>>>>>> Stashed changes
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleLow);
     arm.ArmPosition(arm.armTargetPositionLow);
   }

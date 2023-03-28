@@ -35,8 +35,8 @@ public final class Constants {
         public static final int intake_SOLENOID_F_CHANNEL = 4;
         public static final int intake_SOLENOID_R_CHANNEL = 5;
 
-        public static double maxWristVelocity = 15;
-        public static double maxWristAcceleration = 15;
+        public static double maxWristVelocity = -.5;
+        public static double maxWristAcceleration = .5;
     }
 
     public static final class Swerve {

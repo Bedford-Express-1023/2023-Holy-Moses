@@ -49,7 +49,7 @@ public class ArmSubsystem extends SubsystemBase {
   public final double shoulderGravity = .07;
   public final double armGravity = -.3;
   public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, shoulderGravity);
-  final PIDController armPID = new PIDController(0.003, 0.0, 0);
+  final PIDController armPID = new PIDController(0.003, 0.0, 0.00001);
   final PIDController shoulderPositionPID = new PIDController(.0195, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 50;

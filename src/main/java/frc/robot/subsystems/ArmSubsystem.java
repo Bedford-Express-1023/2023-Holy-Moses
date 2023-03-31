@@ -66,7 +66,9 @@ public class ArmSubsystem extends SubsystemBase {
   public final double armTargetPositionHome = -1000;
   
   // Creates a new ArmSubsystem. 
-  public ArmSubsystem() {
+  /**
+   */
+    public ArmSubsystem() {
 		rearShoulderMotor.setNeutralMode(NeutralMode.Brake);
 		frontShoulderMotor.setNeutralMode(NeutralMode.Brake);
     frontShoulderMotor.follow(rearShoulderMotor);

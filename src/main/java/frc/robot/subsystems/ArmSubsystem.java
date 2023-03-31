@@ -27,9 +27,10 @@ import frc.lib.util.RotationalFeedForward;
 import frc.robot.Constants;
 import static frc.robot.Constants.Arm.*;
 
+/**
+ * creates a new ArmSubsystem. This subsytem controls both extension and rotation of the arm
+ */
 public class ArmSubsystem extends SubsystemBase { 
-  //shoulder is rotation (up/down)
-  //arm is extension (in/out)
   public final TalonFX rearShoulderMotor = new TalonFX(Constants.Arm.FRONT_SHOULDER_CAN);
   public final TalonFX frontShoulderMotor = new TalonFX(Constants.Arm.REAR_SHOULDER_CAN);
   public final WPI_TalonFX armMotor = new WPI_TalonFX(Constants.Arm.ARM_EXTEND_CAN);
@@ -54,7 +55,7 @@ public class ArmSubsystem extends SubsystemBase {
   final PIDController shoulderPositionPID = new PIDController(.0195, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 50; /*!< Target Angle for the shoulder in high position */
-  final public double shoulderTargetAngleMiddle = 52;
+  final public double shoulderTargetAngleMiddle = 52; /*!< Target Angle for the shoulder in mid position */
   final public double shoulderTargetAngleLow = 120;
   public final double shoulderTargetAngleFeeder = 27;
 

@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -50,7 +49,7 @@ public class ArmSubsystem extends SubsystemBase {
   public final double shoulderGravity = .07;
   public final double armGravity = -.3;
   public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, shoulderGravity);
-  final PIDController armPID = new PIDController(0.00007, 0.0, 0.00001);
+  final PIDController armPID = new PIDController(0.003, 0.0, 0);
   final PIDController shoulderPositionPID = new PIDController(.0195, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 50;
@@ -58,38 +57,24 @@ public class ArmSubsystem extends SubsystemBase {
   final public double shoulderTargetAngleLow = 120;
   public final double shoulderTargetAngleFeeder = 27;
 
-  public final double armTargetPositionHigh = -40000;
-  public final double armTargetPositionMiddle = -25000;
-
-  public final double armTargetPositionLow = -2500;
-  public final double armTargetPositionFeeder = -18000 * 18/35;
-  public final double armTargetPositionHome = -1000;
+  public final double armTargetPositionHigh = 937.5;
+  public final double armTargetPositionMiddle = 585.9;
+  public final double armTargetPositionLow = 58.6;
+  public final double armTargetPositionFeeder = 216.8;
+  public final double armTargetPositionHome = 23.4;
   
   // Creates a new ArmSubsystem. 
   public ArmSubsystem() {
 		rearShoulderMotor.setNeutralMode(NeutralMode.Brake);
 		frontShoulderMotor.setNeutralMode(NeutralMode.Brake);
     frontShoulderMotor.follow(rearShoulderMotor);
+    armPID.disableContinuousInput();
     armMotor.setNeutralMode(NeutralMode.Brake);
     armMotor.configOpenloopRamp(.5);
     armMotor.setInverted(false);
     armMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 45, 50), 30);
     armMotor.configPeakOutputForward(1);
 		armMotor.configPeakOutputReverse(-1);
-
-    ShuffleboardTab subsystemTab = Shuffleboard.getTab("Subsystems");
-    ShuffleboardLayout extensionLayout = subsystemTab.getLayout("Arm Extension", BuiltInLayouts.kList)
-    .withSize(1, 4)
-    .withPosition(0, 4);
-    extensionLayout.addNumber("ExtensionSpeed", () -> armMotor.getSelectedSensorVelocity());
-    extensionLayout.addNumber("ExtensionPosition", () -> armMotor.getSelectedSensorPosition());
-
-    ShuffleboardLayout rotationLayout = subsystemTab.getLayout("Shoulder Rotation", BuiltInLayouts.kList)
-    .withSize(1, 4)
-    .withPosition(0, 2);
-    rotationLayout.addDouble("RotationSpeed", () -> shoulderCANCoder.getVelocity());
-    rotationLayout.addDouble("RotationPosition", () -> shoulderCANCoder.getPosition());
-    //rotationLayout.add("Current Arm Command", currentArmCommand, "none");
   }
 
   /**
@@ -109,45 +94,32 @@ public class ArmSubsystem extends SubsystemBase {
         -Math.abs(-feedForward.calculate(MathUtil.clamp(output, -maxShoulderVelocity, maxShoulderVelocity), -maxShoulderAcceleration)),
         Math.abs(feedForward.calculate(MathUtil.clamp(output, -maxShoulderVelocity, maxShoulderVelocity), maxShoulderAcceleration)))); //calculates max power output so as not to go above max velocity and max accel //calculates max power output so as not to go above max velocity and max accel
   }
+
   public void ShoulderPosition(double positionShoulder) {
     shoulderPosition = positionShoulder;
   }
 
   private void ArmPosition() {
-    double output = armPID.calculate(armMotor.getSelectedSensorPosition(), armPosition + armPositionOverride);
-    if (armPosition == armTargetPositionHome && -armMotor.getSelectedSensorPosition() + armPosition < 5000 && armPositionOverride == 0) {
+    //double output = armPID.calculate(armCANCoder.getPosition(), armPosition + armPositionOverride);
+    double output = armPID.getP() * ((armPosition + armPositionOverride) - armCANCoder.getPosition()); //manual P calculation
+    if (armPosition == armTargetPositionHome && Math.abs(armCANCoder.getPosition() - armPosition) < 5000 && armPositionOverride == 0) {
       armMotor.set(0);
       return;
     }
     SmartDashboard.putNumber("ExtensionOutput", output);
-    if (armMotor.getSelectedSensorPosition() > 0 && output > 0) {
+    if (armCANCoder.getPosition() < 0 && output < 0) {
       armMotor.set(oliviaController.getLeftY() * .05);} else {
-      armMotor.set(ControlMode.PercentOutput, armGravity * Math.cos(shoulderCANCoder.getAbsolutePosition() * Math.PI/180) + 
-      MathUtil.clamp(
+      armMotor.set(ControlMode.PercentOutput, //armGravity * Math.cos(shoulderCANCoder.getAbsolutePosition() * Math.PI/180) - 
+      -MathUtil.clamp(
         output,
-        -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(output), -maxArmVelocity, maxArmVelocity), maxArmAcceleration)),
-        Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(output), -maxArmVelocity, maxArmVelocity), maxArmAcceleration))));
+        -Math.abs(feedForward.calculate(MathUtil.clamp(output, -maxArmVelocity, maxArmVelocity), -maxArmAcceleration)),
+        Math.abs(feedForward.calculate(MathUtil.clamp(output, -maxArmVelocity, maxArmVelocity), maxArmAcceleration))));
     }
     //calculates max power output so as not to go above max velocity and max accel
   }
 
   public void ArmPosition(double positionArm) {
     armPosition = positionArm;
-  }
-
-  public void ArmHighScore() {
-    ShoulderPosition(shoulderTargetAngleHigh);
-    //currentArmCommand = "High Score";
-  }
-
-  public void ArmMiddleScore() {
-    ShoulderPosition(shoulderTargetAngleMiddle);
-    //currentArmCommand = "Middle Score";
-  }
-
-  public void ArmLowScore() {
-    ShoulderPosition(shoulderTargetAngleLow);
-    //currentArmCommand = "Low Score";
   }
 
   public void ArmPositionZero() {
@@ -162,8 +134,8 @@ public class ArmSubsystem extends SubsystemBase {
     ShoulderPosition(0);
   }
 
-  public void ArmManual(double joystickDouble){
-    armMotor.set(TalonFXControlMode.PercentOutput, joystickDouble);
+  public void ArmManual(double speed){
+    armMotor.set(TalonFXControlMode.PercentOutput, speed);
   }
 
   /**
@@ -179,7 +151,7 @@ public class ArmSubsystem extends SubsystemBase {
   * @return the distance, in inches, travelled by the arm
   */
   public double degreesToInches(double degrees) {
-    return 2*Math.PI/*roller rotations to meters of cord*/ * 2/*final pulley magic ratio*/ * (1/360)/*degrees to rotations*/ * (8/60);/*gear ratios*/
+    return 2*Math.PI/*roller rotations to Inches of cord*/ * 2/*final pulley magic ratio*/ * (1/360)/*degrees to rotations*/ * (8/60);/*gear ratios*/
   }
   
   @Override
@@ -189,17 +161,13 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ShoulderTarget", shoulderPosition);
     SmartDashboard.putNumber("ExtensionPosition", armMotor.getSelectedSensorPosition());
     SmartDashboard.putNumber("ExtensionTarget", armPosition);
-    //SmartDashboard.putBoolean("armLimitSwitch", armLimitSwitch.get());
-    SmartDashboard.putNumber("ArmOutput", armMotor.getSupplyCurrent());
+    SmartDashboard.putNumber("ArmOverride", armPositionOverride);
+    SmartDashboard.putNumber("ArmAmps", armMotor.getSupplyCurrent());
     double leftYstick = oliviaController.getLeftY(); // left-side Y for Xbox360Gamepad 
-		if (Math.abs(leftYstick) < 0.15) {
+		if (Math.abs(leftYstick) < 0.2) {
       leftYstick = 0; // deadband 15% 
     } 
-
-  
-
-    armPositionOverride += leftYstick * 275;
-    // This method will be called once per scheduler run
+    armPositionOverride += leftYstick * 3;
     ArmPosition();
     //ShoulderPosition(0); //sets the arm to always be up
     ShoulderPosition();

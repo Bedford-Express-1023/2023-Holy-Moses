@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -49,20 +50,20 @@ public class ArmSubsystem extends SubsystemBase {
   public final double shoulderGravity = .07;
   public final double armGravity = -.3;
   public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, shoulderGravity);
-  final PIDController armPID = new PIDController(0.00007, 0.0, 0.0);
+  final PIDController armPID = new PIDController(0.00007, 0.0, 0.00001);
   final PIDController shoulderPositionPID = new PIDController(.0195, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 50;
-  final public double shoulderTargetAngleMiddle = 50;
+  final public double shoulderTargetAngleMiddle = 52;
   final public double shoulderTargetAngleLow = 120;
   public final double shoulderTargetAngleFeeder = 27;
 
-  public final double armTargetPositionHigh = -42000;
-  public final double armTargetPositionMiddle = -20000;
+  public final double armTargetPositionHigh = -40000;
+  public final double armTargetPositionMiddle = -25000;
 
   public final double armTargetPositionLow = -2500;
   public final double armTargetPositionFeeder = -18000 * 18/35;
-  public final double armTargetPositionHome = -5000;
+  public final double armTargetPositionHome = -1000;
   
   // Creates a new ArmSubsystem. 
   public ArmSubsystem() {
@@ -73,7 +74,6 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor.configOpenloopRamp(.5);
     armMotor.setInverted(false);
     armMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 45, 50), 30);
-  
     armMotor.configPeakOutputForward(1);
 		armMotor.configPeakOutputReverse(-1);
 
@@ -185,6 +185,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("ShoulderPosition", shoulderCANCoder.getAbsolutePosition());
+    SmartDashboard.putNumber("Arm Cancoder Pos", armCANCoder.getPosition());
     SmartDashboard.putNumber("ShoulderTarget", shoulderPosition);
     SmartDashboard.putNumber("ExtensionPosition", armMotor.getSelectedSensorPosition());
     SmartDashboard.putNumber("ExtensionTarget", armPosition);

@@ -1,0 +1,332 @@
+\hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem}{}\doxysection{frc.\+robot.\+subsystems.\+Arm\+Subsystem Class Reference}
+\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem}\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+Inheritance diagram for frc.\+robot.\+subsystems.\+Arm\+Subsystem\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a2beefc44fd77c5966a6db1f2e1317990}{Arm\+Subsystem}} ()
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_abd4ef7565b50d75de667dbae044995af}{Shoulder\+Position}} (double position\+Shoulder)
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ab32413740a8d46c5d8a8d2ab43703e20}{Arm\+Position}} (double position\+Arm)
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a20787e14f23e82b1ded2d1ec73d1e036}{Arm\+High\+Score}} ()
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_aa32deb4bdf0135ee8781ce6827d83823}{Arm\+Middle\+Score}} ()
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a75b4411ac4fcd76769e7770fd3a20f62}{Arm\+Low\+Score}} ()
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a886f46782c0ffddf8d7ffb2d5acd1757}{Arm\+Position\+Zero}} ()
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a9b63e869e70ec6276aa8167c63108dd9}{Arm\+To\+Home}} ()
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a88497f1386db0de5b531c7d631225af8}{Shoulder\+To\+Home}} ()
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_abcbcb12f66b98c2b515769b362b0e341}{Arm\+Manual}} (double joystick\+Double)
+\item 
+double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a2d5ec84ea87d0f67827aa4d034d94f17}{Ticks\+To\+Degrees}} (double ticks)
+\item 
+double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a39e6e7095f6dd5d5527c925984997923}{degrees\+To\+Inches}} (double degrees)
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a73fc3d73180099edac9bb1f4223a363b}{periodic}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+final Talon\+FX \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a76bcf20d186a4d3a25a7180c5f570e2d}{rear\+Shoulder\+Motor}} = new Talon\+FX(Constants.\+Arm.\+FRONT\+\_\+\+SHOULDER\+\_\+\+CAN)
+\item 
+final Talon\+FX \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_adc355b96850bcc5b63d9c28171a6ae5b}{front\+Shoulder\+Motor}} = new Talon\+FX(Constants.\+Arm.\+REAR\+\_\+\+SHOULDER\+\_\+\+CAN)
+\item 
+final WPI\+\_\+\+Talon\+FX \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ae44452919f03516f38d6648ac08d928a}{arm\+Motor}} = new WPI\+\_\+\+Talon\+FX(Constants.\+Arm.\+ARM\+\_\+\+EXTEND\+\_\+\+CAN)
+\item 
+final CANCoder \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ab1bfd601d31c63d99598e20ad11e75a1}{shoulder\+CANCoder}} = new CANCoder(Constants.\+Arm.\+SHOULDER\+\_\+\+CANCODER)
+\item 
+final CANCoder \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ae54c6b10ff4830bcef9159e4b8ea8043}{arm\+CANCoder}} = new CANCoder(Constants.\+Arm.\+ARM\+\_\+\+CANCODER)
+\item 
+final Pigeon\+IMU \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a47184092e4fa379f38840b693878e7d6}{pidgeon\+Gyro}} = new Pigeon\+IMU(0)
+\item 
+double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a7cd9ecf590de0be4a84f0abf98f05790}{shoulder\+Position}} = 0
+\item 
+double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a5e538b1e68bf1621e908470c90bc3935}{shoulder\+Position\+Override}} = 0
+\item 
+double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a5d76d12675a7315a008cd7c68bd8db58}{arm\+Position}} = 0
+\item 
+double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a3cbd2aa993762c8ba33cbf180d156171}{arm\+Position\+Override}} = 0
+\item 
+int \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a3a231a180f84cbb8ba90aaf0f91eb024}{shoulder\+Reversed}} = -\/1
+\item 
+final double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_abb531d6505a1d8c688f490fae759adbf}{shoulder\+Gravity}} = .\+07
+\item 
+final double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_aacb84a334dd8a7fae10774cd568f69b1}{arm\+Gravity}} = -\/.\+3
+\item 
+final \mbox{\hyperlink{classfrc_1_1lib_1_1util_1_1_rotational_feed_forward}{Rotational\+Feed\+Forward}} \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a9f61e107bb81d972c9cfc334fcaf0c32}{feed\+Forward}} = new \mbox{\hyperlink{classfrc_1_1lib_1_1util_1_1_rotational_feed_forward}{Rotational\+Feed\+Forward}}(0,1,0, \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_abb531d6505a1d8c688f490fae759adbf}{shoulder\+Gravity}})
+\item 
+final double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a4c38fe1d79dd7c12e2494466381b0b98}{shoulder\+Target\+Angle\+High}} = 50
+\item 
+final double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a5e5ce1e33f7c42910e387bce87a854ef}{shoulder\+Target\+Angle\+Middle}} = 52
+\item 
+final double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a1834d42542e185aec4e61d6ec118b5d3}{shoulder\+Target\+Angle\+Low}} = 120
+\item 
+final double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ab842b833b8ae6b4a62a031d93e585d6f}{shoulder\+Target\+Angle\+Feeder}} = 27
+\item 
+final double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a9ebe99754a47859858f7806a4bd70bd4}{arm\+Target\+Position\+High}} = -\/40000
+\item 
+final double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a42e9c4286ef7f689e78f74b93cc3990b}{arm\+Target\+Position\+Middle}} = -\/25000
+\item 
+final double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a3c6c3a490d1946f78a5947b2fb32859f}{arm\+Target\+Position\+Low}} = -\/2500
+\item 
+final double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_aeb467e1a32aad41f4c8efa8e0752e7b2}{arm\+Target\+Position\+Feeder}} = -\/18000 $\ast$ 18/35
+\item 
+final double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a2c89a34215493c50572aedfc12377475}{arm\+Target\+Position\+Home}} = -\/1000
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a2beefc44fd77c5966a6db1f2e1317990}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a2beefc44fd77c5966a6db1f2e1317990}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!ArmSubsystem@{ArmSubsystem}}
+\index{ArmSubsystem@{ArmSubsystem}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{ArmSubsystem()}{ArmSubsystem()}}
+{\footnotesize\ttfamily frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+Arm\+Subsystem (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+A test subsystem for Doxygen -\/ Arm\+Subsystem 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a20787e14f23e82b1ded2d1ec73d1e036}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a20787e14f23e82b1ded2d1ec73d1e036}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!ArmHighScore@{ArmHighScore}}
+\index{ArmHighScore@{ArmHighScore}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{ArmHighScore()}{ArmHighScore()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+Arm\+High\+Score (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a75b4411ac4fcd76769e7770fd3a20f62}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a75b4411ac4fcd76769e7770fd3a20f62}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!ArmLowScore@{ArmLowScore}}
+\index{ArmLowScore@{ArmLowScore}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{ArmLowScore()}{ArmLowScore()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+Arm\+Low\+Score (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_abcbcb12f66b98c2b515769b362b0e341}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_abcbcb12f66b98c2b515769b362b0e341}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!ArmManual@{ArmManual}}
+\index{ArmManual@{ArmManual}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{ArmManual()}{ArmManual()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+Arm\+Manual (\begin{DoxyParamCaption}\item[{double}]{joystick\+Double }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_aa32deb4bdf0135ee8781ce6827d83823}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_aa32deb4bdf0135ee8781ce6827d83823}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!ArmMiddleScore@{ArmMiddleScore}}
+\index{ArmMiddleScore@{ArmMiddleScore}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{ArmMiddleScore()}{ArmMiddleScore()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+Arm\+Middle\+Score (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ab32413740a8d46c5d8a8d2ab43703e20}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ab32413740a8d46c5d8a8d2ab43703e20}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!ArmPosition@{ArmPosition}}
+\index{ArmPosition@{ArmPosition}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{ArmPosition()}{ArmPosition()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+Arm\+Position (\begin{DoxyParamCaption}\item[{double}]{position\+Arm }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a886f46782c0ffddf8d7ffb2d5acd1757}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a886f46782c0ffddf8d7ffb2d5acd1757}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!ArmPositionZero@{ArmPositionZero}}
+\index{ArmPositionZero@{ArmPositionZero}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{ArmPositionZero()}{ArmPositionZero()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+Arm\+Position\+Zero (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a9b63e869e70ec6276aa8167c63108dd9}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a9b63e869e70ec6276aa8167c63108dd9}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!ArmToHome@{ArmToHome}}
+\index{ArmToHome@{ArmToHome}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{ArmToHome()}{ArmToHome()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+Arm\+To\+Home (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a39e6e7095f6dd5d5527c925984997923}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a39e6e7095f6dd5d5527c925984997923}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!degreesToInches@{degreesToInches}}
+\index{degreesToInches@{degreesToInches}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{degreesToInches()}{degreesToInches()}}
+{\footnotesize\ttfamily double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+degrees\+To\+Inches (\begin{DoxyParamCaption}\item[{double}]{degrees }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em ticks} & the encoder value in degrees \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the distance, in inches, travelled by the arm 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a73fc3d73180099edac9bb1f4223a363b}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a73fc3d73180099edac9bb1f4223a363b}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!periodic@{periodic}}
+\index{periodic@{periodic}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{periodic()}{periodic()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+periodic (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_abd4ef7565b50d75de667dbae044995af}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_abd4ef7565b50d75de667dbae044995af}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!ShoulderPosition@{ShoulderPosition}}
+\index{ShoulderPosition@{ShoulderPosition}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{ShoulderPosition()}{ShoulderPosition()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+Shoulder\+Position (\begin{DoxyParamCaption}\item[{double}]{position\+Shoulder }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a88497f1386db0de5b531c7d631225af8}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a88497f1386db0de5b531c7d631225af8}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!ShoulderToHome@{ShoulderToHome}}
+\index{ShoulderToHome@{ShoulderToHome}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{ShoulderToHome()}{ShoulderToHome()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+Shoulder\+To\+Home (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a2d5ec84ea87d0f67827aa4d034d94f17}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a2d5ec84ea87d0f67827aa4d034d94f17}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!TicksToDegrees@{TicksToDegrees}}
+\index{TicksToDegrees@{TicksToDegrees}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{TicksToDegrees()}{TicksToDegrees()}}
+{\footnotesize\ttfamily double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+Ticks\+To\+Degrees (\begin{DoxyParamCaption}\item[{double}]{ticks }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em ticks} & the encoder value (in ticks, 2048/rotation) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the angle, in degrees, of the shoulder 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ae54c6b10ff4830bcef9159e4b8ea8043}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ae54c6b10ff4830bcef9159e4b8ea8043}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!armCANCoder@{armCANCoder}}
+\index{armCANCoder@{armCANCoder}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{armCANCoder}{armCANCoder}}
+{\footnotesize\ttfamily final CANCoder frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+arm\+CANCoder = new CANCoder(Constants.\+Arm.\+ARM\+\_\+\+CANCODER)}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_aacb84a334dd8a7fae10774cd568f69b1}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_aacb84a334dd8a7fae10774cd568f69b1}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!armGravity@{armGravity}}
+\index{armGravity@{armGravity}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{armGravity}{armGravity}}
+{\footnotesize\ttfamily final double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+arm\+Gravity = -\/.\+3}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ae44452919f03516f38d6648ac08d928a}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ae44452919f03516f38d6648ac08d928a}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!armMotor@{armMotor}}
+\index{armMotor@{armMotor}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{armMotor}{armMotor}}
+{\footnotesize\ttfamily final WPI\+\_\+\+Talon\+FX frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+arm\+Motor = new WPI\+\_\+\+Talon\+FX(Constants.\+Arm.\+ARM\+\_\+\+EXTEND\+\_\+\+CAN)}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a5d76d12675a7315a008cd7c68bd8db58}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a5d76d12675a7315a008cd7c68bd8db58}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!armPosition@{armPosition}}
+\index{armPosition@{armPosition}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{armPosition}{armPosition}}
+{\footnotesize\ttfamily double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+arm\+Position = 0}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a3cbd2aa993762c8ba33cbf180d156171}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a3cbd2aa993762c8ba33cbf180d156171}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!armPositionOverride@{armPositionOverride}}
+\index{armPositionOverride@{armPositionOverride}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{armPositionOverride}{armPositionOverride}}
+{\footnotesize\ttfamily double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+arm\+Position\+Override = 0}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_aeb467e1a32aad41f4c8efa8e0752e7b2}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_aeb467e1a32aad41f4c8efa8e0752e7b2}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!armTargetPositionFeeder@{armTargetPositionFeeder}}
+\index{armTargetPositionFeeder@{armTargetPositionFeeder}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{armTargetPositionFeeder}{armTargetPositionFeeder}}
+{\footnotesize\ttfamily final double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+arm\+Target\+Position\+Feeder = -\/18000 $\ast$ 18/35}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a9ebe99754a47859858f7806a4bd70bd4}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a9ebe99754a47859858f7806a4bd70bd4}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!armTargetPositionHigh@{armTargetPositionHigh}}
+\index{armTargetPositionHigh@{armTargetPositionHigh}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{armTargetPositionHigh}{armTargetPositionHigh}}
+{\footnotesize\ttfamily final double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+arm\+Target\+Position\+High = -\/40000}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a2c89a34215493c50572aedfc12377475}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a2c89a34215493c50572aedfc12377475}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!armTargetPositionHome@{armTargetPositionHome}}
+\index{armTargetPositionHome@{armTargetPositionHome}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{armTargetPositionHome}{armTargetPositionHome}}
+{\footnotesize\ttfamily final double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+arm\+Target\+Position\+Home = -\/1000}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a3c6c3a490d1946f78a5947b2fb32859f}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a3c6c3a490d1946f78a5947b2fb32859f}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!armTargetPositionLow@{armTargetPositionLow}}
+\index{armTargetPositionLow@{armTargetPositionLow}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{armTargetPositionLow}{armTargetPositionLow}}
+{\footnotesize\ttfamily final double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+arm\+Target\+Position\+Low = -\/2500}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a42e9c4286ef7f689e78f74b93cc3990b}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a42e9c4286ef7f689e78f74b93cc3990b}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!armTargetPositionMiddle@{armTargetPositionMiddle}}
+\index{armTargetPositionMiddle@{armTargetPositionMiddle}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{armTargetPositionMiddle}{armTargetPositionMiddle}}
+{\footnotesize\ttfamily final double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+arm\+Target\+Position\+Middle = -\/25000}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a9f61e107bb81d972c9cfc334fcaf0c32}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a9f61e107bb81d972c9cfc334fcaf0c32}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!feedForward@{feedForward}}
+\index{feedForward@{feedForward}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{feedForward}{feedForward}}
+{\footnotesize\ttfamily final \mbox{\hyperlink{classfrc_1_1lib_1_1util_1_1_rotational_feed_forward}{Rotational\+Feed\+Forward}} frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+feed\+Forward = new \mbox{\hyperlink{classfrc_1_1lib_1_1util_1_1_rotational_feed_forward}{Rotational\+Feed\+Forward}}(0,1,0, \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_abb531d6505a1d8c688f490fae759adbf}{shoulder\+Gravity}})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_adc355b96850bcc5b63d9c28171a6ae5b}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_adc355b96850bcc5b63d9c28171a6ae5b}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!frontShoulderMotor@{frontShoulderMotor}}
+\index{frontShoulderMotor@{frontShoulderMotor}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{frontShoulderMotor}{frontShoulderMotor}}
+{\footnotesize\ttfamily final Talon\+FX frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+front\+Shoulder\+Motor = new Talon\+FX(Constants.\+Arm.\+REAR\+\_\+\+SHOULDER\+\_\+\+CAN)}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a47184092e4fa379f38840b693878e7d6}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a47184092e4fa379f38840b693878e7d6}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!pidgeonGyro@{pidgeonGyro}}
+\index{pidgeonGyro@{pidgeonGyro}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{pidgeonGyro}{pidgeonGyro}}
+{\footnotesize\ttfamily final Pigeon\+IMU frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+pidgeon\+Gyro = new Pigeon\+IMU(0)}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a76bcf20d186a4d3a25a7180c5f570e2d}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a76bcf20d186a4d3a25a7180c5f570e2d}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!rearShoulderMotor@{rearShoulderMotor}}
+\index{rearShoulderMotor@{rearShoulderMotor}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{rearShoulderMotor}{rearShoulderMotor}}
+{\footnotesize\ttfamily final Talon\+FX frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+rear\+Shoulder\+Motor = new Talon\+FX(Constants.\+Arm.\+FRONT\+\_\+\+SHOULDER\+\_\+\+CAN)}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ab1bfd601d31c63d99598e20ad11e75a1}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ab1bfd601d31c63d99598e20ad11e75a1}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!shoulderCANCoder@{shoulderCANCoder}}
+\index{shoulderCANCoder@{shoulderCANCoder}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{shoulderCANCoder}{shoulderCANCoder}}
+{\footnotesize\ttfamily final CANCoder frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+shoulder\+CANCoder = new CANCoder(Constants.\+Arm.\+SHOULDER\+\_\+\+CANCODER)}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_abb531d6505a1d8c688f490fae759adbf}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_abb531d6505a1d8c688f490fae759adbf}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!shoulderGravity@{shoulderGravity}}
+\index{shoulderGravity@{shoulderGravity}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{shoulderGravity}{shoulderGravity}}
+{\footnotesize\ttfamily final double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+shoulder\+Gravity = .\+07}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a7cd9ecf590de0be4a84f0abf98f05790}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a7cd9ecf590de0be4a84f0abf98f05790}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!shoulderPosition@{shoulderPosition}}
+\index{shoulderPosition@{shoulderPosition}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{shoulderPosition}{shoulderPosition}}
+{\footnotesize\ttfamily double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+shoulder\+Position = 0}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a5e538b1e68bf1621e908470c90bc3935}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a5e538b1e68bf1621e908470c90bc3935}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!shoulderPositionOverride@{shoulderPositionOverride}}
+\index{shoulderPositionOverride@{shoulderPositionOverride}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{shoulderPositionOverride}{shoulderPositionOverride}}
+{\footnotesize\ttfamily double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+shoulder\+Position\+Override = 0}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a3a231a180f84cbb8ba90aaf0f91eb024}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a3a231a180f84cbb8ba90aaf0f91eb024}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!shoulderReversed@{shoulderReversed}}
+\index{shoulderReversed@{shoulderReversed}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{shoulderReversed}{shoulderReversed}}
+{\footnotesize\ttfamily int frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+shoulder\+Reversed = -\/1}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ab842b833b8ae6b4a62a031d93e585d6f}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_ab842b833b8ae6b4a62a031d93e585d6f}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!shoulderTargetAngleFeeder@{shoulderTargetAngleFeeder}}
+\index{shoulderTargetAngleFeeder@{shoulderTargetAngleFeeder}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{shoulderTargetAngleFeeder}{shoulderTargetAngleFeeder}}
+{\footnotesize\ttfamily final double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+shoulder\+Target\+Angle\+Feeder = 27}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a4c38fe1d79dd7c12e2494466381b0b98}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a4c38fe1d79dd7c12e2494466381b0b98}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!shoulderTargetAngleHigh@{shoulderTargetAngleHigh}}
+\index{shoulderTargetAngleHigh@{shoulderTargetAngleHigh}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{shoulderTargetAngleHigh}{shoulderTargetAngleHigh}}
+{\footnotesize\ttfamily final double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+shoulder\+Target\+Angle\+High = 50}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a1834d42542e185aec4e61d6ec118b5d3}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a1834d42542e185aec4e61d6ec118b5d3}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!shoulderTargetAngleLow@{shoulderTargetAngleLow}}
+\index{shoulderTargetAngleLow@{shoulderTargetAngleLow}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{shoulderTargetAngleLow}{shoulderTargetAngleLow}}
+{\footnotesize\ttfamily final double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+shoulder\+Target\+Angle\+Low = 120}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a5e5ce1e33f7c42910e387bce87a854ef}\label{classfrc_1_1robot_1_1subsystems_1_1_arm_subsystem_a5e5ce1e33f7c42910e387bce87a854ef}} 
+\index{frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}!shoulderTargetAngleMiddle@{shoulderTargetAngleMiddle}}
+\index{shoulderTargetAngleMiddle@{shoulderTargetAngleMiddle}!frc.robot.subsystems.ArmSubsystem@{frc.robot.subsystems.ArmSubsystem}}
+\doxysubsubsection{\texorpdfstring{shoulderTargetAngleMiddle}{shoulderTargetAngleMiddle}}
+{\footnotesize\ttfamily final double frc.\+robot.\+subsystems.\+Arm\+Subsystem.\+shoulder\+Target\+Angle\+Middle = 52}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Shelby Howell/\+Documents/\+Github/2023\+Project-\/0.\+1/src/main/java/frc/robot/subsystems/\mbox{\hyperlink{_arm_subsystem_8java}{Arm\+Subsystem.\+java}}\end{DoxyCompactItemize}

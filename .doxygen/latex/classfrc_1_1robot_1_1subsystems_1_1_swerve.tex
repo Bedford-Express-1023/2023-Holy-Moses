@@ -1,0 +1,232 @@
+\hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve}{}\doxysection{frc.\+robot.\+subsystems.\+Swerve Class Reference}
+\label{classfrc_1_1robot_1_1subsystems_1_1_swerve}\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+Inheritance diagram for frc.\+robot.\+subsystems.\+Swerve\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classfrc_1_1robot_1_1subsystems_1_1_swerve}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_a6d7cc6f3f491911eaad8d8164d15af5c}{Swerve}} ()
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_a6fb3d1aa97638de3fb209d2546e29b27}{drive}} (Translation2d translation, double rotation, boolean field\+Relative, boolean is\+Open\+Loop)
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_ad6c5d0185c14ad701da8bc15e58d0427}{set\+Module\+States}} (Swerve\+Module\+State\mbox{[}$\,$\mbox{]} desired\+States)
+\item 
+Pose2d \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_a4afa2739129bacc745d672362339639f}{get\+Pose}} ()
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_a5e92106292f97f15142c27e8ac787e2d}{reset\+Odometry}} (Pose2d pose)
+\item 
+Swerve\+Module\+State\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_aced9a52b09b598d2fd0261286263765a}{get\+Module\+States}} ()
+\item 
+Swerve\+Module\+Position\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_ab856849f4834065247eb4e25b938147c}{get\+Module\+Positions}} ()
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_aed106ac27d8bceb78be66eb9d4be1868}{zero\+Gyro}} ()
+\item 
+Rotation2d \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_aac475bdc78c0a0eba79264886f7b2bcd}{get\+Yaw}} ()
+\item 
+Rotation2d \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_a9c0389825032185b236dac9f7147cfe4}{get\+Pitch}} ()
+\item 
+Rotation2d \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_ab65c80c6371e2c6c15266bab3ce988d8}{get\+Roll}} ()
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_a38cd927751cb8829f39a00317548d91e}{reset\+Modules\+To\+Absolute}} ()
+\item 
+void \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_a92e30664a2643b4beed3cce98182f63a}{periodic}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Swerve\+Drive\+Odometry \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_ae6da2a05fa2457fc637139e1bb6a54d2}{swerve\+Odometry}}
+\item 
+\mbox{\hyperlink{classfrc_1_1robot_1_1_swerve_module}{Swerve\+Module}}\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_a8d3a645603c5beae679c5a6cc3b8f3e7}{m\+Swerve\+Mods}}
+\item 
+WPI\+\_\+\+Pigeon2 \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_aec7c00f3c95f59bd2753f77c480cc79d}{gyro}} = new WPI\+\_\+\+Pigeon2(Constants.\+Swerve.\+pigeon\+ID)
+\item 
+final Constraints \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_a781b0516e0963c95dd4d5993837c2775}{translation\+Constraints}} = new Constraints(10, 10)
+\item 
+final PIDController \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_a84a268880526d8a93a1da9702711a9a5}{x\+Controller}} = new PIDController(4, 0.\+0, 0.\+0)
+\item 
+final PIDController \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_a4b28613a5cb5a87964cdca4c00dc2457}{y\+Controller}} = new PIDController(4, 0.\+0, 0.\+0)
+\item 
+final PIDController \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_afa2d0391f7a0cbefd2285fa05869e121}{rota\+Controller}} = new PIDController(5, 0, 0)
+\item 
+final Simple\+Motor\+Feedforward \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_a3b4f68701d22753fef7248f05a8b37df}{rota\+FF}} = new Simple\+Motor\+Feedforward(.\+23, 1)
+\item 
+final Swerve\+Drive\+Kinematics \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_ab005e6a1216367d25922d0e75107c71a}{kinematics}}
+\item 
+final Swerve\+Module\+Position\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_swerve_aa516f0057f6fdc0b907e8c0fa0a031e4}{modulepositions}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_a6d7cc6f3f491911eaad8d8164d15af5c}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_a6d7cc6f3f491911eaad8d8164d15af5c}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!Swerve@{Swerve}}
+\index{Swerve@{Swerve}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{Swerve()}{Swerve()}}
+{\footnotesize\ttfamily frc.\+robot.\+subsystems.\+Swerve.\+Swerve (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_a6fb3d1aa97638de3fb209d2546e29b27}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_a6fb3d1aa97638de3fb209d2546e29b27}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!drive@{drive}}
+\index{drive@{drive}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{drive()}{drive()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Swerve.\+drive (\begin{DoxyParamCaption}\item[{Translation2d}]{translation,  }\item[{double}]{rotation,  }\item[{boolean}]{field\+Relative,  }\item[{boolean}]{is\+Open\+Loop }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_ab856849f4834065247eb4e25b938147c}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_ab856849f4834065247eb4e25b938147c}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!getModulePositions@{getModulePositions}}
+\index{getModulePositions@{getModulePositions}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{getModulePositions()}{getModulePositions()}}
+{\footnotesize\ttfamily Swerve\+Module\+Position\mbox{[}$\,$\mbox{]} frc.\+robot.\+subsystems.\+Swerve.\+get\+Module\+Positions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_aced9a52b09b598d2fd0261286263765a}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_aced9a52b09b598d2fd0261286263765a}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!getModuleStates@{getModuleStates}}
+\index{getModuleStates@{getModuleStates}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{getModuleStates()}{getModuleStates()}}
+{\footnotesize\ttfamily Swerve\+Module\+State\mbox{[}$\,$\mbox{]} frc.\+robot.\+subsystems.\+Swerve.\+get\+Module\+States (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_a9c0389825032185b236dac9f7147cfe4}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_a9c0389825032185b236dac9f7147cfe4}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!getPitch@{getPitch}}
+\index{getPitch@{getPitch}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{getPitch()}{getPitch()}}
+{\footnotesize\ttfamily Rotation2d frc.\+robot.\+subsystems.\+Swerve.\+get\+Pitch (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_a4afa2739129bacc745d672362339639f}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_a4afa2739129bacc745d672362339639f}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!getPose@{getPose}}
+\index{getPose@{getPose}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{getPose()}{getPose()}}
+{\footnotesize\ttfamily Pose2d frc.\+robot.\+subsystems.\+Swerve.\+get\+Pose (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_ab65c80c6371e2c6c15266bab3ce988d8}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_ab65c80c6371e2c6c15266bab3ce988d8}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!getRoll@{getRoll}}
+\index{getRoll@{getRoll}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{getRoll()}{getRoll()}}
+{\footnotesize\ttfamily Rotation2d frc.\+robot.\+subsystems.\+Swerve.\+get\+Roll (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_aac475bdc78c0a0eba79264886f7b2bcd}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_aac475bdc78c0a0eba79264886f7b2bcd}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!getYaw@{getYaw}}
+\index{getYaw@{getYaw}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{getYaw()}{getYaw()}}
+{\footnotesize\ttfamily Rotation2d frc.\+robot.\+subsystems.\+Swerve.\+get\+Yaw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_a92e30664a2643b4beed3cce98182f63a}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_a92e30664a2643b4beed3cce98182f63a}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!periodic@{periodic}}
+\index{periodic@{periodic}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{periodic()}{periodic()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Swerve.\+periodic (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_a38cd927751cb8829f39a00317548d91e}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_a38cd927751cb8829f39a00317548d91e}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!resetModulesToAbsolute@{resetModulesToAbsolute}}
+\index{resetModulesToAbsolute@{resetModulesToAbsolute}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{resetModulesToAbsolute()}{resetModulesToAbsolute()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Swerve.\+reset\+Modules\+To\+Absolute (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_a5e92106292f97f15142c27e8ac787e2d}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_a5e92106292f97f15142c27e8ac787e2d}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!resetOdometry@{resetOdometry}}
+\index{resetOdometry@{resetOdometry}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{resetOdometry()}{resetOdometry()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Swerve.\+reset\+Odometry (\begin{DoxyParamCaption}\item[{Pose2d}]{pose }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_ad6c5d0185c14ad701da8bc15e58d0427}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_ad6c5d0185c14ad701da8bc15e58d0427}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!setModuleStates@{setModuleStates}}
+\index{setModuleStates@{setModuleStates}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{setModuleStates()}{setModuleStates()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Swerve.\+set\+Module\+States (\begin{DoxyParamCaption}\item[{Swerve\+Module\+State\mbox{[}$\,$\mbox{]}}]{desired\+States }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_aed106ac27d8bceb78be66eb9d4be1868}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_aed106ac27d8bceb78be66eb9d4be1868}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!zeroGyro@{zeroGyro}}
+\index{zeroGyro@{zeroGyro}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{zeroGyro()}{zeroGyro()}}
+{\footnotesize\ttfamily void frc.\+robot.\+subsystems.\+Swerve.\+zero\+Gyro (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_aec7c00f3c95f59bd2753f77c480cc79d}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_aec7c00f3c95f59bd2753f77c480cc79d}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!gyro@{gyro}}
+\index{gyro@{gyro}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{gyro}{gyro}}
+{\footnotesize\ttfamily WPI\+\_\+\+Pigeon2 frc.\+robot.\+subsystems.\+Swerve.\+gyro = new WPI\+\_\+\+Pigeon2(Constants.\+Swerve.\+pigeon\+ID)}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_ab005e6a1216367d25922d0e75107c71a}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_ab005e6a1216367d25922d0e75107c71a}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!kinematics@{kinematics}}
+\index{kinematics@{kinematics}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{kinematics}{kinematics}}
+{\footnotesize\ttfamily final Swerve\+Drive\+Kinematics frc.\+robot.\+subsystems.\+Swerve.\+kinematics}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \textcolor{keyword}{new}\ SwerveDriveKinematics(}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ Translation2d(Constants.Swerve.trackWidth/\ 2.0,\ Constants.Swerve.wheelBase\ /\ 2.0),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ Translation2d(Constants.Swerve.trackWidth\ /\ 2.0,\ -\/Constants.Swerve.wheelBase\ /\ 2.0),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ Translation2d(-\/Constants.Swerve.trackWidth\ /\ 2.0,\ Constants.Swerve.wheelBase\ /\ 2.0),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ Translation2d(-\/Constants.Swerve.trackWidth\ /\ 2.0,\ -\/Constants.Swerve.wheelBase\ /\ 2.0)}
+\DoxyCodeLine{\ \ \ \ )}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_aa516f0057f6fdc0b907e8c0fa0a031e4}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_aa516f0057f6fdc0b907e8c0fa0a031e4}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!modulepositions@{modulepositions}}
+\index{modulepositions@{modulepositions}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{modulepositions}{modulepositions}}
+{\footnotesize\ttfamily final Swerve\+Module\+Position \mbox{[}$\,$\mbox{]} frc.\+robot.\+subsystems.\+Swerve.\+modulepositions}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ SwerveModulePosition(),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ SwerveModulePosition(),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ SwerveModulePosition(),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ SwerveModulePosition()}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_a8d3a645603c5beae679c5a6cc3b8f3e7}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_a8d3a645603c5beae679c5a6cc3b8f3e7}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!mSwerveMods@{mSwerveMods}}
+\index{mSwerveMods@{mSwerveMods}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{mSwerveMods}{mSwerveMods}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classfrc_1_1robot_1_1_swerve_module}{Swerve\+Module}} \mbox{[}$\,$\mbox{]} frc.\+robot.\+subsystems.\+Swerve.\+m\+Swerve\+Mods}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_afa2d0391f7a0cbefd2285fa05869e121}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_afa2d0391f7a0cbefd2285fa05869e121}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!rotaController@{rotaController}}
+\index{rotaController@{rotaController}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{rotaController}{rotaController}}
+{\footnotesize\ttfamily final PIDController frc.\+robot.\+subsystems.\+Swerve.\+rota\+Controller = new PIDController(5, 0, 0)}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_a3b4f68701d22753fef7248f05a8b37df}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_a3b4f68701d22753fef7248f05a8b37df}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!rotaFF@{rotaFF}}
+\index{rotaFF@{rotaFF}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{rotaFF}{rotaFF}}
+{\footnotesize\ttfamily final Simple\+Motor\+Feedforward frc.\+robot.\+subsystems.\+Swerve.\+rota\+FF = new Simple\+Motor\+Feedforward(.\+23, 1)}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_ae6da2a05fa2457fc637139e1bb6a54d2}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_ae6da2a05fa2457fc637139e1bb6a54d2}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!swerveOdometry@{swerveOdometry}}
+\index{swerveOdometry@{swerveOdometry}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{swerveOdometry}{swerveOdometry}}
+{\footnotesize\ttfamily Swerve\+Drive\+Odometry frc.\+robot.\+subsystems.\+Swerve.\+swerve\+Odometry}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_a781b0516e0963c95dd4d5993837c2775}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_a781b0516e0963c95dd4d5993837c2775}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!translationConstraints@{translationConstraints}}
+\index{translationConstraints@{translationConstraints}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{translationConstraints}{translationConstraints}}
+{\footnotesize\ttfamily final Constraints frc.\+robot.\+subsystems.\+Swerve.\+translation\+Constraints = new Constraints(10, 10)}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_a84a268880526d8a93a1da9702711a9a5}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_a84a268880526d8a93a1da9702711a9a5}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!xController@{xController}}
+\index{xController@{xController}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{xController}{xController}}
+{\footnotesize\ttfamily final PIDController frc.\+robot.\+subsystems.\+Swerve.\+x\+Controller = new PIDController(4, 0.\+0, 0.\+0)}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_swerve_a4b28613a5cb5a87964cdca4c00dc2457}\label{classfrc_1_1robot_1_1subsystems_1_1_swerve_a4b28613a5cb5a87964cdca4c00dc2457}} 
+\index{frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}!yController@{yController}}
+\index{yController@{yController}!frc.robot.subsystems.Swerve@{frc.robot.subsystems.Swerve}}
+\doxysubsubsection{\texorpdfstring{yController}{yController}}
+{\footnotesize\ttfamily final PIDController frc.\+robot.\+subsystems.\+Swerve.\+y\+Controller = new PIDController(4, 0.\+0, 0.\+0)}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Shelby Howell/\+Documents/\+Github/2023\+Project-\/0.\+1/src/main/java/frc/robot/subsystems/\mbox{\hyperlink{_swerve_8java}{Swerve.\+java}}\end{DoxyCompactItemize}

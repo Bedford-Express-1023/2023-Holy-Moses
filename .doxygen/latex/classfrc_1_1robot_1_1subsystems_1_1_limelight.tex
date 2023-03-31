@@ -1,0 +1,161 @@
+\hypertarget{classfrc_1_1robot_1_1subsystems_1_1_limelight}{}\doxysection{frc.\+robot.\+subsystems.\+Limelight Class Reference}
+\label{classfrc_1_1robot_1_1subsystems_1_1_limelight}\index{frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_limelight_a62a31346d1c29d785688859dc0130278}{get\+Closest}} ()
+\item 
+static Boolean \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_limelight_abf5293a761e61cd925c88a3b0f5b002c}{tv}} ()
+\item 
+static Boolean \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_limelight_ae4e84f727ab219610ce1c32f4def1bfc}{tv}} (int side)
+\item 
+static double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_limelight_ae2246597e864bdf85102094934f3fcf8}{ta}} (int side)
+\item 
+static double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_limelight_a6043259d29c84ac9f5fe8d4bf538fea9}{tx}} (int side)
+\item 
+static double \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_limelight_acf3254fe4f654bee6722f1720c9273ec}{ty}} (int side)
+\item 
+static Pose3d \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_limelight_ab225152045078ead8497c136aab7f454}{bot\+Pose}} (int side)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+final Pose3d \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_limelight_af9afaf4860d217c6bf5dcef0f4e8c278}{Limelight\+Pose}} = new Pose3d(2.\+23, 18.\+16, 15, new Rotation3d(0, 0, 0)).times(.\+0254)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static final int \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_limelight_afcef57095a040b25d869ebbadf987534}{Left}} = 0
+\item 
+static final int \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_limelight_a1ea3ce7ebe0d9f95a1591e172813780f}{Right}} = 1
+\item 
+static final Network\+Table \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_limelight_ab672997a20e27795e67b3686e2513722}{lime\+Light\+Left}} = Network\+Table\+Instance.\+get\+Default().get\+Table(\char`\"{}limelight-\/left\char`\"{})
+\item 
+static final Network\+Table \mbox{\hyperlink{classfrc_1_1robot_1_1subsystems_1_1_limelight_a5ff3a3444d4b189f908825cdf44dc4e7}{lime\+Light\+Right}} = Network\+Table\+Instance.\+get\+Default().get\+Table(\char`\"{}limelight-\/right\char`\"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_limelight_ab225152045078ead8497c136aab7f454}\label{classfrc_1_1robot_1_1subsystems_1_1_limelight_ab225152045078ead8497c136aab7f454}} 
+\index{frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}!botPose@{botPose}}
+\index{botPose@{botPose}!frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}}
+\doxysubsubsection{\texorpdfstring{botPose()}{botPose()}}
+{\footnotesize\ttfamily static Pose3d frc.\+robot.\+subsystems.\+Limelight.\+bot\+Pose (\begin{DoxyParamCaption}\item[{int}]{side }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em side} & which limelight, Limelight.\+Left or Limelight.\+Right, to use. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the vertical angle to the target 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_limelight_a62a31346d1c29d785688859dc0130278}\label{classfrc_1_1robot_1_1subsystems_1_1_limelight_a62a31346d1c29d785688859dc0130278}} 
+\index{frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}!getClosest@{getClosest}}
+\index{getClosest@{getClosest}!frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}}
+\doxysubsubsection{\texorpdfstring{getClosest()}{getClosest()}}
+{\footnotesize\ttfamily static int frc.\+robot.\+subsystems.\+Limelight.\+get\+Closest (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_limelight_ae2246597e864bdf85102094934f3fcf8}\label{classfrc_1_1robot_1_1subsystems_1_1_limelight_ae2246597e864bdf85102094934f3fcf8}} 
+\index{frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}!ta@{ta}}
+\index{ta@{ta}!frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}}
+\doxysubsubsection{\texorpdfstring{ta()}{ta()}}
+{\footnotesize\ttfamily static double frc.\+robot.\+subsystems.\+Limelight.\+ta (\begin{DoxyParamCaption}\item[{int}]{side }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em side} & which limelight, Limelight.\+Left or Limelight.\+Right, to use. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+area of the target 0-\/100\% 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_limelight_abf5293a761e61cd925c88a3b0f5b002c}\label{classfrc_1_1robot_1_1subsystems_1_1_limelight_abf5293a761e61cd925c88a3b0f5b002c}} 
+\index{frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}!tv@{tv}}
+\index{tv@{tv}!frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}}
+\doxysubsubsection{\texorpdfstring{tv()}{tv()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily static Boolean frc.\+robot.\+subsystems.\+Limelight.\+tv (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyReturn}{Returns}
+if any limelight has a valid target 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_limelight_ae4e84f727ab219610ce1c32f4def1bfc}\label{classfrc_1_1robot_1_1subsystems_1_1_limelight_ae4e84f727ab219610ce1c32f4def1bfc}} 
+\index{frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}!tv@{tv}}
+\index{tv@{tv}!frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}}
+\doxysubsubsection{\texorpdfstring{tv()}{tv()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily static Boolean frc.\+robot.\+subsystems.\+Limelight.\+tv (\begin{DoxyParamCaption}\item[{int}]{side }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em side} & which limelight, Limelight.\+Left or Limelight.\+Right, to use. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+if that specific limelight has a valid target 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_limelight_a6043259d29c84ac9f5fe8d4bf538fea9}\label{classfrc_1_1robot_1_1subsystems_1_1_limelight_a6043259d29c84ac9f5fe8d4bf538fea9}} 
+\index{frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}!tx@{tx}}
+\index{tx@{tx}!frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}}
+\doxysubsubsection{\texorpdfstring{tx()}{tx()}}
+{\footnotesize\ttfamily static double frc.\+robot.\+subsystems.\+Limelight.\+tx (\begin{DoxyParamCaption}\item[{int}]{side }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em side} & which limelight, Limelight.\+Left or Limelight.\+Right, to use. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the horizontal angle to the target 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_limelight_acf3254fe4f654bee6722f1720c9273ec}\label{classfrc_1_1robot_1_1subsystems_1_1_limelight_acf3254fe4f654bee6722f1720c9273ec}} 
+\index{frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}!ty@{ty}}
+\index{ty@{ty}!frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}}
+\doxysubsubsection{\texorpdfstring{ty()}{ty()}}
+{\footnotesize\ttfamily static double frc.\+robot.\+subsystems.\+Limelight.\+ty (\begin{DoxyParamCaption}\item[{int}]{side }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em side} & which limelight, Limelight.\+Left or Limelight.\+Right, to use. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the vertical angle to the target 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_limelight_afcef57095a040b25d869ebbadf987534}\label{classfrc_1_1robot_1_1subsystems_1_1_limelight_afcef57095a040b25d869ebbadf987534}} 
+\index{frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}!Left@{Left}}
+\index{Left@{Left}!frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}}
+\doxysubsubsection{\texorpdfstring{Left}{Left}}
+{\footnotesize\ttfamily final int frc.\+robot.\+subsystems.\+Limelight.\+Left = 0\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_limelight_ab672997a20e27795e67b3686e2513722}\label{classfrc_1_1robot_1_1subsystems_1_1_limelight_ab672997a20e27795e67b3686e2513722}} 
+\index{frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}!limeLightLeft@{limeLightLeft}}
+\index{limeLightLeft@{limeLightLeft}!frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}}
+\doxysubsubsection{\texorpdfstring{limeLightLeft}{limeLightLeft}}
+{\footnotesize\ttfamily final Network\+Table frc.\+robot.\+subsystems.\+Limelight.\+lime\+Light\+Left = Network\+Table\+Instance.\+get\+Default().get\+Table(\char`\"{}limelight-\/left\char`\"{})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_limelight_af9afaf4860d217c6bf5dcef0f4e8c278}\label{classfrc_1_1robot_1_1subsystems_1_1_limelight_af9afaf4860d217c6bf5dcef0f4e8c278}} 
+\index{frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}!LimelightPose@{LimelightPose}}
+\index{LimelightPose@{LimelightPose}!frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}}
+\doxysubsubsection{\texorpdfstring{LimelightPose}{LimelightPose}}
+{\footnotesize\ttfamily final Pose3d frc.\+robot.\+subsystems.\+Limelight.\+Limelight\+Pose = new Pose3d(2.\+23, 18.\+16, 15, new Rotation3d(0, 0, 0)).times(.\+0254)}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_limelight_a5ff3a3444d4b189f908825cdf44dc4e7}\label{classfrc_1_1robot_1_1subsystems_1_1_limelight_a5ff3a3444d4b189f908825cdf44dc4e7}} 
+\index{frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}!limeLightRight@{limeLightRight}}
+\index{limeLightRight@{limeLightRight}!frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}}
+\doxysubsubsection{\texorpdfstring{limeLightRight}{limeLightRight}}
+{\footnotesize\ttfamily final Network\+Table frc.\+robot.\+subsystems.\+Limelight.\+lime\+Light\+Right = Network\+Table\+Instance.\+get\+Default().get\+Table(\char`\"{}limelight-\/right\char`\"{})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classfrc_1_1robot_1_1subsystems_1_1_limelight_a1ea3ce7ebe0d9f95a1591e172813780f}\label{classfrc_1_1robot_1_1subsystems_1_1_limelight_a1ea3ce7ebe0d9f95a1591e172813780f}} 
+\index{frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}!Right@{Right}}
+\index{Right@{Right}!frc.robot.subsystems.Limelight@{frc.robot.subsystems.Limelight}}
+\doxysubsubsection{\texorpdfstring{Right}{Right}}
+{\footnotesize\ttfamily final int frc.\+robot.\+subsystems.\+Limelight.\+Right = 1\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Shelby Howell/\+Documents/\+Github/2023\+Project-\/0.\+1/src/main/java/frc/robot/subsystems/\mbox{\hyperlink{_limelight_8java}{Limelight.\+java}}\end{DoxyCompactItemize}

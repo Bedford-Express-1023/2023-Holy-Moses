@@ -1,0 +1,201 @@
+\hypertarget{classfrc_1_1lib_1_1math_1_1_conversions}{}\doxysection{frc.\+lib.\+math.\+Conversions Class Reference}
+\label{classfrc_1_1lib_1_1math_1_1_conversions}\index{frc.lib.math.Conversions@{frc.lib.math.Conversions}}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static double \mbox{\hyperlink{classfrc_1_1lib_1_1math_1_1_conversions_ac982a0e19ca365b93ad5cdb3b47ac8e2}{CANcoder\+To\+Degrees}} (double position\+Counts, double gear\+Ratio)
+\item 
+static double \mbox{\hyperlink{classfrc_1_1lib_1_1math_1_1_conversions_a0d179ff401a630ca2affd043b9e5c577}{degrees\+To\+CANcoder}} (double degrees, double gear\+Ratio)
+\item 
+static double \mbox{\hyperlink{classfrc_1_1lib_1_1math_1_1_conversions_ad2be443bbd4c139da9680bfe616adfa8}{falcon\+To\+Degrees}} (double position\+Counts, double gear\+Ratio)
+\item 
+static double \mbox{\hyperlink{classfrc_1_1lib_1_1math_1_1_conversions_abdbccd6604afb4ce74e0fb65ff7e3c87}{degrees\+To\+Falcon}} (double degrees, double gear\+Ratio)
+\item 
+static double \mbox{\hyperlink{classfrc_1_1lib_1_1math_1_1_conversions_aa78bef342340456fdfa20d2f0854f139}{falcon\+To\+RPM}} (double velocity\+Counts, double gear\+Ratio)
+\item 
+static double \mbox{\hyperlink{classfrc_1_1lib_1_1math_1_1_conversions_ac24c6cd5f3f5a20276a91a733b3cdb82}{RPMTo\+Falcon}} (double RPM, double gear\+Ratio)
+\item 
+static double \mbox{\hyperlink{classfrc_1_1lib_1_1math_1_1_conversions_a975cb45ac3ec52d70b3cabfe212f2ade}{falcon\+To\+MPS}} (double velocitycounts, double circumference, double gear\+Ratio)
+\item 
+static double \mbox{\hyperlink{classfrc_1_1lib_1_1math_1_1_conversions_a1efdcfca48fb961742c2328a30ee6a36}{MPSTo\+Falcon}} (double velocity, double circumference, double gear\+Ratio)
+\item 
+static double \mbox{\hyperlink{classfrc_1_1lib_1_1math_1_1_conversions_afcaa98a58973907c9b10347c7ef3c76d}{falcon\+To\+Meters}} (double position\+Counts, double circumference, double gear\+Ratio)
+\item 
+static double \mbox{\hyperlink{classfrc_1_1lib_1_1math_1_1_conversions_ab39ec49e65b2ad81883ed7a3c79efbd7}{Meters\+To\+Falcon}} (double meters, double circumference, double gear\+Ratio)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classfrc_1_1lib_1_1math_1_1_conversions_ac982a0e19ca365b93ad5cdb3b47ac8e2}\label{classfrc_1_1lib_1_1math_1_1_conversions_ac982a0e19ca365b93ad5cdb3b47ac8e2}} 
+\index{frc.lib.math.Conversions@{frc.lib.math.Conversions}!CANcoderToDegrees@{CANcoderToDegrees}}
+\index{CANcoderToDegrees@{CANcoderToDegrees}!frc.lib.math.Conversions@{frc.lib.math.Conversions}}
+\doxysubsubsection{\texorpdfstring{CANcoderToDegrees()}{CANcoderToDegrees()}}
+{\footnotesize\ttfamily static double frc.\+lib.\+math.\+Conversions.\+CANcoder\+To\+Degrees (\begin{DoxyParamCaption}\item[{double}]{position\+Counts,  }\item[{double}]{gear\+Ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em position\+Counts} & CANCoder Position Counts \\
+\hline
+{\em gear\+Ratio} & Gear Ratio between CANCoder and Mechanism \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Degrees of Rotation of Mechanism 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1lib_1_1math_1_1_conversions_a0d179ff401a630ca2affd043b9e5c577}\label{classfrc_1_1lib_1_1math_1_1_conversions_a0d179ff401a630ca2affd043b9e5c577}} 
+\index{frc.lib.math.Conversions@{frc.lib.math.Conversions}!degreesToCANcoder@{degreesToCANcoder}}
+\index{degreesToCANcoder@{degreesToCANcoder}!frc.lib.math.Conversions@{frc.lib.math.Conversions}}
+\doxysubsubsection{\texorpdfstring{degreesToCANcoder()}{degreesToCANcoder()}}
+{\footnotesize\ttfamily static double frc.\+lib.\+math.\+Conversions.\+degrees\+To\+CANcoder (\begin{DoxyParamCaption}\item[{double}]{degrees,  }\item[{double}]{gear\+Ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em degrees} & Degrees of rotation of Mechanism \\
+\hline
+{\em gear\+Ratio} & Gear Ratio between CANCoder and Mechanism \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CANCoder Position Counts 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1lib_1_1math_1_1_conversions_abdbccd6604afb4ce74e0fb65ff7e3c87}\label{classfrc_1_1lib_1_1math_1_1_conversions_abdbccd6604afb4ce74e0fb65ff7e3c87}} 
+\index{frc.lib.math.Conversions@{frc.lib.math.Conversions}!degreesToFalcon@{degreesToFalcon}}
+\index{degreesToFalcon@{degreesToFalcon}!frc.lib.math.Conversions@{frc.lib.math.Conversions}}
+\doxysubsubsection{\texorpdfstring{degreesToFalcon()}{degreesToFalcon()}}
+{\footnotesize\ttfamily static double frc.\+lib.\+math.\+Conversions.\+degrees\+To\+Falcon (\begin{DoxyParamCaption}\item[{double}]{degrees,  }\item[{double}]{gear\+Ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em degrees} & Degrees of rotation of Mechanism \\
+\hline
+{\em gear\+Ratio} & Gear Ratio between Falcon and Mechanism \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Falcon Position Counts 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1lib_1_1math_1_1_conversions_ad2be443bbd4c139da9680bfe616adfa8}\label{classfrc_1_1lib_1_1math_1_1_conversions_ad2be443bbd4c139da9680bfe616adfa8}} 
+\index{frc.lib.math.Conversions@{frc.lib.math.Conversions}!falconToDegrees@{falconToDegrees}}
+\index{falconToDegrees@{falconToDegrees}!frc.lib.math.Conversions@{frc.lib.math.Conversions}}
+\doxysubsubsection{\texorpdfstring{falconToDegrees()}{falconToDegrees()}}
+{\footnotesize\ttfamily static double frc.\+lib.\+math.\+Conversions.\+falcon\+To\+Degrees (\begin{DoxyParamCaption}\item[{double}]{position\+Counts,  }\item[{double}]{gear\+Ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em counts} & Falcon Position Counts \\
+\hline
+{\em gear\+Ratio} & Gear Ratio between Falcon and Mechanism \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Degrees of Rotation of Mechanism 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1lib_1_1math_1_1_conversions_afcaa98a58973907c9b10347c7ef3c76d}\label{classfrc_1_1lib_1_1math_1_1_conversions_afcaa98a58973907c9b10347c7ef3c76d}} 
+\index{frc.lib.math.Conversions@{frc.lib.math.Conversions}!falconToMeters@{falconToMeters}}
+\index{falconToMeters@{falconToMeters}!frc.lib.math.Conversions@{frc.lib.math.Conversions}}
+\doxysubsubsection{\texorpdfstring{falconToMeters()}{falconToMeters()}}
+{\footnotesize\ttfamily static double frc.\+lib.\+math.\+Conversions.\+falcon\+To\+Meters (\begin{DoxyParamCaption}\item[{double}]{position\+Counts,  }\item[{double}]{circumference,  }\item[{double}]{gear\+Ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em position\+Counts} & Falcon Position Counts \\
+\hline
+{\em circumference} & Circumference of Wheel \\
+\hline
+{\em gear\+Ratio} & Gear Ratio between Falcon and Wheel \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Meters 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1lib_1_1math_1_1_conversions_a975cb45ac3ec52d70b3cabfe212f2ade}\label{classfrc_1_1lib_1_1math_1_1_conversions_a975cb45ac3ec52d70b3cabfe212f2ade}} 
+\index{frc.lib.math.Conversions@{frc.lib.math.Conversions}!falconToMPS@{falconToMPS}}
+\index{falconToMPS@{falconToMPS}!frc.lib.math.Conversions@{frc.lib.math.Conversions}}
+\doxysubsubsection{\texorpdfstring{falconToMPS()}{falconToMPS()}}
+{\footnotesize\ttfamily static double frc.\+lib.\+math.\+Conversions.\+falcon\+To\+MPS (\begin{DoxyParamCaption}\item[{double}]{velocitycounts,  }\item[{double}]{circumference,  }\item[{double}]{gear\+Ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em velocitycounts} & Falcon Velocity Counts \\
+\hline
+{\em circumference} & Circumference of Wheel \\
+\hline
+{\em gear\+Ratio} & Gear Ratio between Falcon and Mechanism (set to 1 for Falcon MPS) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Falcon Velocity Counts 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1lib_1_1math_1_1_conversions_aa78bef342340456fdfa20d2f0854f139}\label{classfrc_1_1lib_1_1math_1_1_conversions_aa78bef342340456fdfa20d2f0854f139}} 
+\index{frc.lib.math.Conversions@{frc.lib.math.Conversions}!falconToRPM@{falconToRPM}}
+\index{falconToRPM@{falconToRPM}!frc.lib.math.Conversions@{frc.lib.math.Conversions}}
+\doxysubsubsection{\texorpdfstring{falconToRPM()}{falconToRPM()}}
+{\footnotesize\ttfamily static double frc.\+lib.\+math.\+Conversions.\+falcon\+To\+RPM (\begin{DoxyParamCaption}\item[{double}]{velocity\+Counts,  }\item[{double}]{gear\+Ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em velocity\+Counts} & Falcon Velocity Counts \\
+\hline
+{\em gear\+Ratio} & Gear Ratio between Falcon and Mechanism (set to 1 for Falcon RPM) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+RPM of Mechanism 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1lib_1_1math_1_1_conversions_ab39ec49e65b2ad81883ed7a3c79efbd7}\label{classfrc_1_1lib_1_1math_1_1_conversions_ab39ec49e65b2ad81883ed7a3c79efbd7}} 
+\index{frc.lib.math.Conversions@{frc.lib.math.Conversions}!MetersToFalcon@{MetersToFalcon}}
+\index{MetersToFalcon@{MetersToFalcon}!frc.lib.math.Conversions@{frc.lib.math.Conversions}}
+\doxysubsubsection{\texorpdfstring{MetersToFalcon()}{MetersToFalcon()}}
+{\footnotesize\ttfamily static double frc.\+lib.\+math.\+Conversions.\+Meters\+To\+Falcon (\begin{DoxyParamCaption}\item[{double}]{meters,  }\item[{double}]{circumference,  }\item[{double}]{gear\+Ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em meters} & Meters \\
+\hline
+{\em circumference} & Circumference of Wheel \\
+\hline
+{\em gear\+Ratio} & Gear Ratio between Falcon and Wheel \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Falcon Position Counts 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1lib_1_1math_1_1_conversions_a1efdcfca48fb961742c2328a30ee6a36}\label{classfrc_1_1lib_1_1math_1_1_conversions_a1efdcfca48fb961742c2328a30ee6a36}} 
+\index{frc.lib.math.Conversions@{frc.lib.math.Conversions}!MPSToFalcon@{MPSToFalcon}}
+\index{MPSToFalcon@{MPSToFalcon}!frc.lib.math.Conversions@{frc.lib.math.Conversions}}
+\doxysubsubsection{\texorpdfstring{MPSToFalcon()}{MPSToFalcon()}}
+{\footnotesize\ttfamily static double frc.\+lib.\+math.\+Conversions.\+MPSTo\+Falcon (\begin{DoxyParamCaption}\item[{double}]{velocity,  }\item[{double}]{circumference,  }\item[{double}]{gear\+Ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em velocity} & Velocity MPS \\
+\hline
+{\em circumference} & Circumference of Wheel \\
+\hline
+{\em gear\+Ratio} & Gear Ratio between Falcon and Mechanism (set to 1 for Falcon MPS) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Falcon Velocity Counts 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classfrc_1_1lib_1_1math_1_1_conversions_ac24c6cd5f3f5a20276a91a733b3cdb82}\label{classfrc_1_1lib_1_1math_1_1_conversions_ac24c6cd5f3f5a20276a91a733b3cdb82}} 
+\index{frc.lib.math.Conversions@{frc.lib.math.Conversions}!RPMToFalcon@{RPMToFalcon}}
+\index{RPMToFalcon@{RPMToFalcon}!frc.lib.math.Conversions@{frc.lib.math.Conversions}}
+\doxysubsubsection{\texorpdfstring{RPMToFalcon()}{RPMToFalcon()}}
+{\footnotesize\ttfamily static double frc.\+lib.\+math.\+Conversions.\+RPMTo\+Falcon (\begin{DoxyParamCaption}\item[{double}]{RPM,  }\item[{double}]{gear\+Ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em RPM} & RPM of mechanism \\
+\hline
+{\em gear\+Ratio} & Gear Ratio between Falcon and Mechanism (set to 1 for Falcon RPM) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+RPM of Mechanism 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Shelby Howell/\+Documents/\+Github/2023\+Project-\/0.\+1/src/main/java/frc/lib/math/\mbox{\hyperlink{_conversions_8java}{Conversions.\+java}}\end{DoxyCompactItemize}

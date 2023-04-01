@@ -2,6 +2,8 @@ package frc.robot;
 
 import java.util.function.BooleanSupplier;
 
+import org.ejml.dense.row.decomposition.svd.SafeSvd_DDRM;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -87,9 +89,9 @@ public class RobotContainer {
     public final Swerve s_Swerve = new Swerve();
     public final Limelight s_Limelight = new Limelight();
     public final IntakeSubsystem s_Intake = new IntakeSubsystem();
-    public final WristSubsystem s_Wrist = new WristSubsystem();
     public final Blinkin s_Blinkin = new Blinkin();
     public final ArmSubsystem s_Arm = new ArmSubsystem();
+    public final WristSubsystem s_Wrist = new WristSubsystem(s_Arm);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */

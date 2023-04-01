@@ -49,7 +49,7 @@ public class ArmSubsystem extends SubsystemBase {
   public final double shoulderGravity = .07;
   public final double armGravity = -.3;
   public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, shoulderGravity);
-  final PIDController armPID = new PIDController(0.003, 0.0, 0.00001);
+  final PIDController armPID = new PIDController(0.002, 0.0, 0.00001);
   final PIDController shoulderPositionPID = new PIDController(.0195, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 50;
@@ -100,16 +100,15 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private void ArmPosition() {
-    //double output = armPID.calculate(armCANCoder.getPosition(), armPosition + armPositionOverride);
-    double output = armPID.getP() * ((armPosition + armPositionOverride) - armCANCoder.getPosition()); //manual P calculation
-    if (armPosition == armTargetPositionHome && Math.abs(armCANCoder.getPosition() - armPosition) < 5000 && armPositionOverride == 0) {
+    double output = armPID.calculate(armCANCoder.getPosition(), armPosition + armPositionOverride);
+    if (armPosition == armTargetPositionHome && Math.abs(armCANCoder.getPosition() - armPosition) < 15 && armPositionOverride == 0) {
       armMotor.set(0);
       return;
     }
     SmartDashboard.putNumber("ExtensionOutput", output);
     if (armCANCoder.getPosition() < 0 && output < 0) {
       armMotor.set(oliviaController.getLeftY() * .05);} else {
-      armMotor.set(ControlMode.PercentOutput, //armGravity * Math.cos(shoulderCANCoder.getAbsolutePosition() * Math.PI/180) - 
+      armMotor.set(ControlMode.PercentOutput, armGravity * Math.cos(shoulderCANCoder.getAbsolutePosition() * Math.PI/180)
       -MathUtil.clamp(
         output,
         -Math.abs(feedForward.calculate(MathUtil.clamp(output, -maxArmVelocity, maxArmVelocity), -maxArmAcceleration)),

@@ -26,7 +26,7 @@ public final class Constants {
 
         public static final double maxShoulderVelocity = 0.5;
         public static final double maxShoulderAcceleration = 10;
-        public static final double maxArmVelocity = 0.5;
+        public static final double maxArmVelocity = 0.4;
         public static final double maxArmAcceleration = 1;
     }
 

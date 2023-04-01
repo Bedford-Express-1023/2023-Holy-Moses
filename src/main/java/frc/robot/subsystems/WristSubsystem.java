@@ -71,7 +71,7 @@ public class WristSubsystem extends SubsystemBase {
     }
 
     wristEncoder.setPosition(wristCancoder.getAbsolutePosition());
-    wristPosition();
+    //wristPosition();
     SmartDashboard.putNumber("Wrist Override", wristPositionOverride);
     SmartDashboard.putNumber("Wrist Output", wristMotor.getOutputCurrent());
     SmartDashboard.putNumber("Wrist Motor Position", wristMotor.getEncoder().getPosition());

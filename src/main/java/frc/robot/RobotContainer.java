@@ -159,7 +159,7 @@ public class RobotContainer {
 
         intake.whileTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        outtake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.1)))
+        outtake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.2)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         outtakeFast.onTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));

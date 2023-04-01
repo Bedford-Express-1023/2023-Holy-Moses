@@ -57,10 +57,10 @@ public class ArmSubsystem extends SubsystemBase {
   final public double shoulderTargetAngleLow = 120;
   public final double shoulderTargetAngleFeeder = 27;
 
-  public final double armTargetPositionHigh = 937.5;
+  public final double armTargetPositionHigh = 1000;
   public final double armTargetPositionMiddle = 585.9;
   public final double armTargetPositionLow = 58.6;
-  public final double armTargetPositionFeeder = 216.8;
+  public final double armTargetPositionFeeder = 230;
   public final double armTargetPositionHome = 23.4;
   
   // Creates a new ArmSubsystem. 
@@ -101,7 +101,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private void ArmPosition() {
     double output = armPID.calculate(armCANCoder.getPosition(), armPosition + armPositionOverride);
-    if (armPosition == armTargetPositionHome && Math.abs(armCANCoder.getPosition() - armPosition) < 15 && armPositionOverride == 0) {
+    if (armPosition == armTargetPositionHome && Math.abs(armCANCoder.getPosition() - armPosition) < 125 && armPositionOverride == 0) {
       armMotor.set(0);
       return;
     }
@@ -133,6 +133,10 @@ public class ArmSubsystem extends SubsystemBase {
     ShoulderPosition(0);
   }
 
+  public boolean InPosition() {
+    return Math.abs(shoulderCANCoder.getPosition() - shoulderPosition) < 5 && Math.abs(armCANCoder.getPosition() - armPosition) < 75;
+  }
+
   public void ArmManual(double speed){
     armMotor.set(TalonFXControlMode.PercentOutput, speed);
   }
@@ -162,11 +166,12 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ExtensionTarget", armPosition);
     SmartDashboard.putNumber("ArmOverride", armPositionOverride);
     SmartDashboard.putNumber("ArmAmps", armMotor.getSupplyCurrent());
+    SmartDashboard.putBoolean("Arm In Position?", InPosition());
     double leftYstick = oliviaController.getLeftY(); // left-side Y for Xbox360Gamepad 
 		if (Math.abs(leftYstick) < 0.2) {
       leftYstick = 0; // deadband 15% 
     } 
-    armPositionOverride += leftYstick * 3;
+    armPositionOverride -= leftYstick * 3;
     ArmPosition();
     //ShoulderPosition(0); //sets the arm to always be up
     ShoulderPosition();

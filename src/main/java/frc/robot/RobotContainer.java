@@ -157,31 +157,15 @@ public class RobotContainer {
 
         intake.whileTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        outtake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.1)))
+        outtake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.2)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         outtakeFast.onTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        
-        /*LED.toggleOnTrue(
-            new FunctionalCommand(
-                () -> {}, 
-                () -> s_Blinkin.yellow(), 
-                (x) -> {
-                    new FunctionalCommand(
-                        () -> {},
-                        () -> s_Blinkin.purple(),
-                        (a) -> {},
-                        () -> false,
-                        s_Blinkin
-                    ).schedule();
-                }, 
-                () -> false, s_Blinkin));
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
-            .onTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
-            .onFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
+            .onTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)))
+            .onFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)));
         //new InstantCommand(() -> s_Arm.ArmManual(oliviaController.getRawAxis(armAxis)));
         //oliviaController.getRawAxis(armAxis)
-        */
     }
 
     /**

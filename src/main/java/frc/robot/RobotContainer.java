@@ -28,7 +28,6 @@ import frc.robot.commands.Autos.PathPlannerCommand;
 import frc.robot.commands.Drivetrain.DynamicTeleopSwerve;
 import frc.robot.commands.Drivetrain.Balance;
 import frc.robot.commands.Autos.RightScore3;
-import frc.robot.commands.Autos.Test;
 //import frc.robot.commands.Drivetrain.AlignToTarget;
 import frc.robot.subsystems.*;
 
@@ -132,7 +131,6 @@ public class RobotContainer {
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
         autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Intake, s_Arm, s_Wrist));
-        autoChooser.addOption("Right 2.5 piece", new Test(s_Swerve, s_Intake, s_Arm, s_Wrist));
 
         SmartDashboard.putData(autoChooser);
 
@@ -161,10 +159,15 @@ public class RobotContainer {
 
         intake.whileTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        outtake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.1)))
+        outtake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.2)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         outtakeFast.onTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
+        new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
+            .onTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)))
+            .onFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)));
+        //new InstantCommand(() -> s_Arm.ArmManual(oliviaController.getRawAxis(armAxis)));
+        //oliviaController.getRawAxis(armAxis)
     }
 
     /**

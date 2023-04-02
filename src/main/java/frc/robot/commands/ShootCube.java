@@ -4,30 +4,16 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
-
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
-public class ScoreMid extends CommandBase {
+public class ShootCube extends CommandBase {
   public WristSubsystem wrist;
   public ArmSubsystem arm;
-  public Trigger button;
-  public Boolean booleanReverse = true;
 
 
-  public ScoreMid(WristSubsystem wrist, ArmSubsystem arm, Trigger button) {
-    this.wrist = wrist;
-    this.arm = arm;
-    this.button = button;
-    addRequirements(wrist, arm);
-  }
-
-  public ScoreMid(WristSubsystem wrist, ArmSubsystem arm) {
+  public ShootCube(WristSubsystem wrist, ArmSubsystem arm) {
     this.wrist = wrist;
     this.arm = arm;
     addRequirements(wrist, arm);
@@ -51,18 +37,14 @@ public class ScoreMid extends CommandBase {
       }
     }*/
 
-    arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleMiddle);
-    arm.ArmPosition(arm.armTargetPositionMiddle);
-    if (arm.InPosition()) {
-      wrist.wristPosition((arm.shoulderReversed * 60 - arm.shoulderCANCoder.getAbsolutePosition()));
-    }
+    wrist.wristPosition((arm.shoulderReversed * 55 - arm.shoulderCANCoder.getAbsolutePosition()));
+    arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleFeeder);
+    arm.ArmPosition(arm.armTargetPositionFeeder);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    wrist.wristPosition((arm.shoulderReversed * 75 - arm.shoulderCANCoder.getAbsolutePosition()));
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

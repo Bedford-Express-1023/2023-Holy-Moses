@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class OutakeCube extends CommandBase {
+public class OutakeCubeFast extends CommandBase {
   public IntakeSubsystem intake;
   /** Creates a new IntakeCone. */
-  public OutakeCube(IntakeSubsystem intake) {
+  public OutakeCubeFast(IntakeSubsystem intake) {
     this.intake = intake;
     addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,7 +24,7 @@ public class OutakeCube extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.intake(.25);
+    intake.intake(0.8);
     intake.solenoid(Value.kForward);
   }
 

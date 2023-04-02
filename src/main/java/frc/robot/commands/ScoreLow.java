@@ -50,6 +50,7 @@ public class ScoreLow extends CommandBase {
         arm.shoulderReversed *= -1;
       }
     }*/
+
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleLow);
     arm.ArmPosition(arm.armTargetPositionLow);
     wrist.wristPosition((arm.shoulderReversed * 90 - arm.shoulderCANCoder.getAbsolutePosition()));

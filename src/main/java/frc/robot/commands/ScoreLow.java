@@ -50,14 +50,16 @@ public class ScoreLow extends CommandBase {
         arm.shoulderReversed *= -1;
       }
     }*/
-    wrist.wristPosition((arm.shoulderReversed * 89 - arm.shoulderCANCoder.getAbsolutePosition()));
+
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleLow);
     arm.ArmPosition(arm.armTargetPositionLow);
+    wrist.wristPosition((arm.shoulderReversed * 90 - arm.shoulderCANCoder.getAbsolutePosition()));
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

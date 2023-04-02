@@ -25,6 +25,7 @@ public class WristSubsystem extends SubsystemBase {
   /** Creates a new WristSubsystem. */
   private CANSparkMax wristMotor = new CANSparkMax(WRIST_SPARK, kBrushless);
   private CANCoder wristCancoder = new CANCoder(WRIST_CANCODER);
+  private ArmSubsystem arm;
   public RelativeEncoder wristEncoder;
   private final XboxController oliviaController = new XboxController(1);
 
@@ -33,10 +34,11 @@ public class WristSubsystem extends SubsystemBase {
   public double wristPositionOverride = 0;
 
   private SimpleMotorFeedforward wristFeedforward = new SimpleMotorFeedforward(0.0, 1, 0); //TODO: Tune
-  private PIDController wristPID = new PIDController(0.010, 0.0, 0.0);
+  private PIDController wristPID = new PIDController(0.015, 0.0, 0.0);
   public double wristGravity = -0.1;
 
-  public WristSubsystem() {
+  public WristSubsystem(ArmSubsystem arm) {
+    this.arm = arm;
     wristEncoder = wristMotor.getEncoder();
     wristEncoder.setPositionConversionFactor(((72/32)/25) * 360);
     wristEncoder.setPosition(wristCancoder.getAbsolutePosition());
@@ -48,7 +50,7 @@ public class WristSubsystem extends SubsystemBase {
   }
 
   public void wristPosition() {
-    double output = wristPID.calculate(wristCancoder.getAbsolutePosition(), wristPosition + Math.signum(wristPosition) * wristPositionOverride);
+    double output = wristPID.calculate(wristCancoder.getAbsolutePosition(), wristPosition + arm.shoulderReversed * wristPositionOverride);
     SmartDashboard.putNumber("WristPID setpoint", output);
     if (wristCancoder.getAbsolutePosition() > 100 && output < 0) {wristMotor.set(0); return;}
     else if (wristCancoder.getAbsolutePosition() < -100 && output > 0) {wristMotor.set(0); return;}

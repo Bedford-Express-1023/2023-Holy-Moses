@@ -2,6 +2,8 @@ package frc.robot;
 
 import java.util.function.BooleanSupplier;
 
+import org.ejml.dense.row.decomposition.svd.SafeSvd_DDRM;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -26,7 +28,6 @@ import frc.robot.commands.Autos.PathPlannerCommand;
 import frc.robot.commands.Drivetrain.DynamicTeleopSwerve;
 import frc.robot.commands.Drivetrain.Balance;
 import frc.robot.commands.Autos.RightScore3;
-import frc.robot.commands.Autos.Test;
 //import frc.robot.commands.Drivetrain.AlignToTarget;
 import frc.robot.subsystems.*;
 
@@ -88,9 +89,9 @@ public class RobotContainer {
     public final Swerve s_Swerve = new Swerve();
     public final Limelight s_Limelight = new Limelight();
     public final IntakeSubsystem s_Intake = new IntakeSubsystem();
-    public final WristSubsystem s_Wrist = new WristSubsystem();
     public final Blinkin s_Blinkin = new Blinkin();
     public final ArmSubsystem s_Arm = new ArmSubsystem();
+    public final WristSubsystem s_Wrist = new WristSubsystem(s_Arm);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -130,7 +131,6 @@ public class RobotContainer {
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
         autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Intake, s_Arm, s_Wrist));
-        autoChooser.addOption("Right 2.5 piece", new Test(s_Swerve, s_Intake, s_Arm, s_Wrist));
 
         SmartDashboard.putData(autoChooser);
 
@@ -163,26 +163,11 @@ public class RobotContainer {
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         outtakeFast.onTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        /*LED.toggleOnTrue(
-            new FunctionalCommand(
-                () -> {}, 
-                () -> s_Blinkin.yellow(), 
-                (x) -> {
-                    new FunctionalCommand(
-                        () -> {},
-                        () -> s_Blinkin.purple(),
-                        (a) -> {},
-                        () -> false,
-                        s_Blinkin
-                    ).schedule();
-                }, 
-                () -> false, s_Blinkin));
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
-            .onTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
-            .onFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
+            .onTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)))
+            .onFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)));
         //new InstantCommand(() -> s_Arm.ArmManual(oliviaController.getRawAxis(armAxis)));
         //oliviaController.getRawAxis(armAxis)
-        */
     }
 
     /**

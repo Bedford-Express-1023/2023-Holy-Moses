@@ -24,7 +24,7 @@ public class OutakeCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.solenoid(Value.kReverse);
+    intake.solenoid(Value.kForward);
   }
 
   // Called once the command ends or is interrupted.

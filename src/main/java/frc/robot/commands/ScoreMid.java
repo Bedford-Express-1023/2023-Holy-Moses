@@ -44,13 +44,6 @@ public class ScoreMid extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    /*if (button.getAsBoolean() != booleanReverse) {
-      booleanReverse = button.getAsBoolean();
-      if (booleanReverse) {
-        arm.shoulderReversed *= -1;
-      }
-    }*/
-
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleMiddle);
     arm.ArmPosition(arm.armTargetPositionMiddle);
     if (arm.InPosition()) {

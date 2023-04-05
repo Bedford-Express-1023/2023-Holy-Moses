@@ -67,7 +67,7 @@ public class RobotContainer {
     private final JoystickButton slow = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton alignToTarget = new JoystickButton(willController, XboxController.Button.kA.value);
 
-    private final JoystickButton LED = new JoystickButton(oliviaController, XboxController.Button.kStart.value);
+    //private final JoystickButton LED = new JoystickButton(oliviaController, XboxController.Button.kStart.value);
     //private final JoystickButton purple = new JoystickButton(oliviaController, XboxController.Button.kBack.value);
     
     private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
@@ -97,6 +97,10 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         //s_Blinkin.setDefaultCommand(new InstantCommand(() -> s_Blinkin.blue(), s_Blinkin));
+        s_Blinkin.setDefaultCommand(
+            new LedChange(s_Blinkin, s_Arm)
+        );
+
         s_Arm.setDefaultCommand(
             new ArmToHome(s_Wrist, s_Arm)
                 .andThen(new ShoulderToHome(s_Arm)));

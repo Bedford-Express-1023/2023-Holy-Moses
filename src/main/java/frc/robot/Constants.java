@@ -12,7 +12,9 @@ import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
     public static final double stickDeadband = 0.1;
-    public static final int BLINKIN = 9;
+    public static final int BLINKIN1 = 9;
+    public static final int BLINKIN2 = 0;
+
 
     public static final class Arm {
         public static final int REAR_SHOULDER_CAN = 31;

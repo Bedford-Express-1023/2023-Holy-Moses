@@ -47,9 +47,9 @@ public class ArmSubsystem extends SubsystemBase {
   public int shoulderReversed = -1;
 
   public final double shoulderGravity = .07;
-  public final double armGravity = -.3;
+  public final double armGravity = -.4;
   public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, shoulderGravity);
-  final PIDController armPID = new PIDController(0.002, 0.0, 0.00001);
+  final PIDController armPID = new PIDController(0.006, 0.0, 0.00001);
   final PIDController shoulderPositionPID = new PIDController(.0195, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 50;
@@ -60,8 +60,8 @@ public class ArmSubsystem extends SubsystemBase {
   public final double armTargetPositionHigh = 1050;
   public final double armTargetPositionMiddle = 585.9;
   public final double armTargetPositionLow = 58.6;
-  public final double armTargetPositionFeeder = 150;
-  public final double armTargetPositionHome = 23.4;
+  public final double armTargetPositionFeeder = 370;
+  public final double armTargetPositionHome = 250;
   
   // Creates a new ArmSubsystem. 
   public ArmSubsystem() {
@@ -70,7 +70,7 @@ public class ArmSubsystem extends SubsystemBase {
     frontShoulderMotor.follow(rearShoulderMotor);
     armPID.disableContinuousInput();
     armMotor.setNeutralMode(NeutralMode.Brake);
-    armMotor.configOpenloopRamp(.5);
+    armMotor.configOpenloopRamp(.2);
     armMotor.setInverted(false);
     armMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 45, 50), 30);
     armMotor.configPeakOutputForward(1);
@@ -101,7 +101,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private void ArmPosition() {
     double output = armPID.calculate(armCANCoder.getPosition(), armPosition + armPositionOverride);
-    if (armPosition == armTargetPositionHome && Math.abs(armCANCoder.getPosition() - armPosition) < 125 && armPositionOverride == 0) {
+    if (armPosition == armTargetPositionHome && Math.abs(armCANCoder.getPosition() - armPosition) < 175 && armPositionOverride == 0) {
       armMotor.set(0);
       return;
     }

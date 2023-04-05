@@ -23,7 +23,7 @@ import static frc.robot.Constants.Intake.*;
 public class IntakeSubsystem extends SubsystemBase {
   private final TalonSRX intakeMotor = new TalonSRX(intake_TALON_CAN);
   private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(
-        PneumaticsModuleType.CTREPCM, intake_SOLENOID_F_CHANNEL, intake_SOLENOID_R_CHANNEL);
+        PneumaticsModuleType.CTREPCM, intake_SOLENOID_R_CHANNEL, intake_SOLENOID_F_CHANNEL);
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {

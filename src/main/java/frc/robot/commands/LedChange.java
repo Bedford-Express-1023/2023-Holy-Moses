@@ -22,22 +22,7 @@ public class LedChange extends CommandBase {
   }
 
   public void changeColor (){
-  if (arm.shoulderReversed == -1 && DriverStation.getAlliance() == Alliance.Blue){
-     blinkin.blue1();
-     blinkin.off2();
-    }
-  else if(arm.shoulderReversed == 1 && DriverStation.getAlliance() == Alliance.Blue){
-    blinkin.blue2();
-    blinkin.off1();
-  }
-  else if(arm.shoulderReversed == -1  && DriverStation.getAlliance() == Alliance.Red){
-    blinkin.red1();
-    blinkin.off2();
-  }
-  else if(arm.shoulderReversed == 1  && DriverStation.getAlliance() == Alliance.Red){
-    blinkin.red2();
-    blinkin.off1();
-  }
+  
   }
 
   // Called when the command is initially scheduled.
@@ -46,10 +31,27 @@ public class LedChange extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-   
-
+  public void execute(){
+    if (arm.shoulderReversed == -1 && DriverStation.getAlliance() == Alliance.Blue){
+      blinkin.blue1();
+      blinkin.off2();
+     }
+     else if(arm.shoulderReversed == 1 && DriverStation.getAlliance() == Alliance.Blue){
+      blinkin.blue2();
+      blinkin.off1();
     }
+    else if(arm.shoulderReversed == -1  && DriverStation.getAlliance() == Alliance.Red){
+      blinkin.red1();
+      blinkin.off2();
+    }
+    else if(arm.shoulderReversed == 1  && DriverStation.getAlliance() == Alliance.Red){
+      blinkin.red2();
+      blinkin.off1();
+    }
+  }
+    
+  
+  
   
 
   // Called once the command ends or is interrupted.

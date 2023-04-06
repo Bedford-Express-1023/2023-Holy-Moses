@@ -26,7 +26,7 @@ import frc.lib.util.RotationalFeedForward;
 import frc.robot.Constants;
 import static frc.robot.Constants.Arm.*;
 
-public class ArmSubsystem extends SubsystemBase { 
+public class ArmSubsystem1 extends SubsystemBase { 
   //shoulder is rotation (up/down)
   //arm is extension (in/out)
   public final TalonFX rearShoulderMotor = new TalonFX(Constants.Arm.FRONT_SHOULDER_CAN);
@@ -47,9 +47,9 @@ public class ArmSubsystem extends SubsystemBase {
   public int shoulderReversed = -1;
 
   public final double shoulderGravity = .07;
-  public final double armGravity = -.76;
+  public final double armGravity = -1;
   public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, shoulderGravity);
-  final PIDController armPID = new PIDController(0.003, 0.0, 0.0);
+  final PIDController armPID = new PIDController(0.00007, 0.0, 0.0);
   final PIDController shoulderPositionPID = new PIDController(.0195, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 50;
@@ -64,7 +64,7 @@ public class ArmSubsystem extends SubsystemBase {
   public final double armTargetPositionHome = 100;
   
   // Creates a new ArmSubsystem. 
-  public ArmSubsystem() {
+  public ArmSubsystem1() {
 		rearShoulderMotor.setNeutralMode(NeutralMode.Brake);
 		frontShoulderMotor.setNeutralMode(NeutralMode.Brake);
     frontShoulderMotor.follow(rearShoulderMotor);
@@ -101,9 +101,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   private void ArmPosition() {
     double output = armPID.calculate(armCANCoder.getPosition(), armPosition + armPositionOverride);
-    if (armPosition == armTargetPositionHome && armCANCoder.getPosition() - armPosition < 50 && armPositionOverride == 0) {
-      if (armCANCoder.getVelocity() > -20) {
-        armMotor.set(0);
+    if (armPosition == armTargetPositionHome && Math.abs(armCANCoder.getPosition() - armPosition) < 100 && armPositionOverride == 0) {
+      if (armCANCoder.getVelocity() > -10) {
         return;
       }
       armMotor.set(armCANCoder.getVelocity() * .1);
@@ -176,7 +175,7 @@ public class ArmSubsystem extends SubsystemBase {
 		if (Math.abs(leftYstick) < 0.2) {
       leftYstick = 0; // deadband 15% 
     } 
-    armPositionOverride -= leftYstick * 6;
+    armPositionOverride -= leftYstick * 3;
     ArmPosition();
     //ShoulderPosition(0); //sets the arm to always be up
     ShoulderPosition();

@@ -47,9 +47,9 @@ public class ArmSubsystem extends SubsystemBase {
   public int shoulderReversed = -1;
 
   public final double shoulderGravity = .07;
-  public final double armGravity = -.76;
-  public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, shoulderGravity);
-  final PIDController armPID = new PIDController(0.003, 0.0, 0.0);
+  public final double armGravity = -.3;
+  public final RotationalFeedForward feedForward = new RotationalFeedForward(0, 1, 0, shoulderGravity);
+  final PIDController armPID = new PIDController(0.00007, 0.0, 0.0);
   final PIDController shoulderPositionPID = new PIDController(.0195, 0.0, 0);
 
 	final public double shoulderTargetAngleHigh = 50;
@@ -57,18 +57,17 @@ public class ArmSubsystem extends SubsystemBase {
   final public double shoulderTargetAngleLow = 120;
   public final double shoulderTargetAngleFeeder = 27;
 
-  public final double armTargetPositionHigh = 1050;
-  public final double armTargetPositionMiddle = 585.9;
-  public final double armTargetPositionLow = 120;
-  public final double armTargetPositionFeeder = 500;
-  public final double armTargetPositionHome = 100;
+  public final double armTargetPositionHigh = -42000;
+  public final double armTargetPositionMiddle = -25000;
+  public final double armTargetPositionLow = -2500;
+  public final double armTargetPositionFeeder = -9000;
+  public final double armTargetPositionHome = -1000;
   
   // Creates a new ArmSubsystem. 
   public ArmSubsystem() {
 		rearShoulderMotor.setNeutralMode(NeutralMode.Brake);
 		frontShoulderMotor.setNeutralMode(NeutralMode.Brake);
     frontShoulderMotor.follow(rearShoulderMotor);
-    armPID.disableContinuousInput();
     armMotor.setNeutralMode(NeutralMode.Brake);
     armMotor.configOpenloopRamp(.5);
     armMotor.setInverted(false);
@@ -82,8 +81,6 @@ public class ArmSubsystem extends SubsystemBase {
    * probably use the other overload though
    */
   private void ShoulderPosition() {
-    //double vSetpoint = shoulderPositionPID.calculate(shoulderCANCoder.getAbsolutePosition(), shoulderPosition) * .5;
-    //vSetpoint += shoulderVelocityPID.calculate(shoulderCANCoder.getVelocity(), vSetpoint);
     double output = shoulderPositionPID.calculate(shoulderCANCoder.getAbsolutePosition(), shoulderPosition);
 
     SmartDashboard.putNumber("gravity", shoulderGravity * -Math.sin(shoulderCANCoder.getAbsolutePosition()));
@@ -100,23 +97,23 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private void ArmPosition() {
-    double output = armPID.calculate(armCANCoder.getPosition(), armPosition + armPositionOverride);
-    if (armPosition == armTargetPositionHome && armCANCoder.getPosition() - armPosition < 50 && armPositionOverride == 0) {
-      if (armCANCoder.getVelocity() > -20) {
+    double output = armPID.calculate(armMotor.getSelectedSensorPosition(), armPosition + armPositionOverride);
+    if (armPosition == armTargetPositionHome && -armMotor.getSelectedSensorPosition() + armPosition < 1000 && armPositionOverride == 0) {
+      /*if (armMotor.getSelectedSensorVelocity() > -1000) {
         armMotor.set(0);
         return;
-      }
-      armMotor.set(armCANCoder.getVelocity() * .1);
+      }*/
+      armMotor.set(armMotor.getSelectedSensorVelocity() * 0);
       return;
     }
     SmartDashboard.putNumber("ExtensionOutput", output);
-    if (armCANCoder.getPosition() < 0 && output < 0) {
+    if (armMotor.getSelectedSensorPosition() > 0 && output > 0) {
       armMotor.set(oliviaController.getLeftY() * .05);} else {
       armMotor.set(ControlMode.PercentOutput, armGravity * Math.cos(shoulderCANCoder.getAbsolutePosition() * Math.PI/180)
-      -MathUtil.clamp(
+      + MathUtil.clamp(
         output,
-        -Math.abs(feedForward.calculate(MathUtil.clamp(output, -maxArmVelocity, maxArmVelocity), -maxArmAcceleration)),
-        Math.abs(feedForward.calculate(MathUtil.clamp(output, -maxArmVelocity, maxArmVelocity), maxArmAcceleration))));
+        -Math.abs(-feedForward.calculate(MathUtil.clamp(Math.abs(output), -maxArmVelocity, maxArmVelocity), -maxArmAcceleration)),
+        Math.abs(feedForward.calculate(MathUtil.clamp(Math.abs(output), -maxArmVelocity, maxArmVelocity), maxArmAcceleration))));
     }
     //calculates max power output so as not to go above max velocity and max accel
   }
@@ -127,6 +124,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void ArmPositionZero() {
     armCANCoder.setPosition(0);
+    armMotor.setSelectedSensorPosition(0);
+    armPositionOverride = 0;
   }
 
 
@@ -176,7 +175,7 @@ public class ArmSubsystem extends SubsystemBase {
 		if (Math.abs(leftYstick) < 0.2) {
       leftYstick = 0; // deadband 15% 
     } 
-    armPositionOverride -= leftYstick * 6;
+    armPositionOverride += leftYstick * 275;
     ArmPosition();
     //ShoulderPosition(0); //sets the arm to always be up
     ShoulderPosition();

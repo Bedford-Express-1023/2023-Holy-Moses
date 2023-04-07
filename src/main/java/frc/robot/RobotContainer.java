@@ -152,7 +152,7 @@ public class RobotContainer {
         /* Driver Buttons */
         balance.whileTrue(new Balance(s_Swerve));
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        armHigh.whileTrue(new ScoreHigh(s_Wrist, s_Arm, armHigh));
+        armHigh.whileTrue(new ScoreHigh(s_Arm, s_Wrist));
         armMid.whileTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
         armLow.whileTrue(new ScoreLow(s_Wrist, s_Arm, armLow));
         armFeeder.whileTrue(new ArmFeeder(s_Wrist, s_Arm));
@@ -168,8 +168,8 @@ public class RobotContainer {
         outtakeFast.onTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
-            .onTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)))
-            .onFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)));
+            .onTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
+            .onFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
         //new InstantCommand(() -> s_Arm.ArmManual(oliviaController.getRawAxis(armAxis)));
         //oliviaController.getRawAxis(armAxis)
     }

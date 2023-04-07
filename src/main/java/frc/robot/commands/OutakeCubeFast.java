@@ -25,7 +25,7 @@ public class OutakeCubeFast extends CommandBase {
   @Override
   public void execute() {
     intake.intake(0.8);
-    intake.solenoid(Value.kForward);
+    intake.solenoid(Value.kReverse);
   }
 
   // Called once the command ends or is interrupted.

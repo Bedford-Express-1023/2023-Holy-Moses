@@ -22,14 +22,6 @@ public class ScoreHigh extends CommandBase {
   public Trigger button;
   public Boolean booleanReverse = true;
 
-
-  public ScoreHigh(WristSubsystem wrist, ArmSubsystem arm, Trigger button) {
-    this.wrist = wrist;
-    this.arm = arm;
-    this.button = button;
-    addRequirements(wrist, arm);
-  }
-
   public ScoreHigh(ArmSubsystem s_Arm, WristSubsystem s_Wrist) {
     this.wrist = s_Wrist;
     this.arm = s_Arm;

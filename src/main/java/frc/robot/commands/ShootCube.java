@@ -4,14 +4,28 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
 public class ShootCube extends CommandBase {
   public WristSubsystem wrist;
   public ArmSubsystem arm;
+  public Trigger button;
+  public Boolean booleanReverse = true;
 
+
+  public ShootCube(WristSubsystem wrist, ArmSubsystem arm, Trigger button) {
+    this.wrist = wrist;
+    this.arm = arm;
+    this.button = button;
+    addRequirements(wrist, arm);
+  }
 
   public ShootCube(WristSubsystem wrist, ArmSubsystem arm) {
     this.wrist = wrist;
@@ -30,21 +44,18 @@ public class ShootCube extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    /*if (button.getAsBoolean() != booleanReverse) {
-      booleanReverse = button.getAsBoolean();
-      if (booleanReverse) {
-        arm.shoulderReversed *= -1;
-      }
-    }*/
-
-    wrist.wristPosition((arm.shoulderReversed * 55 - arm.shoulderCANCoder.getAbsolutePosition()));
-    arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleFeeder);
-    arm.ArmPosition(arm.armTargetPositionFeeder);
+    arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleMiddle);
+    arm.ArmPosition(arm.armTargetPositionMiddle);
+    if (arm.InPosition()) {
+      wrist.wristPosition((arm.shoulderReversed * 79 - arm.shoulderCANCoder.getAbsolutePosition()));
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    wrist.wristPosition((arm.shoulderReversed * 53 - arm.shoulderCANCoder.getAbsolutePosition()));
+  }
 
   // Returns true when the command should end.
   @Override
@@ -52,3 +63,4 @@ public class ShootCube extends CommandBase {
     return false;
   }
 }
+

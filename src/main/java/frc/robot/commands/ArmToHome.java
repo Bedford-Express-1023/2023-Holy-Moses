@@ -41,6 +41,6 @@ public class ArmToHome extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(arm.armTargetPositionHome - arm.armMotor.getSelectedSensorPosition()) < 5000;
+    return Math.abs(arm.armTargetPositionHome - arm.armCANCoder.getPosition()) < 250;
   }
 }

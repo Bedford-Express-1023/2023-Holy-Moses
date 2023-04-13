@@ -47,14 +47,14 @@ public class ScoreMid extends CommandBase {
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleMiddle);
     arm.ArmPosition(arm.armTargetPositionMiddle);
     if (arm.InPosition()) {
-      wrist.wristPosition((arm.shoulderReversed * 60 - arm.shoulderCANCoder.getAbsolutePosition()));
+      wrist.wristPosition((arm.shoulderReversed * 79 - arm.shoulderCANCoder.getAbsolutePosition()));
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    wrist.wristPosition((arm.shoulderReversed * 75 - arm.shoulderCANCoder.getAbsolutePosition()));
+    wrist.wristPosition((arm.shoulderReversed * 60 - arm.shoulderCANCoder.getAbsolutePosition()));
   }
 
   // Returns true when the command should end.

@@ -32,19 +32,11 @@ public class LedChange extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute(){
-    if (arm.shoulderReversed == -1 && DriverStation.getAlliance() == Alliance.Blue){
-      blinkin.blue1();
-      blinkin.off2();
-     }
-     else if(arm.shoulderReversed == 1 && DriverStation.getAlliance() == Alliance.Blue){
-      blinkin.blue2();
-      blinkin.off1();
-    }
-    else if(arm.shoulderReversed == -1  && DriverStation.getAlliance() == Alliance.Red){
+    if (arm.shoulderReversed == -1){
       blinkin.red1();
       blinkin.off2();
     }
-    else if(arm.shoulderReversed == 1  && DriverStation.getAlliance() == Alliance.Red){
+    else if(arm.shoulderReversed == 1){
       blinkin.red2();
       blinkin.off1();
     }

@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -19,14 +21,6 @@ public class ScoreHigh extends CommandBase {
   public ArmSubsystem arm;
   public Trigger button;
   public Boolean booleanReverse = true;
-
-
-  public ScoreHigh(WristSubsystem wrist, ArmSubsystem arm, Trigger button) {
-    this.wrist = wrist;
-    this.arm = arm;
-    this.button = button;
-    addRequirements(wrist, arm);
-  }
 
   public ScoreHigh(ArmSubsystem s_Arm, WristSubsystem s_Wrist) {
     this.wrist = s_Wrist;
@@ -53,8 +47,9 @@ public class ScoreHigh extends CommandBase {
     }*/
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleHigh);
     arm.ArmPosition(arm.armTargetPositionHigh);
+   // arm.armMotor.set(ControlMode.PercentOutput, -1);
     if (arm.InPosition()) {
-      wrist.wristPosition((arm.shoulderReversed * 70 - arm.shoulderCANCoder.getAbsolutePosition()));
+      wrist.wristPosition((arm.shoulderReversed * 69 - arm.shoulderCANCoder.getAbsolutePosition()));
     }
   }
 

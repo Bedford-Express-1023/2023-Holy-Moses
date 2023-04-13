@@ -15,7 +15,6 @@ import frc.robot.commands.OutakeCone;
 import frc.robot.commands.OutakeCube;
 import frc.robot.commands.ScoreHigh;
 import frc.robot.commands.ScoreLow;
-import frc.robot.commands.ScoreMid;
 import frc.robot.commands.ShoulderToHome;
 import frc.robot.commands.Drivetrain.Balance;
 import frc.robot.subsystems.ArmSubsystem;
@@ -26,15 +25,15 @@ import frc.robot.subsystems.WristSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ChargingStation extends SequentialCommandGroup {
+public class ChargeStationReversed extends SequentialCommandGroup {
   /** Creates a new Auto1. */
-  public ChargingStation(Swerve s_Swerve, IntakeSubsystem s_Intake, ArmSubsystem s_Arm, WristSubsystem s_Wrist) {
+  public ChargeStationReversed(Swerve s_Swerve, IntakeSubsystem s_Intake, ArmSubsystem s_Arm, WristSubsystem s_Wrist) {
     addCommands(
       
     (new ScoreHigh(s_Arm, s_Wrist).alongWith(new IntakeCone(s_Intake))).withTimeout(1.5),
     (new OutakeCube(s_Intake)).withTimeout(.5),
-    (new ArmToHome(s_Wrist, s_Arm)).withTimeout(1),
-    (new ShoulderToHome(s_Arm)).withTimeout(1),
+   (new ArmToHome(s_Wrist, s_Arm)).withTimeout(1),
+  (new ShoulderToHome(s_Arm)).withTimeout(1),
     new PathPlannerCommand(s_Swerve, 2, "Over charge station", true),
     new WaitCommand(.5),
     new PathPlannerCommand(s_Swerve, 2, "Charging station"),

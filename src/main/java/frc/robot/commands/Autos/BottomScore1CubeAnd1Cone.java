@@ -2,6 +2,7 @@ package frc.robot.commands.Autos;
 
 import java.time.Instant;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -30,43 +31,41 @@ public class BottomScore1CubeAnd1Cone extends SequentialCommandGroup {
   public BottomScore1CubeAnd1Cone(Swerve s_Swerve, IntakeSubsystem s_Intake, ArmSubsystem s_Arm,
       WristSubsystem s_Wrist) {
     addCommands(
-        (new ScoreHigh(s_Arm, s_Wrist).alongWith(new IntakeCone(s_Intake))).withTimeout(1.1),
+        
+        (new ScoreHigh(s_Arm, s_Wrist).alongWith(new IntakeCone(s_Intake))).withTimeout(2.3),
         (new OutakeCube(s_Intake)).withTimeout(.5),
         (new ArmToHome(s_Wrist, s_Arm))
             .withTimeout(.5),
         new PathPlannerCommand(s_Swerve, 2, "Back up after cone bottom", true)
-
             .deadlineWith(new ArmToHome(s_Wrist, s_Arm).andThen(new ShoulderToHome(s_Arm))),
-
-        new PathPlannerCommand(s_Swerve, 3, "Grab cone")
-
-            .alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1))
-            .alongWith(new ScoreLow(s_Wrist, s_Arm))
-            .withTimeout(1.5),
-        (new IntakeCone(s_Intake)).withTimeout(.5),
-
-        new PathPlannerCommand(s_Swerve, 4, "Score second cone")
-            .deadlineWith(new ArmToHome(s_Wrist, s_Arm).andThen(new ShoulderToHome(s_Arm))),
-        (new ScoreHigh(s_Arm, s_Wrist)).withTimeout(1),
-        (new OutakeCone(s_Intake)).withTimeout(.5),
-        new ArmToHome(s_Wrist, s_Arm).withTimeout(.5),
-
-        new PathPlannerCommand(s_Swerve, 4, "Grab cube")
-
+        new PathPlannerCommand(s_Swerve, 2, "Grab first cube")
+             .deadlineWith(new ScoreLow(s_Wrist, s_Arm),
+                new IntakeCube(s_Intake),
+                new InstantCommand(() -> s_Arm.shoulderReversed *= -1)),
+        new PathPlannerCommand(s_Swerve, 4, "Score first cube")
+            .deadlineWith(new IntakeCube(s_Intake).withTimeout(1),
+                new InstantCommand(() -> s_Arm.shoulderReversed *= -1),
+                new ArmToHome(s_Wrist, s_Arm)
+                    .andThen(new ShoulderToHome(s_Arm))),
+        new PathPlannerCommand(s_Swerve, 2, "Line up"),
+        new ScoreHigh(s_Arm, s_Wrist).withTimeout(1),
+        new OutakeCube(s_Intake).withTimeout(.5),
+        new ArmToHome(s_Wrist, s_Arm).withTimeout(.5), 
+        new PathPlannerCommand(s_Swerve, 2, "Back up after cone bottom")
+       
+       /*  new PathPlannerCommand(s_Swerve, 4, "Grab cube")
             .deadlineWith(new SequentialCommandGroup(
                 new ShoulderToHome(s_Arm),
                 new InstantCommand(() -> s_Arm.shoulderReversed *= -1))),
-               
-
-        new PathPlannerCommand(s_Swerve, 4, "Tiny cube").alongWith(new ScoreLow(s_Wrist, s_Arm)).alongWith(new IntakeCube(s_Intake)).withTimeout(0.75),
+        new PathPlannerCommand(s_Swerve, 4, "Tiny cube").alongWith(new ScoreLow(s_Wrist, s_Arm)).alongWith(new IntakeCube(s_Intake)).withTimeout(1.5),
         new ArmToHome(s_Wrist, s_Arm).withTimeout(.5),
-        
-          
-
-        new PathPlannerCommand(s_Swerve, 4, "Score cube").alongWith(new ShoulderToHome(s_Arm)).alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1)).alongWith(new IntakeCone(s_Intake)).withTimeout(2.5),
-        (new ShootCube(s_Wrist, s_Arm)),
-        (new OutakeCubeFast(s_Intake)).withTimeout(.5),
-        (new ArmToHome(s_Wrist, s_Arm)).withTimeout(.5),
-        (new ShoulderToHome(s_Arm)).withTimeout(.5));
+        new PathPlannerCommand(s_Swerve, 4, "Score cube")
+            .alongWith(new ShoulderToHome(s_Arm),
+                new InstantCommand(() -> s_Arm.shoulderReversed *= -1),
+                new IntakeCone(s_Intake).withTimeout(2.5)),
+        new ShootCube(s_Wrist, s_Arm).withTimeout(.5),
+        new OutakeCubeFast(s_Intake).withTimeout(.5),
+        new ArmToHome(s_Wrist, s_Arm).withTimeout(.5),
+        new ShoulderToHome(s_Arm).withTimeout(.5)*/);
   }
 }

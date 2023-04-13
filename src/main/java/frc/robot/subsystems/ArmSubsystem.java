@@ -47,7 +47,7 @@ public class ArmSubsystem extends SubsystemBase {
   public int shoulderReversed = -1;
 
   public final double shoulderGravity = .07;
-  public final double armGravity = -.6;
+  public final double armGravity = -.3;
   public final RotationalFeedForward feedForward = new RotationalFeedForward(0,1,0, shoulderGravity);
   final PIDController armPID = new PIDController(0.004, 0.0, 0.0);
   final PIDController shoulderPositionPID = new PIDController(.0195, 0.0, 0);
@@ -60,7 +60,7 @@ public class ArmSubsystem extends SubsystemBase {
   public final double armTargetPositionHigh = 930;
   public final double armTargetPositionMiddle = 400;
   public final double armTargetPositionLow = 120;
-  public final double armTargetPositionFeeder = 200;
+  public final double armTargetPositionFeeder = 125;
   public final double armTargetPositionHome = 50;
   
   // Creates a new ArmSubsystem. 
@@ -101,7 +101,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private void ArmPosition() {
     double output = armPID.calculate(armCANCoder.getPosition(), armPosition + armPositionOverride);
-    if ((armPosition == armTargetPositionHome || armPosition == armTargetPositionLow) && (armCANCoder.getPosition() - armPosition) < 200 && armPositionOverride == 0) {
+    if ((armPosition == armTargetPositionHome || armPosition == armTargetPositionLow) && (armCANCoder.getPosition() - armPosition) < 150 && armPositionOverride == 0) {
       if (armCANCoder.getPosition() < 2 || armCANCoder.getVelocity() > -150) {
         armMotor.set(0);
         return;
@@ -115,8 +115,8 @@ public class ArmSubsystem extends SubsystemBase {
       armMotor.set(ControlMode.PercentOutput, armGravity * Math.cos(shoulderCANCoder.getAbsolutePosition() * Math.PI/180)
       -MathUtil.clamp(
         output,
-        -Math.abs(feedForward.calculate(MathUtil.clamp(output, -maxArmVelocity, maxArmVelocity), -maxArmAcceleration)),
-        Math.abs(feedForward.calculate(MathUtil.clamp(output, -maxArmVelocity, maxArmVelocity), maxArmAcceleration))));
+        -Math.abs(feedForward.calculate(MathUtil.clamp(output, -maxArmVelocity+ .3, maxArmVelocity), -maxArmAcceleration)),
+        Math.abs(feedForward.calculate(MathUtil.clamp(output, -maxArmVelocity + .3, maxArmVelocity), maxArmAcceleration))));
     }
     //calculates max power output so as not to go above max velocity and max accel
   }

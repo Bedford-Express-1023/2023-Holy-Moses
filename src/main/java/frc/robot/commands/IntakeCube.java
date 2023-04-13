@@ -24,7 +24,7 @@ public class IntakeCube extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.intake(-0.6);
+    intake.intake(0.6);
     intake.solenoid(Value.kReverse);
   }
 

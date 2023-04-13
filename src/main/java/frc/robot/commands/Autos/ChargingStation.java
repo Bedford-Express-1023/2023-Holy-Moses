@@ -31,13 +31,13 @@ public class ChargingStation extends SequentialCommandGroup {
   public ChargingStation(Swerve s_Swerve, IntakeSubsystem s_Intake, ArmSubsystem s_Arm, WristSubsystem s_Wrist) {
     addCommands(
       
-    (new ScoreMid(s_Wrist, s_Arm).alongWith(new IntakeCone(s_Intake))).withTimeout(1.5),
+    (new ScoreHigh(s_Arm, s_Wrist).alongWith(new IntakeCone(s_Intake))).withTimeout(1.5),
     (new OutakeCube(s_Intake)).withTimeout(.5),
     (new ArmToHome(s_Wrist, s_Arm)).withTimeout(1),
     (new ShoulderToHome(s_Arm)).withTimeout(1),
-    new PathPlannerCommand(s_Swerve, 3.5, "Over charge station", true),
+    new PathPlannerCommand(s_Swerve, 2, "Over charge station", true),
     new WaitCommand(.5),
-    new PathPlannerCommand(s_Swerve, 3.5, "Charging station"),
+    new PathPlannerCommand(s_Swerve, 2, "Charging station"),
     (new Balance(s_Swerve))
     //.alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1)).alongWith(new ScoreLow(s_Wrist, s_Arm)).withTimeout(1)
     //new PathPlannerCommand(s_Swerve, 2, "Grab cube charge station").alongWith(new IntakeCube(s_Intake)).withTimeout(3),

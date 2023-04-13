@@ -32,45 +32,40 @@ public class BottomScore1CubeAnd1Cone extends SequentialCommandGroup {
       WristSubsystem s_Wrist) {
     addCommands(
         
-        (new ScoreHigh(s_Arm, s_Wrist).alongWith(new IntakeCone(s_Intake))).withTimeout(1.5),
+        (new ScoreHigh(s_Arm, s_Wrist).alongWith(new IntakeCone(s_Intake))).withTimeout(2.3),
         (new OutakeCube(s_Intake)).withTimeout(.5),
         (new ArmToHome(s_Wrist, s_Arm))
             .withTimeout(.5),
         new PathPlannerCommand(s_Swerve, 2, "Back up after cone bottom", true)
-
             .deadlineWith(new ArmToHome(s_Wrist, s_Arm).andThen(new ShoulderToHome(s_Arm))),
-
-        new PathPlannerCommand(s_Swerve, 3, "Grab first cube")
-
-            .alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1))
-            .alongWith(new ScoreLow(s_Wrist, s_Arm))
-            .withTimeout(1.5)
-        .deadlineWith(new IntakeCube(s_Intake)),
-
+        new PathPlannerCommand(s_Swerve, 2, "Grab first cube")
+             .deadlineWith(new ScoreLow(s_Wrist, s_Arm),
+                new IntakeCube(s_Intake),
+                new InstantCommand(() -> s_Arm.shoulderReversed *= -1)),
         new PathPlannerCommand(s_Swerve, 4, "Score first cube")
-            .deadlineWith(new IntakeCube(s_Intake)).withTimeout(1)
-            .deadlineWith(new ArmToHome(s_Wrist, s_Arm).andThen(new ShoulderToHome(s_Arm))).alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1)),
-        (new ScoreHigh(s_Arm, s_Wrist)).withTimeout(1),
-        (new OutakeCube(s_Intake)).withTimeout(.5),
-        
-        new ArmToHome(s_Wrist, s_Arm).withTimeout(.5)
-
+            .deadlineWith(new IntakeCube(s_Intake).withTimeout(1),
+                new InstantCommand(() -> s_Arm.shoulderReversed *= -1),
+                new ArmToHome(s_Wrist, s_Arm)
+                    .andThen(new ShoulderToHome(s_Arm))),
+        new PathPlannerCommand(s_Swerve, 2, "Line up"),
+        new ScoreHigh(s_Arm, s_Wrist).withTimeout(1),
+        new OutakeCube(s_Intake).withTimeout(.5),
+        new ArmToHome(s_Wrist, s_Arm).withTimeout(.5), 
+        new PathPlannerCommand(s_Swerve, 2, "Back up after cone bottom")
+       
        /*  new PathPlannerCommand(s_Swerve, 4, "Grab cube")
-
             .deadlineWith(new SequentialCommandGroup(
                 new ShoulderToHome(s_Arm),
                 new InstantCommand(() -> s_Arm.shoulderReversed *= -1))),
-               
-
-        new PathPlannerCommand(s_Swerve, 4, "Tiny cube").alongWith(new ScoreLow(s_Wrist, s_Arm)).alongWith(new IntakeCube(s_Intake)).withTimeout(0.75),
+        new PathPlannerCommand(s_Swerve, 4, "Tiny cube").alongWith(new ScoreLow(s_Wrist, s_Arm)).alongWith(new IntakeCube(s_Intake)).withTimeout(1.5),
         new ArmToHome(s_Wrist, s_Arm).withTimeout(.5),
-        
-          
-
-        new PathPlannerCommand(s_Swerve, 4, "Score cube").alongWith(new ShoulderToHome(s_Arm)).alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1)).alongWith(new IntakeCone(s_Intake)).withTimeout(2.5),
-        (new ShootCube(s_Wrist, s_Arm)).withTimeout(.5),
-        (new OutakeCubeFast(s_Intake)).withTimeout(.5),
-        (new ArmToHome(s_Wrist, s_Arm)).withTimeout(.5),
-        (new ShoulderToHome(s_Arm)).withTimeout(.5)*/);
+        new PathPlannerCommand(s_Swerve, 4, "Score cube")
+            .alongWith(new ShoulderToHome(s_Arm),
+                new InstantCommand(() -> s_Arm.shoulderReversed *= -1),
+                new IntakeCone(s_Intake).withTimeout(2.5)),
+        new ShootCube(s_Wrist, s_Arm).withTimeout(.5),
+        new OutakeCubeFast(s_Intake).withTimeout(.5),
+        new ArmToHome(s_Wrist, s_Arm).withTimeout(.5),
+        new ShoulderToHome(s_Arm).withTimeout(.5)*/);
   }
 }

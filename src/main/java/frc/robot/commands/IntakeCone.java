@@ -24,7 +24,7 @@ public class IntakeCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.intake(-0.5);
+    intake.intake(0.5);
     intake.solenoid(Value.kForward);
   }
 

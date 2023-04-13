@@ -49,7 +49,7 @@ public class ScoreHigh extends CommandBase {
     arm.ArmPosition(arm.armTargetPositionHigh);
    // arm.armMotor.set(ControlMode.PercentOutput, -1);
     if (arm.InPosition()) {
-      wrist.wristPosition((arm.shoulderReversed * 70 - arm.shoulderCANCoder.getAbsolutePosition()));
+      wrist.wristPosition((arm.shoulderReversed * 69 - arm.shoulderCANCoder.getAbsolutePosition()));
     }
   }
 

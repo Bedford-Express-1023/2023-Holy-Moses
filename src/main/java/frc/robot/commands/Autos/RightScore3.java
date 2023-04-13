@@ -28,12 +28,12 @@ public class RightScore3 extends SequentialCommandGroup {
       
     (new ScoreHigh(s_Arm, s_Wrist).alongWith(new IntakeCone(s_Intake))).withTimeout(2),
     (new OutakeCube(s_Intake)).withTimeout(.5),
-    /*(new ArmToHome(s_Wrist, s_Arm))
-        .withTimeout(.5),*/
+    (new ArmToHome(s_Wrist, s_Arm))
+        .withTimeout(.5),
     new PathPlannerCommand(s_Swerve, 2, "Back up after cone", true)
 /*      .alongWith(new InstantCommand(() -> s_Arm.shoulderReversed *= -1))
       .alongWith(new ScoreLow(s_Wrist, s_Arm))
-      .withTimeout(2),*/
+      .withTimeout(2),
       .deadlineWith(new SequentialCommandGroup(
         new InstantCommand(() -> s_Arm.shoulderReversed *= -1),
         new ArmToHome(s_Wrist, s_Arm),

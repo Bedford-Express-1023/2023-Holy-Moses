@@ -22,16 +22,15 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class Swerve extends SubsystemBase {
     private final Joystick willController = new Joystick(0);
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public WPI_Pigeon2 gyro = new WPI_Pigeon2(Constants.Swerve.pigeonID);
+    public double rotationTarget = 0;
     public final Constraints translationConstraints = new Constraints(10, 10);
     public final PIDController xController = new PIDController(4, 0.0, 0.0);
     public final PIDController yController = new PIDController(4, 0.0, 0.0);
@@ -77,23 +76,24 @@ public class Swerve extends SubsystemBase {
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+        rotationTarget += rotation * .02;
         if (faceGrid.getAsBoolean()) {
-            rotation = rotaController.calculate(Math.toRadians(180));
+            rotationTarget = Math.toRadians(180);
         } else if (dontFaceGrid.getAsBoolean()) {
-            rotation = rotaController.calculate(Math.toRadians(1));
+            rotationTarget = Math.toRadians(0);
         }
             SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                                     translation.getX(), 
                                     translation.getY(), 
-                                    rotaFF.calculate(rotation), 
+                                    rotaFF.calculate(rotaController.calculate(getYaw().getRadians(), rotationTarget)), 
                                     getYaw()
                                 )
                                 : new ChassisSpeeds(
                                     translation.getX(), 
                                     translation.getY(), 
-                                    rotaFF.calculate(rotation))
+                                    rotaFF.calculate(rotaController.calculate(getYaw().getRadians(), rotationTarget)))
                                 );
         setModuleStates(swerveModuleStates);
     }    

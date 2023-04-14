@@ -15,14 +15,6 @@ public class ScoreHigh extends CommandBase {
   public Trigger button;
   public Boolean booleanReverse = true;
 
-
-  public ScoreHigh(WristSubsystem wrist, ArmSubsystem arm, Trigger button) {
-    this.wrist = wrist;
-    this.arm = arm;
-    this.button = button;
-    addRequirements(wrist, arm);
-  }
-
   public ScoreHigh(ArmSubsystem s_Arm, WristSubsystem s_Wrist) {
     this.wrist = s_Wrist;
     this.arm = s_Arm;
@@ -46,15 +38,18 @@ public class ScoreHigh extends CommandBase {
         arm.shoulderReversed *= -1;
       }
     }*/
-
-    wrist.wristPosition((arm.shoulderReversed * 70 - arm.shoulderCANCoder.getAbsolutePosition()));
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleHigh);
     arm.ArmPosition(arm.armTargetPositionHigh);
+   // arm.armMotor.set(ControlMode.PercentOutput, -1);
+    if (arm.InPosition()) {
+      wrist.wristPosition((arm.shoulderReversed * 69 - arm.shoulderCANCoder.getAbsolutePosition()));
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

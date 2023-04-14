@@ -12,7 +12,9 @@ import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
     public static final double stickDeadband = 0.1;
-    public static final int BLINKIN = 9;
+    public static final int BLINKIN1 = 9;
+    public static final int BLINKIN2 = 0;
+
 
     public static final class Arm {
         public static final int REAR_SHOULDER_CAN = 31;
@@ -24,9 +26,9 @@ public final class Constants {
         public static final int WRIST_SPARK = 42;
         public static final int ARM_LIMIT_SWITCH_DIO = 0;
 
-        public static final double maxShoulderVelocity = 0.5;
+        public static final double maxShoulderVelocity = 0.9;
         public static final double maxShoulderAcceleration = 10;
-        public static final double maxArmVelocity = 0.5;
+        public static final double maxArmVelocity = .7;
         public static final double maxArmAcceleration = 1;
     }
 

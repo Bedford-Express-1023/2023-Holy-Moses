@@ -4,17 +4,25 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.Blinkin;
 
-public class IntakeCone extends CommandBase {
-  public IntakeSubsystem intake;
-  /** Creates a new IntakeCone. */
-  public IntakeCone(IntakeSubsystem intake) {
-    this.intake = intake;
-    addRequirements(intake);
+public class LedChange extends CommandBase {
+  Blinkin blinkin;
+  public ArmSubsystem arm;
+  /** Creates a new LedChange. */
+  public LedChange(Blinkin blinkin, ArmSubsystem arm) {
+    this.blinkin = blinkin;
+    this.arm = arm;
+    addRequirements(blinkin);
     // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  public void changeColor (){
+  
   }
 
   // Called when the command is initially scheduled.
@@ -23,10 +31,20 @@ public class IntakeCone extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    intake.intake(0.5);
-    intake.solenoid(Value.kForward);
+  public void execute(){
+    if (arm.shoulderReversed == -1){
+      blinkin.red1();
+      blinkin.off2();
+    }
+    else if(arm.shoulderReversed == 1){
+      blinkin.red2();
+      blinkin.off1();
+    }
   }
+    
+  
+  
+  
 
   // Called once the command ends or is interrupted.
   @Override

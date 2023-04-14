@@ -40,20 +40,15 @@ public class ScoreLow extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    /*if (button.getAsBoolean() != booleanReverse) {
-      booleanReverse = button.getAsBoolean();
-      if (booleanReverse) {
-        arm.shoulderReversed *= -1;
-      }
-    }*/
-    wrist.wristPosition((arm.shoulderReversed * 90 - arm.shoulderCANCoder.getAbsolutePosition()));
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleLow);
     arm.ArmPosition(arm.armTargetPositionLow);
+    wrist.wristPosition((arm.shoulderReversed * 100 - arm.shoulderTargetAngleLow * arm.shoulderReversed));
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

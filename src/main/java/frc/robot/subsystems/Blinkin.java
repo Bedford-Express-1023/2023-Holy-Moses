@@ -9,20 +9,41 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Blinkin extends SubsystemBase {
-  private final Spark m_Spark = new Spark(Constants.BLINKIN);
+  private final Spark m_Spark1 = new Spark(Constants.BLINKIN1);
+  private final Spark m_Spark2 = new Spark(Constants.BLINKIN2);
   /** Creates a new blinkin. */
   public Blinkin() {}
 
   public void yellow(){
-    m_Spark.set(0.69);
+    m_Spark1.set(0.69);
   }
 
   public void purple(){
-    m_Spark.set(0.91);
+    m_Spark1.set(0.91);
   }
 
-  public void blue (){
-    m_Spark.set(-0.23);
+  public void blue1 (){
+    m_Spark1.set(0.87);
+  }
+
+  public void red1 (){
+    m_Spark1.set(0.61);
+  }
+
+  public void off1(){
+    m_Spark1.set(0.99);
+  }
+
+  public void blue2(){
+    m_Spark2.set(0.87);
+  }
+
+  public void red2 (){
+    m_Spark2.set(0.61);
+  }
+
+  public void off2(){
+    m_Spark2.set(0.99);
   }
 
 

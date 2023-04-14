@@ -37,7 +37,7 @@ public class ArmFeeder extends CommandBase {
       }
     }*/
 
-    wrist.wristPosition((arm.shoulderReversed * 87 - arm.shoulderCANCoder.getAbsolutePosition()));
+    wrist.wristPosition((arm.shoulderReversed * 78 - arm.shoulderCANCoder.getAbsolutePosition()));
     arm.ShoulderPosition(arm.shoulderReversed * arm.shoulderTargetAngleFeeder);
     arm.ArmPosition(arm.armTargetPositionFeeder);
   }

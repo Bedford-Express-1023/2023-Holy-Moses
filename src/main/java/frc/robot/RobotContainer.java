@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -40,7 +41,6 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kX.value);
     private final JoystickButton turnSlow = new JoystickButton(willController, XboxController.Button.kRightBumper.value);
     private final JoystickButton slow = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
-
     private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
     private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
 
@@ -68,6 +68,10 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         //s_Blinkin.setDefaultCommand(new InstantCommand(() -> s_Blinkin.blue(), s_Blinkin));
+        s_Blinkin.setDefaultCommand(
+            new LedChange(s_Blinkin, s_Arm)
+        );
+
         s_Arm.setDefaultCommand(
             new ArmToHome(s_Wrist, s_Arm)
                 .andThen(new ShoulderToHome(s_Arm)));
@@ -98,7 +102,6 @@ public class RobotContainer {
         
         SmartDashboard.putData(autoDelay);
 
-        //autoChooser.addOption("Test Path", new PathPlannerCommand(s_Swerve, 3, "Test Path"));
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
         autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Intake, s_Arm, s_Wrist));
@@ -120,7 +123,7 @@ public class RobotContainer {
         /* Driver Buttons */
         balance.whileTrue(new Balance(s_Swerve));
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        armHigh.whileTrue(new ScoreHigh(s_Wrist, s_Arm, armHigh));
+        armHigh.whileTrue(new ScoreHigh(s_Arm, s_Wrist));
         armMid.whileTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
         armLow.whileTrue(new ScoreLow(s_Wrist, s_Arm, armLow));
         armFeeder.whileTrue(new ArmFeeder(s_Wrist, s_Arm));
@@ -129,12 +132,17 @@ public class RobotContainer {
             .onTrue(new InstantCommand(() -> s_Arm.shoulderReversed *= -1));
         armZero.onTrue(new InstantCommand(s_Arm::ArmPositionZero));
 
-        intake.whileTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
+        intake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        outtake.whileTrue(new InstantCommand(() -> s_Intake.intake(0.1)))
+        outtake.whileTrue(new InstantCommand(() -> s_Intake.intake(-0.3)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
-        outtakeFast.onTrue(new InstantCommand(() -> s_Intake.intake(0.5)))
+        outtakeFast.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
+        new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
+            .onTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
+            .onFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
+        //new InstantCommand(() -> s_Arm.ArmManual(oliviaController.getRawAxis(armAxis)));
+        //oliviaController.getRawAxis(armAxis)
     }
 
     /**

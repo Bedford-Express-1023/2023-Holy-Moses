@@ -1,22 +1,12 @@
 package frc.robot;
 
-import java.util.function.BooleanSupplier;
-
-import org.ejml.dense.row.decomposition.svd.SafeSvd_DDRM;
-
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.PS4Controller.Axis;
-import edu.wpi.first.wpilibj.event.NetworkBooleanEvent;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -24,21 +14,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.commands.Autos.BottomScore1CubeAnd1Cone;
 import frc.robot.commands.Autos.ChargingStation;
-import frc.robot.commands.Autos.PathPlannerCommand;
 import frc.robot.commands.Drivetrain.DynamicTeleopSwerve;
 import frc.robot.commands.Drivetrain.Balance;
 import frc.robot.commands.Autos.RightScore3;
-import frc.robot.commands.Autos.Test;
-//import frc.robot.commands.Drivetrain.AlignToTarget;
 import frc.robot.subsystems.*;
-
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
-
     
 public class RobotContainer {
     /* Sendable Choosers */
@@ -50,27 +29,18 @@ public class RobotContainer {
     private final XboxController oliviaController = new XboxController(1);
     private final XboxController testController = new XboxController(4);
 
-    private double slewDouble = 1000.0; //3.0
-    private final SlewRateLimiter willSlew = new SlewRateLimiter(slewDouble);
-
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
-    private final int armAxis = XboxController.Axis.kLeftY.value;
-
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(willController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(willController, XboxController.Button.kX.value);
     private final JoystickButton turnSlow = new JoystickButton(willController, XboxController.Button.kRightBumper.value);
     private final JoystickButton slow = new JoystickButton(willController, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton alignToTarget = new JoystickButton(willController, XboxController.Button.kA.value);
 
-    private final JoystickButton LED = new JoystickButton(oliviaController, XboxController.Button.kStart.value);
-    //private final JoystickButton purple = new JoystickButton(oliviaController, XboxController.Button.kBack.value);
-    
     private final JoystickButton intake = new JoystickButton(oliviaController, XboxController.Button.kA.value);
     private final JoystickButton outtake = new JoystickButton(oliviaController, XboxController.Button.kX.value);
 
@@ -132,7 +102,7 @@ public class RobotContainer {
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
         autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Intake, s_Arm, s_Wrist));
-        autoChooser.addOption("Right 2.5 piece", new Test(s_Swerve, s_Intake, s_Arm, s_Wrist));
+        autoChooser.addOption("Right 2.5 piece", new RightScore3(s_Swerve, s_Intake, s_Arm, s_Wrist));
 
         SmartDashboard.putData(autoChooser);
 

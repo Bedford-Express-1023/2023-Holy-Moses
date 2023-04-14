@@ -10,6 +10,7 @@ import frc.lib.util.SwerveModuleConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
@@ -91,6 +92,10 @@ public class SwerveModule {
         mAngleMotor.configAllSettings(Robot.ctreConfigs.swerveAngleFXConfig);
         mAngleMotor.setInverted(Constants.Swerve.angleMotorInvert);
         mAngleMotor.setNeutralMode(Constants.Swerve.angleNeutralMode);
+        mAngleMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 40);
+        mAngleMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 100);
+        mAngleMotor.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 100);
+        mAngleMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, 500);
         resetToAbsolute();
     }
 
@@ -100,6 +105,10 @@ public class SwerveModule {
         mDriveMotor.setInverted(Constants.Swerve.driveMotorInvert);
         mDriveMotor.setNeutralMode(Constants.Swerve.driveNeutralMode);
         mDriveMotor.setSelectedSensorPosition(0);
+        mDriveMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 40);
+        mDriveMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 100);
+        mDriveMotor.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 100);
+        mDriveMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, 500);
     }
 
     public SwerveModuleState getState(){

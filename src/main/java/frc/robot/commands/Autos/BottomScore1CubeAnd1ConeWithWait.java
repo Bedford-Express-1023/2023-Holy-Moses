@@ -27,9 +27,9 @@ import frc.robot.subsystems.WristSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class RightScore3 extends SequentialCommandGroup {
+public class BottomScore1CubeAnd1ConeWithWait extends SequentialCommandGroup {
   /** Creates a new Auto1. */
-  public RightScore3(Swerve s_Swerve, IntakeSubsystem s_Intake, ArmSubsystem s_Arm,
+  public BottomScore1CubeAnd1ConeWithWait(Swerve s_Swerve, IntakeSubsystem s_Intake, ArmSubsystem s_Arm,
       WristSubsystem s_Wrist) {
     addCommands(
         
@@ -37,26 +37,24 @@ public class RightScore3 extends SequentialCommandGroup {
         (new OutakeCube(s_Intake)).withTimeout(3.75),
         (new ArmToHome(s_Wrist, s_Arm))
             .withTimeout(.5),
-        new PathPlannerCommand(s_Swerve, 2, "Back up after cone top", true)
+        new PathPlannerCommand(s_Swerve, 2, "Back up after cone bottom", true)
             .deadlineWith(new ArmToHome(s_Wrist, s_Arm).andThen(new ShoulderToHome(s_Arm))),
-        new PathPlannerCommand(s_Swerve, 1, "Grab first cube top")
+        new PathPlannerCommand(s_Swerve, 2, "Grab first cube")
              .deadlineWith(new ScoreLow(s_Wrist, s_Arm),
                 new IntakeCube(s_Intake),
                 new InstantCommand(() -> s_Arm.shoulderReversed *= -1)),
-        new PathPlannerCommand(s_Swerve, 3, "Score first cube top")
+        new PathPlannerCommand(s_Swerve, 4, "Score first cube")
             .deadlineWith(new IntakeCube(s_Intake).withTimeout(1),
                 new InstantCommand(() -> s_Arm.shoulderReversed *= -1),
                 new ArmToHome(s_Wrist, s_Arm)
                     .andThen(new ShoulderToHome(s_Arm))),
-        new PathPlannerCommand(s_Swerve, 2, "Line up top"),
+        new PathPlannerCommand(s_Swerve, 2, "Line up"),
         new ScoreMidCube(s_Wrist, s_Arm).withTimeout(1.5),
         new OutakeCube(s_Intake).withTimeout(.5)
             .deadlineWith(new ScoreMid(s_Wrist, s_Arm)),
-        new ArmToHome(s_Wrist, s_Arm).withTimeout(.5),
-        new PathPlannerCommand(s_Swerve, 2, "Go back out top")
-
+        new ArmToHome(s_Wrist, s_Arm).withTimeout(.5)
         
-        /*new PathPlannerCommand(s_Swerve, 4, "Grab cube")
+       /*  new PathPlannerCommand(s_Swerve, 4, "Grab cube")
             .deadlineWith(new SequentialCommandGroup(
                 new ShoulderToHome(s_Arm),
                 new InstantCommand(() -> s_Arm.shoulderReversed *= -1))),

@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.commands.Autos.BottomScore1CubeAnd1Cone;
+import frc.robot.commands.Autos.BottomScore1CubeAnd1ConeWithWait;
 import frc.robot.commands.Autos.ChargingStation;
 import frc.robot.commands.Autos.PathPlannerCommand;
 import frc.robot.commands.Drivetrain.DynamicTeleopSwerve;
@@ -77,7 +78,7 @@ public class RobotContainer {
     private final JoystickButton outtakeFast = new JoystickButton(oliviaController, XboxController.Button.kY.value);
 
     private final POVButton balance = new POVButton(willController, 0);
-    private final POVButton armHigh = new POVButton(oliviaController, 0);
+    //private final POVButton armHigh = new POVButton(oliviaController, 0);
     private final POVButton armMid = new POVButton(oliviaController, 90);
     private final POVButton armLow = new POVButton(oliviaController, 180);
     private final POVButton armFeeder = new POVButton(oliviaController, 270);
@@ -133,7 +134,7 @@ public class RobotContainer {
 
         autoChooser.addOption("Test Path", new RightScore3(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
-        autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1Cone(s_Swerve, s_Intake, s_Arm, s_Wrist));
+        autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1ConeWithWait(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Intake, s_Arm, s_Wrist));
 
         SmartDashboard.putData(autoChooser);
@@ -152,7 +153,7 @@ public class RobotContainer {
         /* Driver Buttons */
         balance.whileTrue(new Balance(s_Swerve));
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        armHigh.whileTrue(new ScoreHigh(s_Arm, s_Wrist));
+       // armHigh.whileTrue(new ScoreHigh(s_Arm, s_Wrist));
         armMid.whileTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
         armLow.whileTrue(new ScoreLow(s_Wrist, s_Arm, armLow));
         armFeeder.whileTrue(new ArmFeeder(s_Wrist, s_Arm));

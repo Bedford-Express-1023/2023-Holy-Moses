@@ -50,6 +50,7 @@ public class RobotContainer {
 
     private final POVButton balance = new POVButton(willController, 0);
     //private final POVButton armHigh = new POVButton(oliviaController, 0);
+    private final POVButton cubeHigh = new POVButton(oliviaController, 0);
     private final POVButton armMid = new POVButton(oliviaController, 90);
     private final POVButton armLow = new POVButton(oliviaController, 180);
     private final POVButton armFeeder = new POVButton(oliviaController, 270);
@@ -104,7 +105,7 @@ public class RobotContainer {
         SmartDashboard.putData(autoDelay);
 
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
-        autoChooser.addOption("Bottom 1 cone and 1 cube", new BottomScore1CubeAnd1ConeWithWait(s_Swerve, s_Intake, s_Arm, s_Wrist));
+        autoChooser.addOption("Bump side", new BottomScore1CubeAnd1ConeWithWait(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Charging Station", new ChargingStation(s_Swerve, s_Intake, s_Arm, s_Wrist));
         autoChooser.addOption("Right 2.5 piece", new RightScore3(s_Swerve, s_Intake, s_Arm, s_Wrist));
 
@@ -124,7 +125,8 @@ public class RobotContainer {
         /* Driver Buttons */
         balance.whileTrue(new Balance(s_Swerve));
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-       // armHigh.whileTrue(new ScoreHigh(s_Arm, s_Wrist));
+       //armHigh.whileTrue(new ScoreHigh(s_Arm, s_Wrist));
+       cubeHigh.whileTrue(new ScoreCubeHigh(s_Wrist, s_Arm));
         armMid.whileTrue(new ScoreMid(s_Wrist, s_Arm, armMid));
         armLow.whileTrue(new ScoreLow(s_Wrist, s_Arm, armLow));
         armFeeder.whileTrue(new ArmFeeder(s_Wrist, s_Arm));
@@ -140,8 +142,8 @@ public class RobotContainer {
         outtakeFast.onTrue(new InstantCommand(() -> s_Intake.intake(-0.5)))
             .onFalse(new InstantCommand(() -> s_Intake.intakeStop()));
         new Trigger(() -> oliviaController.getRightTriggerAxis() > 0.5)
-            .onTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)))
-            .onFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)));
+            .onTrue(new InstantCommand(() -> s_Intake.solenoid(Value.kReverse)))
+            .onFalse(new InstantCommand(() -> s_Intake.solenoid(Value.kForward)));
         //new InstantCommand(() -> s_Arm.ArmManual(oliviaController.getRawAxis(armAxis)));
         //oliviaController.getRawAxis(armAxis)
     }

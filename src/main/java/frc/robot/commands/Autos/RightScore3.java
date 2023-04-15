@@ -1,9 +1,6 @@
 package frc.robot.commands.Autos;
 
-import java.time.Instant;
-
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ArmToHome;
 import frc.robot.commands.IntakeCone;
@@ -11,7 +8,6 @@ import frc.robot.commands.IntakeCube;
 import frc.robot.commands.OutakeCube;
 import frc.robot.commands.ScoreHigh;
 import frc.robot.commands.ScoreLow;
-import frc.robot.commands.ScoreMid;
 import frc.robot.commands.ShoulderToHome;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;

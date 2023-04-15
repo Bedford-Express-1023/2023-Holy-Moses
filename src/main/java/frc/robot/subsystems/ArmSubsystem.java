@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -16,10 +17,6 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.RotationalFeedForward;
@@ -67,6 +64,18 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem() {
 		rearShoulderMotor.setNeutralMode(NeutralMode.Brake);
 		frontShoulderMotor.setNeutralMode(NeutralMode.Brake);
+    rearShoulderMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 40);
+    rearShoulderMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 100);
+    rearShoulderMotor.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 100);
+    rearShoulderMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, 500);
+    frontShoulderMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 40);
+    frontShoulderMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 100);
+    frontShoulderMotor.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 100);
+    frontShoulderMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, 500);
+    armMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 40);
+    armMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 100);
+    armMotor.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 100);
+    armMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, 500);
     frontShoulderMotor.follow(rearShoulderMotor);
     armPID.disableContinuousInput();
     armMotor.setNeutralMode(NeutralMode.Brake);

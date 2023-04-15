@@ -8,10 +8,8 @@ import frc.robot.subsystems.Swerve;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -19,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class DynamicTeleopSwerve extends CommandBase {    
     private Swerve s_Swerve;    
     private ArmSubsystem s_Arm;
-    private Limelight s_Limelight;
     private DoubleSupplier translationSup;
     private DoubleSupplier strafeSup;
     private DoubleSupplier rotationSup;
@@ -46,7 +43,6 @@ public class DynamicTeleopSwerve extends CommandBase {
         this.robotCentricSup = robotCentricSup;
         this.slowSpeedSup = slowSpeedSup;
         this.slowTurnSup = slowTurnSup;
-        this.s_Limelight = s_Limelight;
     }
 
     @Override

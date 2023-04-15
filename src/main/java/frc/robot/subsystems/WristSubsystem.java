@@ -13,7 +13,6 @@ import static com.revrobotics.CANSparkMaxLowLevel.MotorType.*;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,7 +32,6 @@ public class WristSubsystem extends SubsystemBase {
   public double wristPosition = 0;
   public double wristPositionOverride = 0;
 
-  private SimpleMotorFeedforward wristFeedforward = new SimpleMotorFeedforward(0.0, 1, 0); //TODO: Tune
   private PIDController wristPID = new PIDController(0.015, 0.0, 0.0);
   public double wristGravity = -0.1;
 

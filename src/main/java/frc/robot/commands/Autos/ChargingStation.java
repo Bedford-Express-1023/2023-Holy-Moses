@@ -4,18 +4,12 @@
 
 package frc.robot.commands.Autos;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArmToHome;
 import frc.robot.commands.IntakeCone;
-import frc.robot.commands.IntakeCube;
-import frc.robot.commands.IntakeStop;
-import frc.robot.commands.OutakeCone;
 import frc.robot.commands.OutakeCube;
 import frc.robot.commands.ScoreHigh;
-import frc.robot.commands.ScoreLow;
-import frc.robot.commands.ScoreMid;
 import frc.robot.commands.ShoulderToHome;
 import frc.robot.commands.Drivetrain.Balance;
 import frc.robot.subsystems.ArmSubsystem;

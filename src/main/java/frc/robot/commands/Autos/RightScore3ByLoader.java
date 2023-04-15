@@ -28,9 +28,9 @@ import frc.robot.subsystems.WristSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class RightScore3 extends SequentialCommandGroup {
+public class RightScore3ByLoader extends SequentialCommandGroup {
   /** Creates a new Auto1. */
-  public RightScore3(Swerve s_Swerve, IntakeSubsystem s_Intake, ArmSubsystem s_Arm,
+  public RightScore3ByLoader(Swerve s_Swerve, IntakeSubsystem s_Intake, ArmSubsystem s_Arm,
       WristSubsystem s_Wrist) {
     addCommands(
         
@@ -55,7 +55,7 @@ public class RightScore3 extends SequentialCommandGroup {
         new OutakeCube(s_Intake).withTimeout(1)
             .deadlineWith(new ScoreMid(s_Wrist, s_Arm)),
         new ArmToHome(s_Wrist, s_Arm).withTimeout(.5),
-        new PathPlannerCommand(s_Swerve, 2, "Go back out top")
+        new PathPlannerCommand(s_Swerve, 2, "Go back out top loader")
 
         
         /*new PathPlannerCommand(s_Swerve, 4, "Grab cube")

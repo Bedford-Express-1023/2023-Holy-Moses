@@ -24,7 +24,7 @@ public class OutakeCube extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.intake(-.32);
+    intake.intake(-.4);
     intake.solenoid(Value.kForward);
   }
 

@@ -76,9 +76,9 @@ public class Swerve extends SubsystemBase {
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         if (faceGrid.getAsBoolean()) {
-            rotation = rotaController.calculate(Math.toRadians(180));
+            rotation = rotaController.calculate(getYaw().getRadians(), Math.toRadians(180));
         } else if (dontFaceGrid.getAsBoolean()) {
-            rotation = rotaController.calculate(Math.toRadians(1));
+            rotation = rotaController.calculate(getYaw().getRadians(), Math.toRadians(1));
         }
             SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
